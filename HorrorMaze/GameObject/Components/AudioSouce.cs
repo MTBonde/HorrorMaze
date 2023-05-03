@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HorrorMaze
 {
-    internal class AudioSouce
+    internal class AudioSouce : Component
     {
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HorrorMaze
 {
-    internal class Pathing
+    internal class Pathing : Component
     {
     }
 }
