@@ -11,37 +11,33 @@ namespace HorrorMaze
 {
     public class GameObject
     {
+        #region Variables & Fields
         /// <summary>
         /// A list of the componets on the object
         /// </summary>
-        private List<Component> components = new List<Component>();
+        private List<Component> _components = new List<Component>();
         /// <summary>
         /// the objects transform
         /// </summary>
         public Transform transform { get; set; } = new Transform();
-        /// <summary>
-        /// the objects tag
-        /// </summary>
-        /// 
+        #endregion
 
         #region Constructer
         /// <summary>
-        /// intatiates an empty gameobject
+        /// intatiates an empty gameobject and adds it to the open scene
         /// </summary>
         public GameObject()
         {
-            //if (GameWorld.Instance.Editor)
             SceneManager.active_scene.gameObjects.Add(this);
-            //gameObjects.Add(this);
         }
         #endregion
 
         #region Methods
         /// <summary>
-        /// adds a chosen component to the gameobject
+        /// adds a chosen component to the gameobject and returns the created component
         /// </summary>
         /// <typeparam name="T">the component to add</typeparam>
-        /// <returns>the component ref to the added comonent</returns>
+        /// <returns>the added component</returns>
         public T AddComponent<T>() where T : Component
         {
             // Get the constructor of component
@@ -53,7 +49,7 @@ namespace HorrorMaze
                 ? (Component)Activator.CreateInstance(typeof(T), this)
                 : (Component)Activator.CreateInstance(typeof(T), true);
 
-            components.Add(component);
+            _components.Add(component);
             component.gameObject = this;
             component.transform = transform;
             return (T)component;
@@ -66,25 +62,25 @@ namespace HorrorMaze
         /// <returns>the component</returns>
         public T GetComponent<T>() where T : Component
         {
-            return (T)components.Find(x => x.GetType() == typeof(T));
+            return (T)_components.Find(x => x.GetType() == typeof(T));
         }
 
         /// <summary>
-        /// checks if the gameobject has component
+        /// checks if the gameobject has a given component
         /// </summary>
-        /// <typeparam name="T">component to check if is on the gameobject</typeparam>
-        /// <returns>boolean based on if gameobject has the component</returns>
+        /// <typeparam name="T">component to check for</typeparam>
+        /// <returns>boolean based on if the gameobject has the component</returns>
         public bool HasComponent<T>() where T : Component
         {
-            Component c = components.Find(x => x.GetType() == typeof(T));
+            Component component = _components.Find(x => x.GetType() == typeof(T));
 
-            return c != null;
+            return component != null;
         }
         #endregion
 
         #region Standard Metods
         /// <summary>
-        /// called when object is intantiated
+        /// called when gameobject is intantiated
         /// </summary>
         public void Awake()
         {
@@ -112,10 +108,26 @@ namespace HorrorMaze
         /// gets called at the end of each frame and calls all componts draw function
         /// </summary>
         /// <param name="spriteBatch">the games sprite batch</param>
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw3D()
         {
-            InvokeComponentsMethod("Draw3D", new object[] { spriteBatch });
+            InvokeComponentsMethod("Draw3D", new object[] { });
+        }
+
+        /// <summary>
+        /// gets called at the end of each frame and calls all componts draw function
+        /// </summary>
+        /// <param name="spriteBatch">the games sprite batch</param>
+        public void Draw2D(SpriteBatch spriteBatch)
+        {
             InvokeComponentsMethod("Draw2D", new object[] { spriteBatch });
+        }
+
+        /// <summary>
+        /// gets called at the end of each frame and calls all componts draw function
+        /// </summary>
+        /// <param name="spriteBatch">the games sprite batch</param>
+        public void DrawUI(SpriteBatch spriteBatch)
+        {
             InvokeComponentsMethod("DrawUI", new object[] { spriteBatch });
         }
 
@@ -126,14 +138,14 @@ namespace HorrorMaze
         /// <param name="parameters">the paremeters the method needs</param>
         private void InvokeComponentsMethod(string methodName, object[] parameters)
         {
-            for (int i = 0; i < components.Count; ++i)
+            for (int i = 0; i < _components.Count; ++i)
             {
-                if (!components[i].enabled)
+                if (!_components[i].enabled)
                     continue;
 
-                Type componentType = components[i].GetType();
+                Type componentType = _components[i].GetType();
                 MethodInfo method = componentType.GetMethod(methodName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-                method?.Invoke(components[i], parameters);
+                method?.Invoke(_components[i], parameters);
             }
         }
         #endregion
