@@ -6,12 +6,30 @@ namespace HorrorMaze
 {
     public class GameWorld : Game
     {
+        // FIELDS
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        public GameWorld()
+        // PROPERTIES
+        public GraphicsDeviceManager Graphics { get => _graphics; set => _graphics = value; }
+
+        // GameWorld Singleton
+        private static GameWorld _instance;
+        /* 
+        ??= (null coalescing assignment)  spørger om værdien af var. "instance" er null. 
+        Hvis instance er null, instantieres en ny "GameWorld" og tildeles til "instance"
+        Hvis "instance IKKE er null returneres den existerende værdi(gameworld) af instancen
+        Den nyeste c# har ikke brug for at få at vide hvilken "ny" vi snakker om derfor New()
+        */
+        public static GameWorld Instance => _instance ??= new();
+
+        private GameWorld()
         {
             _graphics = new GraphicsDeviceManager(this);
+            _graphics.PreferredBackBufferWidth = 1600;
+            _graphics.PreferredBackBufferHeight = 900;
+            _graphics.ApplyChanges();
+
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
         }
