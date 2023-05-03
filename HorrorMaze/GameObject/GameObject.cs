@@ -31,7 +31,7 @@ namespace HorrorMaze
         public GameObject()
         {
             //if (GameWorld.Instance.Editor)
-            SceneManager.activeScene.gameObjects.Add(this);
+            SceneManager.active_scene.gameObjects.Add(this);
             //gameObjects.Add(this);
         }
         #endregion
@@ -114,7 +114,9 @@ namespace HorrorMaze
         /// <param name="spriteBatch">the games sprite batch</param>
         public void Draw(SpriteBatch spriteBatch)
         {
-            InvokeComponentsMethod("Draw", new object[] { spriteBatch });
+            InvokeComponentsMethod("Draw3D", new object[] { spriteBatch });
+            InvokeComponentsMethod("Draw2D", new object[] { spriteBatch });
+            InvokeComponentsMethod("DrawUI", new object[] { spriteBatch });
         }
 
         /// <summary>
