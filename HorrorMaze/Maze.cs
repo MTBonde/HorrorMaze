@@ -9,42 +9,23 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace HorrorMaze
 {
-    internal class Maze
+    public class Maze
     {
         #region Fields
-        private Random rand = new Random();
-        //public MazeCell[,] MazeCells = new MazeCell[mazeWidth, mazeHeight];
+        private Random _random = new Random();
+        public MazeCell[,] MazeCells = new MazeCell[mazeWidth, mazeHeight];
         public const int mazeWidth = 20;
         public const int mazeHeight = 20;
-        GraphicsDevice device;
+        //GraphicsDevice _device;
 
-        VertexBuffer floorBuffer;
-        Color[] floorColors = new Color[2] { Color.White, Color.Gray };
+        //VertexBuffer _floorBuffer;
+        //Color[] _floorColors = new Color[2] { Color.White, Color.Gray };
 
-        VertexBuffer wallBuffer;
-        Vector3[] wallPoints = new Vector3[8];
-        Color[] wallColors = new Color[4] { Color.Red, Color.Orange, Color.Red, Color.Orange };
+        //VertexBuffer _wallBuffer;
+        //Vector3[] _wallPoints = new Vector3[8];
+        //Color[] _wallColors = new Color[4] { Color.Red, Color.Orange, Color.Red, Color.Orange };
         #endregion
 
-        #region Maze Generation
-        public void GenerateMaze()
-        {
-            for(int x = 0; x < mazeWidth; x++)
-            {
-
-                for(int z = 0; z < mazeHeight; z++)
-                {
-                    //MazeCells[x, z].Walls[0] = true;
-                    MazeCells[x, z].Walls[1] = true;
-                    MazeCells[x, z].Walls[2] = true;
-                    //MazeCells[x, z].Walls[3] = true;
-                    MazeCells[x, z].Visited = false;
-                }
-            }
-
-            MazeCells[0, 0].Visited = true;
-            EvaluateCell(new Vector2(0, 0));
-        }
 
         private void EvaluateCell(Vector2 cell)
         {
@@ -55,11 +36,10 @@ namespace HorrorMaze
             neighborCells.Add(3);
             while(neighborCells.Count > 0)
             {
-                int pick = rand.Next(0, neighborCells.Count);
+                int pick = _random.Next(0, neighborCells.Count);
                 int selectedNeighbor = neighborCells[pick];
                 neighborCells.RemoveAt(pick);
                 Vector2 neighbor = cell;
-
                 switch(selectedNeighbor)
                 {
                     case 0:
@@ -76,28 +56,40 @@ namespace HorrorMaze
                         break;
                 }
                 if(
-                (neighbor.X >= 0) &&
-                (neighbor.X < mazeWidth) &&
-                (neighbor.Y >= 0) &&
-                (neighbor.Y < mazeHeight)
+                    (neighbor.X >= 0) &&
+                    (neighbor.X < mazeWidth) &&
+                    (neighbor.Y >= 0) &&
+                    (neighbor.Y < mazeHeight)
                 )
                 {
-                    if(!MazeCells[(int)neighbor.X, (int)neighbor.Y].
-                    Visited)
+                    if(!MazeCells[(int)neighbor.X, (int)neighbor.Y].Visited)
                     {
                         MazeCells[(int)neighbor.X, (int)neighbor.Y].Visited = true;
 
+                        // Update the current cell's wall
+                        if(selectedNeighbor == 1) // Right neighbor
+                        {
+                            MazeCells[(int)cell.X, (int)cell.Y].Walls[1] = false;
+                        }
+                        else if(selectedNeighbor == 2) // Bottom neighbor
+                        {
+                            MazeCells[(int)cell.X, (int)cell.Y].Walls[0] = false;
+                        }
 
-                        MazeCells[(int)cell.X, (int)cell.Y].Walls[selectedNeighbor] = false;
-
-                        //MazeCells[(int)neighbor.X, (int)neighbor.Y].Walls[(selectedNeighbor + 2) % 4] = false;
-                        MazeCells[(int)neighbor.X, (int)neighbor.Y].Walls[selectedNeighbor] = false;
+                        // Update the corresponding wall of the neighboring cell
+                        if(selectedNeighbor == 0) // Left neighbor
+                        {
+                            MazeCells[(int)neighbor.X, (int)neighbor.Y].Walls[1] = false;
+                        }
+                        else if(selectedNeighbor == 3) // Up neighbor
+                        {
+                            MazeCells[(int)neighbor.X, (int)neighbor.Y].Walls[0] = false;
+                        }
 
                         EvaluateCell(neighbor);
                     }
                 }
             }
         }
-        #endregion
     }
 }
