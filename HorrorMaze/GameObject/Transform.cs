@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HorrorMaze.GameObject
+namespace HorrorMaze
 {
     internal class Transform
     {
