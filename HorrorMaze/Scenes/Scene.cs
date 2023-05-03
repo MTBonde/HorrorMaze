@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace HorrorMaze
 {
-    internal abstract class Scene
+    public abstract class Scene
     {
+
+        public List<GameObject> gameObjects = new List<GameObject>();
+
     }
 }

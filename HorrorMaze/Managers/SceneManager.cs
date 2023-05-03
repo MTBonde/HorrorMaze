@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace HorrorMaze
 {
-    internal class SceneManager
+    public class SceneManager
     {
+        public static Scene activeScene;
     }
 }

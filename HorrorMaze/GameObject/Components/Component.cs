@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace HorrorMaze
 {
-    internal abstract class Component
+    public abstract class Component
     {
+
+        public Transform transform;
+        public GameObject gameObject;
+        public bool enabled;
+
     }
 }

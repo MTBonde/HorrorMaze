@@ -1,12 +1,139 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace HorrorMaze
 {
-    internal class GameObject
+    public class GameObject
     {
+        /// <summary>
+        /// A list of the componets on the object
+        /// </summary>
+        private List<Component> components = new List<Component>();
+        /// <summary>
+        /// the objects transform
+        /// </summary>
+        public Transform transform { get; set; } = new Transform();
+        /// <summary>
+        /// the objects tag
+        /// </summary>
+        /// 
+
+        #region Constructer
+        /// <summary>
+        /// intatiates an empty gameobject
+        /// </summary>
+        public GameObject()
+        {
+            //if (GameWorld.Instance.Editor)
+            SceneManager.activeScene.gameObjects.Add(this);
+            //gameObjects.Add(this);
+        }
+        #endregion
+
+        #region Methods
+        /// <summary>
+        /// adds a chosen component to the gameobject
+        /// </summary>
+        /// <typeparam name="T">the component to add</typeparam>
+        /// <returns>the component ref to the added comonent</returns>
+        public T AddComponent<T>() where T : Component
+        {
+            // Get the constructor of component
+            Type type = typeof(T);
+            ConstructorInfo parameterConstructor = type.GetConstructor(new Type[] { typeof(GameObject) });
+
+            // If component has a constructor with a GameObject constructor, use it and pass this as parameter
+            Component component = parameterConstructor != null
+                ? (Component)Activator.CreateInstance(typeof(T), this)
+                : (Component)Activator.CreateInstance(typeof(T), true);
+
+            components.Add(component);
+            component.gameObject = this;
+            component.transform = transform;
+            return (T)component;
+        }
+
+        /// <summary>
+        /// gets a component of chosen type
+        /// </summary>
+        /// <typeparam name="T">the component type to find</typeparam>
+        /// <returns>the component</returns>
+        public T GetComponent<T>() where T : Component
+        {
+            return (T)components.Find(x => x.GetType() == typeof(T));
+        }
+
+        /// <summary>
+        /// checks if the gameobject has component
+        /// </summary>
+        /// <typeparam name="T">component to check if is on the gameobject</typeparam>
+        /// <returns>boolean based on if gameobject has the component</returns>
+        public bool HasComponent<T>() where T : Component
+        {
+            Component c = components.Find(x => x.GetType() == typeof(T));
+
+            return c != null;
+        }
+        #endregion
+
+        #region Standard Metods
+        /// <summary>
+        /// called when object is intantiated
+        /// </summary>
+        public void Awake()
+        {
+            InvokeComponentsMethod("Awake", null);
+        }
+
+        /// <summary>
+        /// gets called the first frame the gameobject is active
+        /// </summary>
+        public void Start()
+        {
+            InvokeComponentsMethod("Start", null);
+        }
+
+        /// <summary>
+        /// Gets called every frame
+        /// </summary>
+        /// <param name="gameTime">the time that the past frame took</param>
+        public void Update(GameTime gameTime)
+        {
+            InvokeComponentsMethod("Update", null);
+        }
+
+        /// <summary>
+        /// gets called at the end of each frame and calls all componts draw function
+        /// </summary>
+        /// <param name="spriteBatch">the games sprite batch</param>
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            InvokeComponentsMethod("Draw", new object[] { spriteBatch });
+        }
+
+        /// <summary>
+        /// invokes a method in all components on tyhe gameobject if the method is implemented
+        /// </summary>
+        /// <param name="methodName">the name of the method</param>
+        /// <param name="parameters">the paremeters the method needs</param>
+        private void InvokeComponentsMethod(string methodName, object[] parameters)
+        {
+            for (int i = 0; i < components.Count; ++i)
+            {
+                if (!components[i].enabled)
+                    continue;
+
+                Type componentType = components[i].GetType();
+                MethodInfo method = componentType.GetMethod(methodName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+                method?.Invoke(components[i], parameters);
+            }
+        }
+        #endregion
     }
 }
