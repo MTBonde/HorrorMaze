@@ -37,7 +37,7 @@ namespace HorrorMaze
         public static float DeltaTime { get; set; }
         public static bool DebugModeToggled { get; set; } // Debug
         
-        //public static SpriteFont DebugFont { get; set; }
+        public static SpriteFont DebugFont { get; set; }
         #endregion Properties
 
         // METHODS
