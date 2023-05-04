@@ -9,9 +9,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace HorrorMaze
 {
-    /// <summary>
-    /// Thor
+    /// <summary>     
     /// This class takes care of generating a maze using DFS algoritm
+    /// by Thor
     /// </summary>
     public class Maze
     {
@@ -36,7 +36,7 @@ namespace HorrorMaze
         /// Evaluate each cell using DFS to create a maze out of the mazecells
         /// </summary>
         /// <param name="cell">is the current cell to evaluate</param>
-        private void EvaluateCell(Vector2 cell)
+        private MazeCell[,] EvaluateCell(Vector2 cell)
         {
             // create a list of neoghboring cells 
             List<int> neighborCells = new List<int>();
@@ -113,6 +113,7 @@ namespace HorrorMaze
                     }
                 }
             }
+            return MazeCells;
         }
     }
 }
