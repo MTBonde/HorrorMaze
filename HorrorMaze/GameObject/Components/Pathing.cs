@@ -13,6 +13,7 @@ namespace HorrorMaze
         public List<int[]> GetPath(int player_x, int player_y, int monster_x, int monster_y, int map_width, int map_height)
         {
             int[][] map = new int[map_width * map_height][];
+            List<int[]> path = new List<int[]>();
             bool path_found = false;
             while (!path_found)
             {
