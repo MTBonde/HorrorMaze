@@ -46,26 +46,63 @@ namespace HorrorMaze
                 Debug.WriteLine("Warning: the maze that is given is null");
                 return;
             }
+            //draws floor and celling
+            for (int x = 0; x < _mazeCells.GetLength(0); x++)
+            {
+                for (int y = 0; y < _mazeCells.GetLength(1); y++)
+                {
+                    //DrawFloor(new Vector3(x + 0.5f,y + 0.5f,0), new Vector3(0,0,0));
+                    //DrawFloor(new Vector3(x + 0.5f,y + 0.5f,1), new Vector3(0,0,180));
+                }
+            }
             //outer walls spawning
             for (int x = 0; x < _mazeCells.GetLength(0); x++)
             {
-                DrawWall(transform.Position3D + new Vector3(x, 0, 0), transform.Rotation + new Vector3(0,0,90));
-                //DrawWall(transform.Position3D + new Vector3(x, _mazeCells.GetLength(1), 0), transform.Rotation + new Vector3(0, 0, 90));
+                DrawWall(transform.Position3D + new Vector3(x, 0, 0), transform.Rotation + new Vector3(0,0,270));
+                DrawWall(transform.Position3D + new Vector3(x, _mazeCells.GetLength(1), 0), transform.Rotation + new Vector3(0, 0, 270));
             }
-            for (int y = 0; y < _mazeCells.GetLength(0); y++)
+            for (int y = 0; y < _mazeCells.GetLength(1); y++)
             {
-                DrawWall(transform.Position3D + new Vector3(0, y, 0), transform.Rotation + new Vector3(0, 0, 180));
-                //DrawWall(transform.Position3D + new Vector3(_mazeCells.GetLength(0), y, 0), transform.Rotation + new Vector3(0, 0, 180));
+                DrawWall(transform.Position3D + new Vector3(0, y, 0), transform.Rotation + new Vector3(0, 0, 0));
+                DrawWall(transform.Position3D + new Vector3(_mazeCells.GetLength(0), y, 0), transform.Rotation + new Vector3(0, 0, 0));
             }
             //inner walls spawning
             for (int x = 0; x < _mazeCells.GetLength(0); x++)
             {
                 for (int y = 0; y < _mazeCells.GetLength(1); y++)
                 {
-                    DrawWall(transform.Position3D + new Vector3(x+1, y+1, 0), transform.Rotation + new Vector3(0, 0, 0));
-                    DrawWall(transform.Position3D + new Vector3(x+1, y+1, 0), transform.Rotation + new Vector3(0, 0, 270));
+                    if (_mazeCells[x, y].Walls[1])
+                    {
+                        DrawWall(transform.Position3D + new Vector3(x + 1, y + 1, 0), transform.Rotation + new Vector3(0, 0, 180));
+                    }
+                    if (_mazeCells[x, y].Walls[0])
+                    {
+                        DrawWall(transform.Position3D + new Vector3(x + 1, y + 1, 0), transform.Rotation + new Vector3(0, 0, 90));
+                    }
                 }
             }
+        }
+
+        private void DrawFloor(Vector3 centerPosition, Vector3 rotation)
+        {
+            foreach (ModelMesh mesh in _floor.Meshes)
+            {
+                foreach (BasicEffect effect in mesh.Effects)
+                {
+                    effect.LightingEnabled = false;
+                    effect.AmbientLightColor = Vector3.One / 10;
+
+                    effect.View = SceneManager.active_scene.viewMatrix;
+                    effect.World = SceneManager.active_scene.worldMatrix * Matrix.CreateRotationX(MathHelper.ToRadians(rotation.X)) * Matrix.CreateRotationY(MathHelper.ToRadians(rotation.Y)) * Matrix.CreateRotationZ(MathHelper.ToRadians(rotation.Z)) * Matrix.CreateTranslation(centerPosition);
+                    effect.Projection = SceneManager.active_scene.projectionMatrix;
+                    mesh.Draw();
+                }
+            }
+        }
+
+        private void DrawCelling()
+        {
+
         }
 
         private void DrawWall(Vector3 wallCorner, Vector3 wallRotation)
@@ -75,6 +112,12 @@ namespace HorrorMaze
                 foreach (BasicEffect effect in mesh.Effects)
                 {
                     effect.LightingEnabled = false;
+                    effect.AmbientLightColor = Vector3.One / 20;
+                    //needs to come from a light variable so all objects lighting is in synch
+                    effect.DirectionalLight0.Direction = new Vector3(0.5f,0.5f,0.5f);
+                    effect.DirectionalLight0.DiffuseColor = Vector3.One / 5;
+                    effect.DirectionalLight0.Enabled = true;
+
                     effect.View = SceneManager.active_scene.viewMatrix;
                     effect.World = SceneManager.active_scene.worldMatrix * Matrix.CreateRotationX(MathHelper.ToRadians(wallRotation.X)) * Matrix.CreateRotationY(MathHelper.ToRadians(wallRotation.Y)) * Matrix.CreateRotationZ(MathHelper.ToRadians(wallRotation.Z)) * Matrix.CreateTranslation(wallCorner);
                     effect.Projection = SceneManager.active_scene.projectionMatrix;
