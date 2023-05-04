@@ -6,13 +6,11 @@ namespace HorrorMaze
 {
     public class GameWorld : Game
     {
-        // FIELDS
-        private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        
+
 
         // PROPERTIES
-        public GraphicsDeviceManager Graphics { get => _graphics; set => _graphics = value; }
+        public GraphicsDeviceManager Graphics { get; private set; }
 
         // GameWorld Singleton
         private static GameWorld _instance;
@@ -26,10 +24,10 @@ namespace HorrorMaze
 
         private GameWorld()
         {
-            _graphics = new GraphicsDeviceManager(this);
-            _graphics.PreferredBackBufferWidth = 1600;
-            _graphics.PreferredBackBufferHeight = 900;
-            _graphics.ApplyChanges();
+            Graphics = new GraphicsDeviceManager(this);
+            Graphics.PreferredBackBufferWidth = 1600;
+            Graphics.PreferredBackBufferHeight = 900;
+            Graphics.ApplyChanges();
 
             Content.RootDirectory = "Content";
             IsMouseVisible = true;

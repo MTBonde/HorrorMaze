@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace HorrorMaze
 {
-    /// <summary>
-    /// Thor
+    /// <summary>    
     /// This class defines a mazecell
+    /// by Thor
     /// </summary>
     public class MazeCell
     {
