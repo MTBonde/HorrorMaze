@@ -6,16 +6,39 @@ namespace HorrorMaze
 {
     public class GameWorld : Game
     {
-        private GraphicsDeviceManager _graphics;
-        private SpriteBatch _spriteBatch;
+        #region Fields and properties
+        private static GameWorld _instance;
+        /// <summary>
+        /// gets the GameWorld intance
+        /// </summary>
+        public static GameWorld Instance
+        {
+            get
+            {
+                if (_instance == null)
+                    _instance = new GameWorld();
+                return _instance;
+            }
+        }
 
+        /// <summary>
+        /// the gameworlds GraphicsDeviceManager
+        /// </summary>
+        public GraphicsDeviceManager graphics { get; private set; }
+        private SpriteBatch _spriteBatch;
+        #endregion
+
+        #region Constructor
         public GameWorld()
         {
-            _graphics = new GraphicsDeviceManager(this);
+            graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
         }
+        #endregion
 
+
+        #region Methods
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
@@ -28,6 +51,7 @@ namespace HorrorMaze
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            SceneManager.SetupScene();
         }
 
         protected override void Update(GameTime gameTime)
@@ -36,7 +60,8 @@ namespace HorrorMaze
                 Exit();
 
             // TODO: Add your update logic here
-
+            SceneManager.Update(gameTime);
+            
             base.Update(gameTime);
         }
 
@@ -45,8 +70,10 @@ namespace HorrorMaze
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
+            SceneManager.Draw(_spriteBatch);
 
             base.Draw(gameTime);
         }
+        #endregion
     }
 }

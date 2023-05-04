@@ -1,12 +1,38 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HorrorMaze.GameObject
+namespace HorrorMaze
 {
-    internal class Transform
+    public class Transform
     {
+
+        #region Variables & Fields
+        /// <summary>
+        /// the position of the transform
+        /// </summary>
+        private Vector3 _position; 
+        /// <summary>
+        /// the rotation of the transform
+        /// </summary>
+        private Vector3 _rotation;
+
+        /// <summary>
+        /// the transforms position in 2D
+        /// </summary>
+        public Vector2 Position { get { return new Vector2(_position.X, _position.Y); } set { _position.X = value.X; _position.Y = value.Y; } }
+        /// <summary>
+        /// the transforms position in 3D
+        /// </summary>
+        public Vector3 Position3D { get { return _position; } set { _position = value; } }
+        /// <summary>
+        /// the transforms rotation in 3D
+        /// </summary>
+        public Vector3 Rotation { get { return _rotation; } set { _rotation = value; } }
+        #endregion
+
     }
 }
