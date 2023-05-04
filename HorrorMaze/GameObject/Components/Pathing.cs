@@ -10,10 +10,21 @@ namespace HorrorMaze
 {
     internal class Pathing : Component
     {
-        static List<int[]> open = new List<int[]>();
-        static List<int[]> closed = new List<int[]>();
+        /// <summary>
+        /// Returns a list of 2 long arrays of x and y coords. last in list is monster pos
+        /// It goes to player pos, though player position is not in list
+        /// </summary>
+        /// <param name="player_x"> player x coords </param>
+        /// <param name="player_y"> player y coords </param>
+        /// <param name="monster_x"> monster x coords </param>
+        /// <param name="monster_y"> monster y coords </param>
+        /// <param name="map_width"> The width of the labyrinth </param>
+        /// <param name="map_height"> The height of the labyrinth </param>
+        /// <returns></returns>
         public static List<int[]> GetPath(int player_x, int player_y, int monster_x, int monster_y, int map_width, int map_height)
         {
+            List<int[]> open = new List<int[]>();
+            List<int[]> closed = new List<int[]>();
             #region assign mapt tiles
             int[][] map = new int[map_width * map_height][];
             int x_1 = 0;
