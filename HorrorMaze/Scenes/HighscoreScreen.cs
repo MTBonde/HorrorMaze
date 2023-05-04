@@ -6,7 +6,14 @@ using System.Threading.Tasks;
 
 namespace HorrorMaze
 {
-    internal class HighscoreScreen : Scene
+    public class HighscoreScreen : Scene
     {
+
+
+
+        public override void SetupScene()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
