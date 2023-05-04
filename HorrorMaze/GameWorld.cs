@@ -9,7 +9,7 @@ namespace HorrorMaze
         // FIELDS
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        #endregion
+        
 
         // PROPERTIES
         public GraphicsDeviceManager Graphics { get => _graphics; set => _graphics = value; }
@@ -34,7 +34,7 @@ namespace HorrorMaze
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
         }
-        #endregion
+        
 
 
         #region Methods
