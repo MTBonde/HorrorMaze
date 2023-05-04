@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HorrorMaze
 {
-    internal class ThreadManager
+    public class ThreadManager
     {
     }
 }
