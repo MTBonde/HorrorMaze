@@ -51,8 +51,8 @@ namespace HorrorMaze
             {
                 for (int y = 0; y < _mazeCells.GetLength(1); y++)
                 {
-                    //DrawFloor(new Vector3(x + 0.5f,y + 0.5f,0), new Vector3(0,0,0));
-                    //DrawFloor(new Vector3(x + 0.5f,y + 0.5f,1), new Vector3(0,0,180));
+                    DrawFloor(new Vector3(x + 0.5f,y + 0.5f,0), new Vector3(0,0,0));
+                    DrawFloor(new Vector3(x + 0.5f,y + 0.5f,2), new Vector3(0,180,0));
                 }
             }
             //outer walls spawning
@@ -89,7 +89,7 @@ namespace HorrorMaze
             {
                 foreach (BasicEffect effect in mesh.Effects)
                 {
-                    effect.LightingEnabled = false;
+                    effect.LightingEnabled = true;
                     effect.AmbientLightColor = Vector3.One / 10;
 
                     effect.View = SceneManager.active_scene.viewMatrix;
@@ -111,7 +111,7 @@ namespace HorrorMaze
             {
                 foreach (BasicEffect effect in mesh.Effects)
                 {
-                    effect.LightingEnabled = false;
+                    effect.LightingEnabled = true;
                     effect.AmbientLightColor = Vector3.One / 20;
                     //needs to come from a light variable so all objects lighting is in synch
                     effect.DirectionalLight0.Direction = new Vector3(0.5f,0.5f,0.5f);
