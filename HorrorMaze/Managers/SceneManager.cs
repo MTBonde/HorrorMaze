@@ -77,7 +77,7 @@ namespace HorrorMaze
         /// <param name="spriteBatch">the games spritebatch</param>
         public static void Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch)
         {
-            GameWorld.Instance.graphics.GraphicsDevice.DepthStencilState = DepthStencilState.Default;
+            GameWorld.Instance.Graphics.GraphicsDevice.DepthStencilState = DepthStencilState.Default;
             for (int i = 0; i < active_scene.gameObjects.Count; i++)
             {
                 active_scene.gameObjects[i].Draw3D();
