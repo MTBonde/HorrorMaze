@@ -18,19 +18,19 @@ namespace HorrorMaze
         /// <summary>
         /// the cunrently active scene
         /// </summary>
-        public static Scene active_scene = new GameScreen();
+        public static Scene active_scene = new GameScene();
         /// <summary>
         /// list of all scenes
         /// </summary>
         private static Scene[] scenes = new Scene[7] 
         { 
-            new SplashScreen(),
-            new TittleScreen(),
-            new GameScreen(),
-            new HighscoreScreen(),
-            new CreditsScreen(),
-            new WinScreen(),
-            new LoseScreen()
+            new SplashScene(),
+            new TittleScene(),
+            new GameScene(),
+            new HighscoreScene(),
+            new CreditsScene(),
+            new WinScene(),
+            new LoseScene()
         };
         #endregion
 
