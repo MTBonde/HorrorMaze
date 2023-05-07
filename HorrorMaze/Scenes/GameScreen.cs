@@ -31,6 +31,11 @@ namespace HorrorMaze
             go = new GameObject();
             go.AddComponent<MeshRenderer>().SetModel("ghost_rig");
             go.transform.Position3D = new Vector3(0.5f, 0.5f, 0);
+
+            ////test cam
+            //Camera camera = new Camera();
+            //go = new GameObject();
+            //go.AddComponent<Camera>()
         }
         #endregion
     }

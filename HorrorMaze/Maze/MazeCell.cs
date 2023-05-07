@@ -17,5 +17,4 @@ namespace HorrorMaze
         // set mazecells to not visited from the beginning
         public bool Visited = false;
     }
-
 }
