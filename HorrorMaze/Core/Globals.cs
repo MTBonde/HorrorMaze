@@ -11,7 +11,6 @@ global using Microsoft.Xna.Framework.Content;
 global using Microsoft.Xna.Framework.Graphics;
 global using Microsoft.Xna.Framework.Input;
 
-
 namespace HorrorMaze
 {
     /// <summary>    ///
@@ -38,7 +37,7 @@ namespace HorrorMaze
         public static float DeltaTime { get; set; }
         public static bool DebugModeToggled { get; set; } // Debug
         
-        //public static SpriteFont DebugFont { get; set; }
+        public static SpriteFont DebugFont { get; set; }
         #endregion Properties
 
         // METHODS

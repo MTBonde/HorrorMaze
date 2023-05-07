@@ -17,9 +17,9 @@ namespace HorrorMaze
     {
         #region Fields
         private Random _random = new Random();
-        public MazeCell[,] MazeCells = new MazeCell[mazeWidth, mazeHeight];
-        public const int mazeWidth = 20;
-        public const int mazeHeight = 20;
+        public MazeCell[,] MazeCells = new MazeCell[20,20];
+        private int mazeWidth = 20;
+        private int mazeHeight = 20;
         //GraphicsDevice _device;
 
         //VertexBuffer _floorBuffer;
@@ -30,6 +30,22 @@ namespace HorrorMaze
         //Color[] _wallColors = new Color[4] { Color.Red, Color.Orange, Color.Red, Color.Orange };
         #endregion
 
+        public MazeCell[,] GenerateMaze(int width, int height)
+        {
+            _random.Next(1, 10);
+            mazeHeight = height;
+            mazeWidth = width;
+            MazeCells = new MazeCell[mazeWidth, mazeHeight];
+            for (int x = 0; x < mazeWidth; x++)
+            {
+                for (int y = 0; y < mazeHeight; y++)
+                {
+                    MazeCells[x, y] = new MazeCell();
+                }
+            }
+            MazeCells[0,0].Visited = true;
+            return EvaluateCell(new Vector2(0,0));
+        }
 
         /// <summary>
         /// Thor 
@@ -90,22 +106,22 @@ namespace HorrorMaze
                             // Remove the right wall of the current cell
                             MazeCells[(int)cell.X, (int)cell.Y].Walls[1] = false;
                         }
-                        else if(selectedNeighbor == 2) // Bottom neighbor
+                        else if(selectedNeighbor == 2) // up neighbor
                         {
                             // Remove the bottom wall of the current cell
                             MazeCells[(int)cell.X, (int)cell.Y].Walls[0] = false;
                         }
 
                         // Update the corresponding wall of the neighboring cell
-                        if(selectedNeighbor == 0) // Left neighbor
+                        if(selectedNeighbor == 0) // buttom neighbor
                         {
                             // Remove the right wall of the neighboring cell
-                            MazeCells[(int)neighbor.X, (int)neighbor.Y].Walls[1] = false;
+                            MazeCells[(int)neighbor.X, (int)neighbor.Y].Walls[0] = false;
                         }
-                        else if(selectedNeighbor == 3) // Up neighbor
+                        else if(selectedNeighbor == 3) // left neighbor
                         {
                             // Remove the bottom wall of the neighboring cell
-                            MazeCells[(int)neighbor.X, (int)neighbor.Y].Walls[0] = false;
+                            MazeCells[(int)neighbor.X, (int)neighbor.Y].Walls[1] = false;
                         }
 
                         // Recursively evaluate the neighboring cell untill all cells are marked as visited
