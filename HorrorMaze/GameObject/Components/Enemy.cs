@@ -13,27 +13,37 @@ namespace HorrorMaze
         bool at_pos = false;
         void Start()
         {
-            path = gameObject.GetComponent<Pathing>().GetPath(transform.Position, new Vector2(3,3));
+            Random rnd = new Random();
+            //get path
+            path = gameObject.GetComponent<Pathing>().GetPath(transform.Position, new Vector2(rnd.Next(5),rnd.Next(5)));
             at_pos = false;
         }
         void Update()
         {
             if (!at_pos)
             {
+                //move
                 transform.Position += getDirection(transform.Position);
-
+                
+                // checks if at next position in path, if so remove it from list.
                 if (transform.Position.X - 0.5 >= path[path.Count - 1][0] - 0.005
                  && transform.Position.X - 0.5 <= path[path.Count - 1][0] + 0.005)
                     if (transform.Position.Y - 0.5 >= path[path.Count - 1][1] - 0.005
                      && transform.Position.Y - 0.5 <= path[path.Count - 1][1] + 0.005)
                     {
                         path.RemoveAt(path.Count - 1);
+                        // if at the end of path
                         if (path.Count == 0)
                             at_pos = true;
                     }
             }
             
         }
+        /// <summary>
+        /// gets a vector to add to monster vector, based on the direction to the point in path. The vectors lenght is based on speed.
+        /// </summary>
+        /// <param name="monster"> Monster position </param>
+        /// <returns></returns>
         Vector2 getDirection(Vector2 monster)
         {
             Vector2 direction = new Vector2(0, 0);
@@ -56,10 +66,6 @@ namespace HorrorMaze
                     break;
             }
             return direction;
-        }
-        double distance(float x, float y, float x_2, float y_2)
-        {
-            return Math.Sqrt(Math.Pow(x - x_2, 2) - Math.Pow(y - y_2, 2));
         }
     }
 }

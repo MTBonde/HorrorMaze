@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace HorrorMaze
 {
@@ -34,6 +35,8 @@ namespace HorrorMaze
             go.transform.Position3D = new Vector3(0.5f, 0.5f, 0);
             go.AddComponent<Pathing>().mazeCells = cells;
             go.AddComponent<Enemy>();
+
+            ThreadManager.Startup(go);
         }
         #endregion
     }
