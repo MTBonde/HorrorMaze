@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HorrorMaze
 {
-    internal class TextRenderer : Component
+    public class TextRenderer : Component
     {
     }
 }

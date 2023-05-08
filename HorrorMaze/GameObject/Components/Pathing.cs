@@ -10,10 +10,29 @@ namespace HorrorMaze
 {
     internal class Pathing : Component
     {
-        static List<int[]> open = new List<int[]>();
-        static List<int[]> closed = new List<int[]>();
-        public static List<int[]> GetPath(int player_x, int player_y, int monster_x, int monster_y, int map_width, int map_height)
+
+        public MazeCell[,] mazeCells;
+
+        #region Astar
+        /// <summary>
+        /// Returns a list of 2 long arrays of x and y coords. last in list is monster pos
+        /// It goes to player pos, though player position is not in list
+        /// </summary>
+        /// <param name="player_x"> player x coords </param>
+        /// <param name="player_y"> player y coords </param>
+        /// <param name="monster_x"> monster x coords </param>
+        /// <param name="monster_y"> monster y coords </param>
+        /// <param name="map_width"> The width of the labyrinth </param>
+        /// <param name="map_height"> The height of the labyrinth </param>
+        /// <returns></returns>
+        public List<int[]> GetPath(Vector2 player, Vector2 monster)
         {
+            List<int[]> open = new List<int[]>();
+            List<int[]> closed = new List<int[]>();
+
+            int map_width = mazeCells.GetLength(0);
+            int map_height = mazeCells.GetLength(1);
+
             #region assign mapt tiles
             int[][] map = new int[map_width * map_height][];
             int x_1 = 0;
@@ -35,10 +54,13 @@ namespace HorrorMaze
                 map[i] = map_pos;
             }
             #endregion
+            
             List<int[]> path = new List<int[]>();
             bool path_found = false;
+            bool add_ = false;
+            bool wall_check = false;
             int index_found = 0;
-            int[] current_one = new int[3] { player_x, player_y, 1000 };
+            int[] current_one = new int[3] { (int)player.X, (int)player.Y, 1000 };
             while (!path_found)
             {
                 #region assign new info
@@ -47,8 +69,47 @@ namespace HorrorMaze
                 {
                     bool if_data = false;
                     int[] direction = Direction(i);
-
-                    if (current_one[0] + direction[0] >= 0 && current_one[1] + direction[1] >= 0 && (current_one[1] + direction[1]) * map_width + current_one[0] + direction[0] < map_width * map_height)
+                    wall_check = false;
+                    #region check for walls
+                    if (current_one[0] + direction[0] >= 0
+                    && current_one[1] + direction[1] >= 0
+                    && current_one[1] + direction[1] < map_height 
+                    && current_one[0] + direction[0] < map_width)
+                    {
+                        wall_check = true;
+                        switch (i)
+                        {
+                            case 0: // up
+                                if (current_one[1] > 0)
+                                    if (mazeCells[current_one[0], current_one[1] - 1].Walls[0])
+                                    {
+                                        wall_check = false;
+                                    }
+                                
+                                break;
+                            case 1: // right
+                                if (mazeCells[current_one[0], current_one[1]].Walls[1])
+                                {
+                                    wall_check = false;
+                                }
+                                break;
+                            case 2: // down
+                                if (mazeCells[current_one[0], current_one[1]].Walls[0])
+                                {
+                                    wall_check = false;
+                                }
+                                break;
+                            case 3: // left
+                                if (current_one[0] > 0)
+                                    if (mazeCells[current_one[0] - 1, current_one[1]].Walls[1])
+                                    {
+                                        wall_check = false;
+                                    }
+                                break;
+                        }
+                    }
+                    #endregion
+                    if (wall_check)
                     {
                         for (int i_2 = 0; i_2 < closed.Count; i_2++) //check if theres data
                         {
@@ -63,8 +124,8 @@ namespace HorrorMaze
                         {
                             int index = (current_one[1] + direction[1]) * map_width + current_one[0] + direction[0];
                             //add f, g, h and direction
-                            map[index][2] = Distance(current_one[0] + direction[0], current_one[1] + direction[1], monster_x, monster_y); //g
-                            map[index][3] = Distance(current_one[0] + direction[0], current_one[1] + direction[1], player_x, player_y); //h
+                            map[index][2] = Distance(current_one[0] + direction[0], current_one[1] + direction[1], (int)monster.X, (int)monster.Y); //g
+                            map[index][3] = Distance(current_one[0] + direction[0], current_one[1] + direction[1], (int)player.X, (int)player.Y); //h
                             map[index][4] = map[index][2] + map[index][3]; // F
                             map[index][5] = i; // direction
                             if (map[index][2] == 0)
@@ -72,18 +133,28 @@ namespace HorrorMaze
                                 index_found = index;
                                 path_found = true;
                             }
-                            int[] new_closed = new int[3] { current_one[0] + direction[0], current_one[1] + direction[1], map[index][2] + map[index][3] };
-                            open.Add(new_closed);
+                            int[] new_open = new int[3] { current_one[0] + direction[0], current_one[1] + direction[1], map[index][2] + map[index][3] };
+                            open.Add(new_open);
                         }
                     }
                 }
                 #endregion
 
                 #region close used
-                closed.Add(current_one);
+                for (int i = 0; i < closed.Count; i++)
+                {
+                    if (closed[i][0] == current_one[0] && closed[i][1] == current_one[1])
+                    {
+                        add_ = false;
+                        break;
+                    }
+                }
+                if (add_)
+                    closed.Add(current_one);
+                add_ = true;
                 for (int i = 0; i < open.Count; i++)
                 {
-                    if (open[i] == current_one)
+                    if (open[i][0] == current_one[0] && open[i][1] == current_one[1])
                     {
                         open.RemoveAt(i);
                         break;
@@ -128,7 +199,7 @@ namespace HorrorMaze
                         index_found++;
                         break;
                 }
-                if (player_y * map_width + player_x == index_found)
+                if ((int)player.Y * map_width + (int)player.X == index_found)
                     path_added = true;
             }
             #endregion
@@ -180,6 +251,6 @@ namespace HorrorMaze
             #endregion
         }
         #endregion
-
+        #endregion
     }
 }

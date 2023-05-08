@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HorrorMaze
 {
-    public class CreditsScreen : Scene
+    public class SplashScene : Scene
     {
 
 
