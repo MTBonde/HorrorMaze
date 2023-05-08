@@ -33,10 +33,12 @@ namespace HorrorMaze
         /// </summary>
         public void Draw3D()
         {
+            //checks if it has a model attach and returns if it dosent
             if (_model == null)
             {
                 return;
             }
+            //renders the model
             foreach (ModelMesh mesh in _model.Meshes)
             {
                 foreach (BasicEffect effect in mesh.Effects)
