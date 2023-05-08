@@ -25,10 +25,13 @@ namespace HorrorMaze
         /// <param name="map_width"> The width of the labyrinth </param>
         /// <param name="map_height"> The height of the labyrinth </param>
         /// <returns></returns>
-        public List<int[]> GetPath(int player_x, int player_y, int monster_x, int monster_y, int map_width, int map_height)
+        public List<int[]> GetPath(Vector2 player, Vector2 monster)
         {
             List<int[]> open = new List<int[]>();
             List<int[]> closed = new List<int[]>();
+
+            int map_width = mazeCells.GetLength(0);
+            int map_height = mazeCells.GetLength(1);
 
             #region assign mapt tiles
             int[][] map = new int[map_width * map_height][];
@@ -57,7 +60,7 @@ namespace HorrorMaze
             bool add_ = false;
             bool wall_check = false;
             int index_found = 0;
-            int[] current_one = new int[3] { player_x, player_y, 1000 };
+            int[] current_one = new int[3] { (int)player.X, (int)player.Y, 1000 };
             while (!path_found)
             {
                 #region assign new info
@@ -68,44 +71,42 @@ namespace HorrorMaze
                     int[] direction = Direction(i);
                     wall_check = false;
                     #region check for walls
-                    switch (i)
+                    if (current_one[0] + direction[0] >= 0
+                    && current_one[1] + direction[1] >= 0
+                    && current_one[1] + direction[1] < map_height 
+                    && current_one[0] + direction[0] < map_width)
                     {
-                        case 0:
-                            if (current_one[0] + direction[0] >= 0 && current_one[1] + direction[1] >= 0 && (current_one[1] + direction[1]) * map_width + current_one[0] + direction[0] < map_width * map_height)
-                            {
-                                if (mazeCells[current_one[0], current_one[1]].Walls[0])
-                                {
-                                    wall_check = true;
-                                }
-                            }
-                            break;
-                        case 1:
-                            if (current_one[0] + direction[0] >= 0 && current_one[1] + direction[1] >= 0 && (current_one[1] + direction[1]) * map_width + current_one[0] + direction[0] < map_width * map_height)
-                            {
+                        wall_check = true;
+                        switch (i)
+                        {
+                            case 0: // up
+                                if (current_one[1] > 0)
+                                    if (mazeCells[current_one[0], current_one[1] - 1].Walls[0])
+                                    {
+                                        wall_check = false;
+                                    }
+                                
+                                break;
+                            case 1: // right
                                 if (mazeCells[current_one[0], current_one[1]].Walls[1])
                                 {
-                                    wall_check = true;
+                                    wall_check = false;
                                 }
-                            }
-                            break;
-                        case 2:
-                            if (current_one[0] + direction[0] >= 0 && current_one[1] + direction[1] >= 0 && (current_one[1] + direction[1]) * map_width + current_one[0] + direction[0] < map_width * map_height)
-                            {
-                                if (mazeCells[current_one[0], current_one[1] - 1].Walls[0])
+                                break;
+                            case 2: // down
+                                if (mazeCells[current_one[0], current_one[1]].Walls[0])
                                 {
-                                    wall_check = true;
+                                    wall_check = false;
                                 }
-                            }
-                            break;
-                        case 3:
-                            if (current_one[0] + direction[0] >= 0 && current_one[1] + direction[1] >= 0 && (current_one[1] + direction[1]) * map_width + current_one[0] + direction[0] < map_width * map_height)
-                            {
-                                if (mazeCells[current_one[0] - 1, current_one[1]].Walls[1])
-                                {
-                                    wall_check = true;
-                                }
-                            }
-                            break;
+                                break;
+                            case 3: // left
+                                if (current_one[0] > 0)
+                                    if (mazeCells[current_one[0] - 1, current_one[1]].Walls[1])
+                                    {
+                                        wall_check = false;
+                                    }
+                                break;
+                        }
                     }
                     #endregion
                     if (wall_check)
@@ -123,8 +124,8 @@ namespace HorrorMaze
                         {
                             int index = (current_one[1] + direction[1]) * map_width + current_one[0] + direction[0];
                             //add f, g, h and direction
-                            map[index][2] = Distance(current_one[0] + direction[0], current_one[1] + direction[1], monster_x, monster_y); //g
-                            map[index][3] = Distance(current_one[0] + direction[0], current_one[1] + direction[1], player_x, player_y); //h
+                            map[index][2] = Distance(current_one[0] + direction[0], current_one[1] + direction[1], (int)monster.X, (int)monster.Y); //g
+                            map[index][3] = Distance(current_one[0] + direction[0], current_one[1] + direction[1], (int)player.X, (int)player.Y); //h
                             map[index][4] = map[index][2] + map[index][3]; // F
                             map[index][5] = i; // direction
                             if (map[index][2] == 0)
@@ -198,7 +199,7 @@ namespace HorrorMaze
                         index_found++;
                         break;
                 }
-                if (player_y * map_width + player_x == index_found)
+                if ((int)player.Y * map_width + (int)player.X == index_found)
                     path_added = true;
             }
             #endregion

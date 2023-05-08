@@ -33,6 +33,7 @@ namespace HorrorMaze
             go.AddComponent<MeshRenderer>().SetModel("ghost_rig");
             go.transform.Position3D = new Vector3(0.5f, 0.5f, 0);
             go.AddComponent<Pathing>().mazeCells = cells;
+            go.AddComponent<Enemy>();
         }
         #endregion
     }
