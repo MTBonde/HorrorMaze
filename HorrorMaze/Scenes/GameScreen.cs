@@ -24,13 +24,15 @@ namespace HorrorMaze
 
             //Test maze
             Maze maze = new Maze();
+            MazeCell[,] cells = maze.GenerateMaze(5, 5);
             GameObject go = new GameObject();
-            go.AddComponent<MazeRenderer>().SetMaze(maze.GenerateMaze(5,5));
+            go.AddComponent<MazeRenderer>().SetMaze(cells);
 
             //test enemy
             go = new GameObject();
             go.AddComponent<MeshRenderer>().SetModel("ghost_rig");
             go.transform.Position3D = new Vector3(0.5f, 0.5f, 0);
+            go.AddComponent<Pathing>().mazeCells = cells;
         }
         #endregion
     }

@@ -10,6 +10,9 @@ namespace HorrorMaze
 {
     internal class Pathing : Component
     {
+
+        public MazeCell[,] mazeCells;
+
         /// <summary>
         /// Returns a list of 2 long arrays of x and y coords. last in list is monster pos
         /// It goes to player pos, though player position is not in list
