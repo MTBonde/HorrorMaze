@@ -10,45 +10,41 @@ namespace HorrorMaze
     public class PlayerController : Component
     {
 
-        float moveScale = 15f;
-        float rotateScale = MathHelper.PiOver2;
+        float moveScale = 2.5f;
+        float mouseSensetivity = 0.5f;
+        float rotateScale = 50;
+        Vector2 oldMousePos;
 
+        //chesks player inputs every frame and moves the player based on the input
         public void Update()
         {
+            //elapsed time of previous frame
             float elapsed = Globals.DeltaTime;
+            //keyboard ref needs to be replaced with input manager
             KeyboardState keyState = Keyboard.GetState();
-            float moveAmount = 0f;
+            //the forward vector for the object
+            Vector3 facing = Vector3.Transform(Vector3.Up, Matrix.CreateRotationZ(MathHelper.ToRadians(transform.Rotation.Z + 90)));
+            //rotates player based on keboard inputs
             if (keyState.IsKeyDown(Keys.D))
-            {
-                gameObject.GetComponent<Camera>().Rotation =
-                   MathHelper.WrapAngle(transform.Rotation.Z - (rotateScale * elapsed));
-            }
+                transform.Rotation -= new Vector3(0, 0, rotateScale * elapsed);
             if (keyState.IsKeyDown(Keys.A))
-            {
-                gameObject.GetComponent<Camera>().Rotation =
-                    MathHelper.WrapAngle(transform.Rotation.Z + (rotateScale * elapsed));
-            }
+                transform.Rotation += new Vector3(0, 0, rotateScale * elapsed);
+            if (keyState.IsKeyDown(Keys.E))
+                transform.Rotation += new Vector3(0, rotateScale * elapsed, 0);
+            if (keyState.IsKeyDown(Keys.Q))
+                transform.Rotation -= new Vector3(0, rotateScale * elapsed, 0);
+            //moves player based on keyboard inputs
             if (keyState.IsKeyDown(Keys.W))
-            {
-                //camera.MoveForward(moveScale * elapsed);
-                moveAmount = moveScale * elapsed;
-            }
+                transform.Position3D += facing * moveScale * elapsed;
             if (keyState.IsKeyDown(Keys.S))
-            {
-                //camera.MoveForward(-moveScale * elapsed);
-                moveAmount = -moveScale * elapsed;
-            }
-            if (moveAmount != 0)
-            {
-                Vector3 newLocation = gameObject.GetComponent<Camera>().PreviewMove(moveAmount);
-                bool moveOk = true;
-                //if (newLocation.X < 0  newLocation.X > Maze.mazeWidth)
-                //    moveOk = false;
-                //if (newLocation.Z < 0  newLocation.Z > Maze.mazeHeight)
-                //    moveOk = false;
-                if (moveOk)
-                    gameObject.GetComponent<Camera>().MoveForward(moveAmount);
-            }
+                transform.Position3D -= facing * moveScale * elapsed;
+            //rotates player based on mouse movement and resets mouse position to center of screen
+            Vector2 currentMouse = Mouse.GetState().Position.ToVector2();
+            Vector2 centerOfScreen = new Vector2(GameWorld.Instance.GraphicsDevice.Viewport.Width / 2, GameWorld.Instance.GraphicsDevice.Viewport.Height / 2);
+            Vector2 changeThisFrame = new Vector2(currentMouse.X, currentMouse.Y) - oldMousePos;
+            transform.Rotation -= new Vector3(0,changeThisFrame.Y,changeThisFrame.X) * mouseSensetivity;
+            Mouse.SetPosition((int)centerOfScreen.X, (int)centerOfScreen.Y);
+            oldMousePos = Mouse.GetState().Position.ToVector2();
         }
     }
 }

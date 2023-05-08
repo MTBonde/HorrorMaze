@@ -31,7 +31,11 @@ namespace HorrorMaze
         /// <summary>
         /// the transforms rotation in 3D
         /// </summary>
-        public Vector3 Rotation { get { return _rotation; } set { _rotation = value; } }
+        public Vector3 Rotation { get { return _rotation; } set 
+            {
+                _rotation = new Vector3(value.X, Math.Clamp(value.Y, 10,170), value.Z); 
+            } 
+        }
         #endregion
 
     }
