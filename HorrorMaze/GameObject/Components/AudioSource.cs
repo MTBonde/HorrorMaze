@@ -2,7 +2,7 @@
 {
     public class AudioSource : Component
     {
-       
+        public SoundEffect heatbeat;
         public SoundEffectInstance _soundEffectInstance;
         public AudioEmitter _emitter = new AudioEmitter();
         public GameObject GameObject;
@@ -12,11 +12,11 @@
             this.GameObject = gameObject;
 
             // TODO: MOVE TO AUDIOMANAGER
-            GameWorld.Instance.heatbeat = GameWorld.Instance.Content.Load<SoundEffect>("heartbeat-01a");
+            heatbeat = GameWorld.Instance.Content.Load<SoundEffect>("SoundFX\\heartbeat");
 
             _emitter.Position = gameObject.transform.Position3D;
 
-            //PlaySound();
+            PlaySound();
         }
 
         public void Update()
@@ -30,7 +30,7 @@
 
         public void PlaySound()
         {
-            _soundEffectInstance = GameWorld.Instance.heatbeat.CreateInstance();
+            _soundEffectInstance = heatbeat.CreateInstance();
             _soundEffectInstance.Play();
         }
     }

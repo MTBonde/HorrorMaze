@@ -51,6 +51,13 @@
 /processorParam:TextureFormat=Compressed
 /build:Cube.fbx
 
+#begin DebugFont.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:DebugFont.spritefont
+
 #begin floor.fbx
 /importer:FbxImporter
 /processor:ModelProcessor
@@ -89,6 +96,12 @@
 /processorParam:TextureFormat=Compressed
 /build:ghost_rig.fbx
 
+#begin SoundFX/heartbeat.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundFX/heartbeat.wav
+
 #begin wall.fbx
 /importer:FbxImporter
 /processor:ModelProcessor
@@ -107,11 +120,4 @@
 /processorParam:SwapWindingOrder=False
 /processorParam:TextureFormat=Compressed
 /build:wall.fbx
-
-#begin DebugFont.spritefont
-/importer:FontDescriptionImporter
-/processor:FontDescriptionProcessor
-/processorParam:PremultiplyAlpha=True
-/processorParam:TextureFormat=Compressed
-/build:DebugFont.spritefont
 
