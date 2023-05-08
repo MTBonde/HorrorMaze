@@ -65,6 +65,7 @@ namespace HorrorMaze
         /// <param name="gameTime"></param>
         public static void Update(GameTime gameTime)
         {
+            Globals.Update(gameTime);
             for (int i = 0; i < active_scene.gameObjects.Count; i++)
             {
                 active_scene.gameObjects[i].Update(gameTime);
