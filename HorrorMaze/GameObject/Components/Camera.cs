@@ -1,15 +1,14 @@
 ﻿namespace HorrorMaze
 {
-    // Enum to represent the different types of camera
-    public enum CameraType
-    {
-        ArcBallCamera,
-        FixedCamera,
-        FreeLookCamera, // cheaty debug cam
-        FirstPersonCamera,
-        ThirdPersonCamera,
-        MonsterCamera
-    }
+    //// Enum to represent the different types of camera
+    //public enum CameraType
+    //{
+    //    ArcBallCamera,
+    //    FixedCamera,
+    //    FreeLookCamera, // cheaty debug cam
+    //    FirstPersonCamera,
+    //    ThirdPersonCamera
+    //}
 
     public class Camera : Component
     {
@@ -34,8 +33,8 @@
         #region Properties
         // The projection matrix for the camera
         public Matrix Projection { get; private set; }
-        // The type of camera behavior
-        public CameraType CameraType { get; set; }
+        //// The type of camera behavior
+        //public CameraType CameraType { get; set; }
         // The target point the camera looks at
         public Vector3 Target { get; set; }
 
@@ -69,11 +68,11 @@
         // CONSTRUCTOR
         #region Constructor
         // The constructor initializes the camera with a given position, rotation, and camera type
-        public Camera(GraphicsDevice graphicsDevice, Vector3 position, float rotation, CameraType cameraType = CameraType.FirstPersonCamera, float nearClip = 0.1f, float farClip = 1000f)
+        public Camera(GraphicsDevice graphicsDevice, Vector3 position, float rotation, float nearClip = 0.1f, float farClip = 1000f)
         {
             var aspectRatio = graphicsDevice.Viewport.AspectRatio;
             Projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, aspectRatio, nearClip, farClip);
-            CameraType = cameraType;
+            MoveTo(transform.Position3D, transform.Rotation.Z);
             MoveTo(position, rotation);
         }
 
@@ -81,26 +80,24 @@
 
         // METHODS
         #region Methods
-        // The Update method is called every frame to update the camera behavior based on the camera type
-        public void Update(GameTime gameTime, Vector3 characterPosition, float eyeLevel, float characterRotation, Vector3 movement)
-        {
-            switch(CameraType)
-            {
-                case CameraType.ArcBallCamera:
-                    break;
-                case CameraType.FixedCamera:
-                    break;
-                case CameraType.FreeLookCamera:
-                    break;
-                case CameraType.FirstPersonCamera:
-                    UpdateFirstPersonCamera(characterPosition, eyeLevel, characterRotation, movement);
-                    break;
-                case CameraType.ThirdPersonCamera:
-                    break;
-                case CameraType.MonsterCamera:
-                    break;
-            }
-        }
+        //// The Update method is called every frame to update the camera behavior based on the camera type
+        //public void Update(GameTime gameTime, Vector3 characterPosition, float eyeLevel, float characterRotation, Vector3 movement)
+        //{
+        //    switch(CameraType)
+        //    {
+        //        case CameraType.ArcBallCamera:
+        //            break;
+        //        case CameraType.FixedCamera:
+        //            break;
+        //        case CameraType.FreeLookCamera:
+        //            break;
+        //        case CameraType.FirstPersonCamera:
+        //            UpdateFirstPersonCamera(characterPosition, eyeLevel, characterRotation, movement);
+        //            break;
+        //        case CameraType.ThirdPersonCamera:
+        //            break;
+        //    }
+        //}
         // Update the first-person camera based on the character's position, eye level, rotation, and movement
         private void UpdateFirstPersonCamera(Vector3 characterPosition, float eyeLevel, float characterRotation, Vector3 movement)
         {
