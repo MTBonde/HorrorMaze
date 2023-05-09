@@ -17,11 +17,11 @@ namespace HorrorMaze
             _audioComponents = new List<AudioComponent>();
         }
 
-        public void LoadSoundEffect(string soundEffectName)
+        public void LoadSoundEffect(string soundEffectName, string path)
         {
             if(!_soundEffects.ContainsKey(soundEffectName))
             {
-                SoundEffect soundEffect = GameWorld.Instance.Content.Load<SoundEffect>(soundEffectName);
+                SoundEffect soundEffect = GameWorld.Instance.Content.Load<SoundEffect>(path);
                 _soundEffects.Add(soundEffectName, soundEffect);
             }
         }

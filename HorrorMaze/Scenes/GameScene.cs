@@ -13,7 +13,7 @@ namespace HorrorMaze
             AudioManager audioManager = new AudioManager();
 
             // Load sound effects
-            audioManager.LoadSoundEffect("SoundFX\\heartbeat");
+            audioManager.LoadSoundEffect("heartbeat","SoundFX\\heartbeat");
             //audioManager.LoadSoundEffect("breathing");
             //audioManager.LoadSoundEffect("Footsteps");
 
@@ -66,7 +66,7 @@ namespace HorrorMaze
             // Play breathing sound if the emitter is within a distance of 5
             else if(distance <= 5f && enemyAudioComponent.SoundEffectInstance == null)
             {
-                enemyAudioComponent.PlaySound(audioManager.GetSoundEffect("breathing"));
+                //enemyAudioComponent.PlaySound(audioManager.GetSoundEffect("breathing"));
             }
             // Stop the sound if the emitter is outside the distance of 10
             else if(distance > 10f && enemyAudioComponent.SoundEffectInstance != null)
