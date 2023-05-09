@@ -13,7 +13,7 @@ namespace HorrorMaze
             AudioManager audioManager = new AudioManager();
 
             // Load sound effects
-            audioManager.LoadSoundEffect("heartbeat","SoundFX\\heartbeat");
+            audioManager.LoadSoundEffect("heartbeat");
             //audioManager.LoadSoundEffect("breathing");
             //audioManager.LoadSoundEffect("Footsteps");
 
@@ -35,48 +35,29 @@ namespace HorrorMaze
             enemy.transform.Position3D = new Vector3(0.5f, 0.5f, 0);
             enemy.AddComponent<Pathing>().mazeCells = cells;
             enemy.AddComponent<Enemy>();
-            AudioComponent enemyAudioComponent = enemy.AddComponent<AudioComponent>();
-            enemyAudioComponent.IsEmitter();
+            AudioSource enemyAudioSource = enemy.AddComponent<AudioSource>();
 
             // test thread
             ThreadManager.Startup(enemy);
 
             // Add the AudioComponent to AudioManager
-            audioManager.AddAudioComponent(enemyAudioComponent);
+            audioManager.AddAudioSource(enemyAudioSource);
 
-            //test player           
+            //test player
             GameObject player = new GameObject();           
             player.transform.Position3D = new Vector3(0.5f, 1.5f, 1.6f);
             player.transform.Rotation = new Vector3(0, 0, 0);
             player.AddComponent<PlayerController>();
             player.AddComponent<Camera>();
-            // Set up the listener AudioComponent and attach it to the player, and set it to true via the islistener method
-            AudioComponent listenerAudioComponent = player.AddComponent<AudioComponent>();
-            listenerAudioComponent.IsListener();
+            // Set up the listener AudioComponent and attach it to the player
+            PlayerAudioListener playerAudioListener = player.AddComponent<PlayerAudioListener>();
 
 
-
-            // TODO : IN UPDATE
-            // Calculate the distance between the listener and the emitter
-            float distance = Vector3.Distance(listenerAudioComponent.Listener.Position, enemyAudioComponent.Emitter.Position);
-
-            // Play heartbeat sound if the emitter is within a distance of 10
-            if(distance <= 10f && enemyAudioComponent.SoundEffectInstance == null)
-            {
-                enemyAudioComponent.PlaySound(audioManager.GetSoundEffect("heartbeat"));
-            }
-            // Play breathing sound if the emitter is within a distance of 5
-            else if(distance <= 5f && enemyAudioComponent.SoundEffectInstance == null)
-            {
-                //enemyAudioComponent.PlaySound(audioManager.GetSoundEffect("breathing"));
-            }
-            // Stop the sound if the emitter is outside the distance of 10
-            else if(distance > 10f && enemyAudioComponent.SoundEffectInstance != null)
-            {
-                enemyAudioComponent.SoundEffectInstance.Stop();
-                enemyAudioComponent.SoundEffectInstance.Dispose();
-                enemyAudioComponent.SoundEffectInstance = null;
-            }
+            // Add the EnemyAudioController to the enemy object and set its properties:
+            EnemyAudioController enemyAudioController = enemy.AddComponent<EnemyAudioController>();
+            enemyAudioController.Setup(enemyAudioSource, playerAudioListener, audioManager);
+            // Set the PlayerAudioListener in the AudioManager:
+            audioManager.SetPlayerAudioListener(playerAudioListener);          
         }
         #endregion
     }

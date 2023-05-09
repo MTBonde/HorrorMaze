@@ -1,57 +1,58 @@
-﻿
-
+﻿// AudioManager.cs
 using Microsoft.Xna.Framework.Audio;
+
+using System.Collections.Generic;
 
 namespace HorrorMaze
 {
     public class AudioManager
     {
-        
-        private Dictionary<string, SoundEffect> _soundEffects;
-        private List<AudioComponent> _audioComponents;
+        private Dictionary<string, SoundEffect> soundEffects;
+        private PlayerAudioListener playerAudioListener;
+        private List<AudioSource> audioSources;
 
         public AudioManager()
         {
-            
-            _soundEffects = new Dictionary<string, SoundEffect>();
-            _audioComponents = new List<AudioComponent>();
+            soundEffects = new Dictionary<string, SoundEffect>();
+            audioSources = new List<AudioSource>();
         }
 
-        public void LoadSoundEffect(string soundEffectName, string path)
+        public void SetPlayerAudioListener(PlayerAudioListener playerAudioListener)
         {
-            if(!_soundEffects.ContainsKey(soundEffectName))
-            {
-                SoundEffect soundEffect = GameWorld.Instance.Content.Load<SoundEffect>(path);
-                _soundEffects.Add(soundEffectName, soundEffect);
-            }
+            this.playerAudioListener = playerAudioListener;
+        }
+
+        public void LoadSoundEffect(string soundEffectName)
+        {
+            SoundEffect soundEffect = GameWorld.Instance.Content.Load<SoundEffect>($"SoundFX\\{soundEffectName}");
+            soundEffects.Add(soundEffectName, soundEffect);
         }
 
         public SoundEffect GetSoundEffect(string soundEffectName)
         {
-            if(_soundEffects.TryGetValue(soundEffectName, out SoundEffect soundEffect))
-            {
-                return soundEffect;
-            }
-
-            return null;
+            return soundEffects.ContainsKey(soundEffectName) ? soundEffects[soundEffectName] : null;
         }
 
-        public void AddAudioComponent(AudioComponent audioComponent)
+        public void AddAudioSource(AudioSource audioSource)
         {
-            _audioComponents.Add(audioComponent);
-        }
-
-        public void RemoveAudioComponent(AudioComponent audioComponent)
-        {
-            _audioComponents.Remove(audioComponent);
+            audioSources.Add(audioSource);
         }
 
         public void Update()
         {
-            foreach(AudioComponent audioComponent in _audioComponents)
+            if(playerAudioListener != null)
             {
-                audioComponent.Update();
+                playerAudioListener.Update();
+                foreach(var audioSource in audioSources)
+                {
+                    audioSource.Update();
+                    if(audioSource.SoundEffectInstance != null)
+                    {
+                        audioSource.SoundEffectInstance.Apply3D(playerAudioListener.Listener, audioSource.Emitter);
+                    }
+                }
             }
         }
+
     }
 }

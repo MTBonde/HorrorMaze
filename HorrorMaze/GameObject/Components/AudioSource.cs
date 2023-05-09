@@ -2,36 +2,26 @@
 {
     public class AudioSource : Component
     {
-        public SoundEffect heatbeat;
-        public SoundEffectInstance _soundEffectInstance;
-        public AudioEmitter _emitter = new AudioEmitter();
-        public GameObject GameObject;
+        public AudioEmitter Emitter { get; private set; }        
+        public SoundEffectInstance SoundEffectInstance { get; set; }
 
-        public AudioSource(GameObject gameObject)
-        {
-            this.GameObject = gameObject;
-
-            // TODO: MOVE TO AUDIOMANAGER
-            heatbeat = GameWorld.Instance.Content.Load<SoundEffect>("SoundFX\\heartbeat");
-
-            _emitter.Position = gameObject.transform.Position3D;
-
-            PlaySound();
+        public AudioSource()
+        {            
+            Emitter = new AudioEmitter();
         }
 
         public void Update()
         {
-            // Update the emitter's position with the gameObject's position
-            _emitter.Position = GameObject.transform.Position3D;
-
-            // Apply the 3D settings to the sound effect instance
-           // _soundEffectInstance.Apply3D(GameWorld.Instance.AudioListener, _emitter);
+            Emitter.Position = gameObject.transform.Position3D;
         }
 
-        public void PlaySound()
+        public void PlaySound(SoundEffect soundEffect)
         {
-            _soundEffectInstance = heatbeat.CreateInstance();
-            _soundEffectInstance.Play();
+            if(soundEffect != null)
+            {
+                SoundEffectInstance = soundEffect.CreateInstance();
+                SoundEffectInstance.Play();
+            }
         }
     }
 }
