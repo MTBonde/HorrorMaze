@@ -12,9 +12,9 @@ namespace HorrorMaze
         public SoundEffectInstance SoundEffectInstance { get; set; }
         private bool _isListener = false;
 
-        public AudioComponent(GameObject gameObject)
+        public AudioComponent()
         {
-            GameObject = gameObject;
+            
             this._isListener = IsListener();
 
             if(_isListener)
