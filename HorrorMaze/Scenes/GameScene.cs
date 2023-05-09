@@ -26,6 +26,7 @@ namespace HorrorMaze
             MazeCell[,] cells = maze.GenerateMaze(10, 10);
             GameObject go = new GameObject();
             go.AddComponent<MazeRenderer>().SetMaze(cells);
+            go.AddComponent<MazeCollider>().SetMaze(cells);
 
             //test enemy
             go = new GameObject();
@@ -42,6 +43,10 @@ namespace HorrorMaze
             go.transform.Rotation = new Vector3(0, 0, 0);
             go.AddComponent<PlayerController>();
             go.AddComponent<Camera>();
+
+            //test Collider
+            go = new GameObject();
+            go.AddComponent<BoxCollider>().size = Vector3.One;
         }
         #endregion
     }

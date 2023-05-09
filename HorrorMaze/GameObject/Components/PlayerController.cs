@@ -35,7 +35,9 @@ namespace HorrorMaze
                 transform.Rotation -= new Vector3(0, rotateScale * elapsed, 0);
             //moves player based on keyboard inputs
             if (keyState.IsKeyDown(Keys.W))
-                transform.Position3D += facing * moveScale * elapsed;
+            {
+                transform.Position3D = CollisionManager.CheckCircleCollision(transform.Position3D,transform.Position3D + facing * moveScale * elapsed,0.1f);
+            }
             if (keyState.IsKeyDown(Keys.S))
                 transform.Position3D -= facing * moveScale * elapsed;
             //rotates player based on mouse movement and resets mouse position to center of screen
