@@ -38,18 +38,22 @@ namespace HorrorMaze
             AudioComponent enemyAudioComponent = enemy.AddComponent<AudioComponent>();
             enemyAudioComponent.IsEmitter();
 
+            // test thread
+            ThreadManager.Startup(enemy);
+
             // Add the AudioComponent to AudioManager
             audioManager.AddAudioComponent(enemyAudioComponent);
 
-            //test player
+            //test player           
+            GameObject player = new GameObject();           
+            player.transform.Position3D = new Vector3(0.5f, 1.5f, 1.6f);
+            player.transform.Rotation = new Vector3(0, 0, 0);
+            player.AddComponent<PlayerController>();
+            player.AddComponent<Camera>();
             // Set up the listener AudioComponent and attach it to the player, and set it to true via the islistener method
-            GameObject player = new GameObject();
-            player.transform.Position3D = new Vector3(0, 0, 0);
             AudioComponent listenerAudioComponent = player.AddComponent<AudioComponent>();
             listenerAudioComponent.IsListener();
 
-            // test thread
-            ThreadManager.Startup(enemy);
 
 
             // TODO : IN UPDATE
@@ -73,14 +77,6 @@ namespace HorrorMaze
                 enemyAudioComponent.SoundEffectInstance.Dispose();
                 enemyAudioComponent.SoundEffectInstance = null;
             }
-            ThreadManager.Startup(go);
-
-            //test cam
-            go = new GameObject();
-            go.transform.Position3D = new Vector3(0.5f, 1.5f, 1.6f);
-            go.transform.Rotation = new Vector3(0, 0, 0);
-            go.AddComponent<PlayerController>();
-            go.AddComponent<Camera>();
         }
         #endregion
     }
