@@ -14,11 +14,11 @@ namespace HorrorMaze
         /// <summary>
         /// the position of the transform
         /// </summary>
-        private Vector3 _position; 
+        private Vector3 _position = new Vector3(0,0,0); 
         /// <summary>
         /// the rotation of the transform
         /// </summary>
-        private Vector3 _rotation;
+        private Vector3 _rotation = new Vector3(0, 0, 0);
 
         /// <summary>
         /// the transforms position in 2D
@@ -31,7 +31,11 @@ namespace HorrorMaze
         /// <summary>
         /// the transforms rotation in 3D
         /// </summary>
-        public Vector3 Rotation { get { return _rotation; } set { _rotation = value; } }
+        public Vector3 Rotation { get { return _rotation; } set 
+            {
+                _rotation = new Vector3(value.X, Math.Clamp(value.Y, 10,170), value.Z); 
+            } 
+        }
         #endregion
 
     }
