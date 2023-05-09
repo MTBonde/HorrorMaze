@@ -17,7 +17,7 @@ namespace HorrorMaze
             go.AddComponent<SpriteRenderer>().SetSprite("Company Logo");
 
             go = new GameObject();
-            go.AddComponent<SplashScreenAnimation>();
+            go.AddComponent<SplashScreenController>();
         }
     }
 }
