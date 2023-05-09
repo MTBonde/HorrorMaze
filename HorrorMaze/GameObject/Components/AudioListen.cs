@@ -2,15 +2,15 @@
 
 namespace HorrorMaze
 {
-    public class AudioListener : Component
+    public class AudioListen : Component
     {
-        public AudioListener Listener;
+        public AudioListen Listener;
         public GameObject GameObject;
 
-        public AudioListener()
+        public AudioListen()
         {
             this.GameObject = GameObject;
-            Listener = new AudioListener();
+            Listener = new AudioListen();
         }
 
         public void Update()
