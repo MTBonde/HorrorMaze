@@ -13,7 +13,11 @@ namespace HorrorMaze
 
         public override void SetupScene()
         {
-            throw new NotImplementedException();
+            GameObject go = new GameObject();
+            go.AddComponent<SpriteRenderer>().SetSprite("Company Logo");
+
+            go = new GameObject();
+            go.AddComponent<SplashScreenController>();
         }
     }
 }

@@ -17,11 +17,9 @@ namespace HorrorMaze
             //audioManager.LoadSoundEffect("breathing");
             //audioManager.LoadSoundEffect("Footsteps");
 
-            // test cam
-            camTarget = new Vector3(0f, 0f, 0f);//look target will be replaced by PlayerController and Camera component
-            camPosition = new Vector3(0f, -5f, 25f);//the players start location will be replaced by the Camera component later
-            projectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45f), GameWorld.Instance.Graphics.GraphicsDevice.Viewport.AspectRatio, 1f, 1000f);//sets up the projection matrix to a field of view on 45 degrees
-            viewMatrix = Matrix.CreateLookAt(camPosition, camTarget, new Vector3(0f, 0f, 1f));//Sets Z as the upwards axis for the view
+            
+            //GameWorld.Instance.IsMouseVisible = true;
+            //creates worlds center point
             worldMatrix = Matrix.CreateWorld(Vector3.Zero, Vector3.Forward, Vector3.Up);
 
             //Test maze
@@ -75,6 +73,14 @@ namespace HorrorMaze
                 enemyAudioComponent.SoundEffectInstance.Dispose();
                 enemyAudioComponent.SoundEffectInstance = null;
             }
+            ThreadManager.Startup(go);
+
+            //test cam
+            go = new GameObject();
+            go.transform.Position3D = new Vector3(0.5f, 1.5f, 1.6f);
+            go.transform.Rotation = new Vector3(0, 0, 0);
+            go.AddComponent<PlayerController>();
+            go.AddComponent<Camera>();
         }
         #endregion
     }

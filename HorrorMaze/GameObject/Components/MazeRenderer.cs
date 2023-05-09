@@ -59,12 +59,12 @@ namespace HorrorMaze
             for (int x = 0; x < _mazeCells.GetLength(0); x++)
             {
                 DrawWall(transform.Position3D + new Vector3(x, 0, 0), transform.Rotation + new Vector3(0,0,270));
-                DrawWall(transform.Position3D + new Vector3(x, _mazeCells.GetLength(1), 0), transform.Rotation + new Vector3(0, 0, 270));
+                //DrawWall(transform.Position3D + new Vector3(x, _mazeCells.GetLength(1), 0), transform.Rotation + new Vector3(0, 0, 270));
             }
             for (int y = 0; y < _mazeCells.GetLength(1); y++)
             {
                 DrawWall(transform.Position3D + new Vector3(0, y, 0), transform.Rotation + new Vector3(0, 0, 0));
-                DrawWall(transform.Position3D + new Vector3(_mazeCells.GetLength(0), y, 0), transform.Rotation + new Vector3(0, 0, 0));
+                //DrawWall(transform.Position3D + new Vector3(_mazeCells.GetLength(0), y, 0), transform.Rotation + new Vector3(0, 0, 0));
             }
             //inner walls spawning
             for (int x = 0; x < _mazeCells.GetLength(0); x++)
@@ -89,7 +89,7 @@ namespace HorrorMaze
             {
                 foreach (BasicEffect effect in mesh.Effects)
                 {
-                    effect.LightingEnabled = true;
+                    effect.LightingEnabled = false;
                     effect.AmbientLightColor = Vector3.One / 10;
 
                     effect.View = SceneManager.active_scene.viewMatrix;
@@ -111,7 +111,7 @@ namespace HorrorMaze
             {
                 foreach (BasicEffect effect in mesh.Effects)
                 {
-                    effect.LightingEnabled = true;
+                    effect.LightingEnabled = false;
                     effect.AmbientLightColor = Vector3.One / 20;
                     //needs to come from a light variable so all objects lighting is in synch
                     effect.DirectionalLight0.Direction = new Vector3(0.5f,0.5f,0.5f);
