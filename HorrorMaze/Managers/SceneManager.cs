@@ -16,7 +16,7 @@ namespace HorrorMaze
     {
         #region Fields & Variables
 
-        private static AudioManager _audioManager = new();
+        public static AudioManager audioManager = new();
         /// <summary>
         /// the cunrently active scene
         /// </summary>
@@ -44,6 +44,8 @@ namespace HorrorMaze
         public static void LoadScene(int scene_number)//maybe make one that uses a string instead and looks it up in a dictionary
         {
             active_scene.gameObjects.Clear();
+            CollisionManager.colliders.Clear();
+            audioManager = new AudioManager();
             active_scene = scenes[scene_number];
             SetupScene();
         }
@@ -68,7 +70,7 @@ namespace HorrorMaze
         public static void Update(GameTime gameTime)
         {
             //Manager Update
-            _audioManager.Update();
+            audioManager.Update();
 
             //Global Update
             Globals.Update(gameTime);
@@ -97,6 +99,7 @@ namespace HorrorMaze
             {
                 active_scene.gameObjects[i].Draw2D(spriteBatch);
             }
+            CameraManager.ApplyCameraEffects(spriteBatch);
             spriteBatch.End();
             spriteBatch.Begin(SpriteSortMode.FrontToBack, null);
             for (int i = 0; i < active_scene.gameObjects.Count; i++)

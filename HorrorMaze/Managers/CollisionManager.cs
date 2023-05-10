@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HorrorMaze
 {
-    public class CollisionManager
+    public static class CollisionManager
     {
 
         public static List<Collider> colliders = new List<Collider>();

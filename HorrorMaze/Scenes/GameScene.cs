@@ -9,11 +9,10 @@ namespace HorrorMaze
         #region Methods
         public override void SetupScene()
         {
-            // Initialize AudioManager
-            AudioManager audioManager = new AudioManager();
+            CameraManager.Setup();
 
             // Load sound effects
-            audioManager.LoadSoundEffect("heartbeat");
+            SceneManager.audioManager.LoadSoundEffect("heartbeat");
             //audioManager.LoadSoundEffect("breathing");
             //audioManager.LoadSoundEffect("Footsteps");
 
@@ -43,7 +42,7 @@ namespace HorrorMaze
             ThreadManager.Startup(enemy);
 
             // Add the AudioComponent to AudioManager
-            audioManager.AddAudioSource(enemyAudioSource);
+            SceneManager.audioManager.AddAudioSource(enemyAudioSource);
 
             //test player
             GameObject player = new GameObject();
@@ -64,9 +63,9 @@ namespace HorrorMaze
 
             // Add the EnemyAudioController to the enemy object and set its properties:
             EnemyAudioController enemyAudioController = enemy.AddComponent<EnemyAudioController>();
-            enemyAudioController.Setup(enemyAudioSource, playerAudioListener, audioManager);
+            enemyAudioController.Setup(enemyAudioSource, playerAudioListener, SceneManager.audioManager);
             // Set the PlayerAudioListener in the AudioManager:
-            audioManager.SetPlayerAudioListener(playerAudioListener);          
+            SceneManager.audioManager.SetPlayerAudioListener(playerAudioListener);          
         }
         #endregion
     }

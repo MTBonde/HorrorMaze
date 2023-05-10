@@ -15,6 +15,7 @@ namespace HorrorMaze
         float mouseSensetivity = 0.25f;
         float rotateScale = 50;
         float _playerRadius = 0.15f;
+        float _sprintMultiplier = 0.25f;
         Vector2 oldMousePos;
 
         //chesks player inputs every frame and moves the player based on the input
@@ -44,6 +45,10 @@ namespace HorrorMaze
             if (keyState.IsKeyDown(Keys.S))
             {
                 movement -= facing * moveScale * elapsed;
+            }
+            if (keyState.IsKeyDown(Keys.LeftShift))
+            {
+                movement += (movement - transform.Position3D) * _sprintMultiplier;
             }
             CollisionInfo colInfor = CollisionManager.CheckCircleCollision(transform.Position3D, movement, _playerRadius);
             transform.Position3D = colInfor.collisionPoint;

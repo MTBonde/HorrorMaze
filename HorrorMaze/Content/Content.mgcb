@@ -108,6 +108,24 @@
 /processorParam:TextureFormat=Compressed
 /build:ghost_rig.fbx
 
+#begin SoundFX/heartbeat.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundFX/heartbeat.wav
+
+#begin Vignette.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Vignette.png
+
 #begin wall_arrow.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -119,12 +137,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:wall_arrow.png
-
-#begin SoundFX/heartbeat.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:SoundFX/heartbeat.wav
 
 #begin wall.fbx
 /importer:FbxImporter
