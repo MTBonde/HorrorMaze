@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.Xml;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -35,23 +36,26 @@ namespace HorrorMaze
             if (keyState.IsKeyDown(Keys.Q))
                 transform.Rotation -= new Vector3(0, rotateScale * elapsed, 0);
             //moves player based on keyboard inputs
+            Vector3 movement = transform.Position3D;
             if (keyState.IsKeyDown(Keys.W))
             {
-                CollisionInfo colInfor = CollisionManager.CheckCircleCollision(transform.Position3D,transform.Position3D + facing * moveScale * elapsed,_playerRadius);
-                transform.Position3D = colInfor.collisionPoint;
-                //checks if we colide with the win game object needs to use a object reference or name istead of coordinate
-                if (colInfor.collider != null)
-                    if (colInfor.collider.transform.Position == new Vector2(4.5f, 4.5f))
-                        SceneManager.LoadScene(0);
+                movement += facing * moveScale * elapsed;
             }
             if (keyState.IsKeyDown(Keys.S))
             {
-                CollisionInfo colInfor = CollisionManager.CheckCircleCollision(transform.Position3D,transform.Position3D - facing * moveScale * elapsed,_playerRadius);
-                transform.Position3D = colInfor.collisionPoint;
-                //checks if we colide with the win game object needs to use a object reference or name istead of coordinate
-                if (colInfor.collider != null)
-                    if (colInfor.collider.transform.Position == new Vector2(4.5f, 4.5f))
-                        SceneManager.LoadScene(0);
+                movement -= facing * moveScale * elapsed;
+            }
+            CollisionInfo colInfor = CollisionManager.CheckCircleCollision(transform.Position3D, movement, _playerRadius);
+            transform.Position3D = colInfor.collisionPoint;
+            //checks if we colide with a object
+            if (colInfor.collider != null)
+            {
+                //goal collision behaviour
+                if (colInfor.collider.gameObject.name == "Goal")
+                    SceneManager.LoadScene(0);
+                //enemy collision behaviour
+                if (colInfor.collider.gameObject.name == "Enemy")
+                    transform.Position = new Vector2(0.5f,0.5f);
             }
             //rotates player based on mouse movement and resets mouse position to center of screen
             Vector2 currentMouse = Mouse.GetState().Position.ToVector2();

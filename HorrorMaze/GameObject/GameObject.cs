@@ -20,6 +20,10 @@ namespace HorrorMaze
         /// the objects transform
         /// </summary>
         public Transform transform { get; set; } = new Transform();
+        /// <summary>
+        /// the name of the gameobject
+        /// </summary>
+        public string name = "gameobject";
         #endregion
 
         #region Constructer
