@@ -12,7 +12,7 @@ namespace HorrorMaze
     {
 
         float moveScale = 2.5f;
-        float mouseSensetivity = 0.5f;
+        float mouseSensetivity = 0.25f;
         float rotateScale = 50;
         float _playerRadius = 0.15f;
         Vector2 oldMousePos;
@@ -57,6 +57,7 @@ namespace HorrorMaze
                 if (colInfor.collider.gameObject.name == "Enemy")
                     transform.Position = new Vector2(0.5f,0.5f);
             }
+            CameraManager.lightDirection = facing;
             //rotates player based on mouse movement and resets mouse position to center of screen
             Vector2 currentMouse = Mouse.GetState().Position.ToVector2();
             Vector2 centerOfScreen = new Vector2(GameWorld.Instance.GraphicsDevice.Viewport.Width / 2, GameWorld.Instance.GraphicsDevice.Viewport.Height / 2);

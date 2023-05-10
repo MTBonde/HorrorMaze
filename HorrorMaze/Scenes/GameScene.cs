@@ -30,7 +30,6 @@ namespace HorrorMaze
             go.AddComponent<MazeCollider>().SetMaze(cells);
 
             //test enemy
-           
             GameObject enemy = new GameObject();
             enemy.name = "Enemy";
             enemy.AddComponent<BoxCollider>().size = new Vector3(1, 1, 1);            
