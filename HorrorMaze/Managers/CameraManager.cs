@@ -16,7 +16,7 @@
 
         public static void ApplyWorldShading(BasicEffect effect)
         {
-            effect.LightingEnabled = false;
+            effect.LightingEnabled = true;
             effect.AmbientLightColor = lightColor;
             //effect.DirectionalLight0.Direction = lightDirection;
             //effect.DirectionalLight0.DiffuseColor = Vector3.One;
