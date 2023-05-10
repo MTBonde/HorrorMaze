@@ -3,9 +3,6 @@ namespace HorrorMaze
 {
     public class GameScene : Scene
     {
-
-
-
         #region Methods
         public override void SetupScene()
         {

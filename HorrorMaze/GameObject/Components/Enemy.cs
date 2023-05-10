@@ -36,8 +36,7 @@ namespace HorrorMaze
                         if (path.Count == 0)
                             at_pos = true;
                     }
-            }
-            
+            }            
         }
         /// <summary>
         /// gets a vector to add to monster vector, based on the direction to the point in path. The vectors lenght is based on speed.

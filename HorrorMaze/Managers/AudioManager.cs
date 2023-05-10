@@ -43,7 +43,7 @@ namespace HorrorMaze
             if(_playerAudioListener != null)
             {
                 _playerAudioListener.Update();
-                foreach(var audioSource in _audioSources)
+                foreach(AudioSource audioSource in _audioSources)
                 {
                     audioSource.Update();
                     if(audioSource.SFXInstance != null)
@@ -53,6 +53,5 @@ namespace HorrorMaze
                 }
             }
         }
-
     }
 }
