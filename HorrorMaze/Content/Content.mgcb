@@ -13,6 +13,12 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin background_music.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:background_music.wav
+
 #begin celling.fbx
 /importer:FbxImporter
 /processor:ModelProcessor
