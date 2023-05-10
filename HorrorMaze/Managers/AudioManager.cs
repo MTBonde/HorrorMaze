@@ -7,48 +7,48 @@ namespace HorrorMaze
 {
     public class AudioManager
     {
-        private Dictionary<string, SoundEffect> soundEffects;
-        private PlayerAudioListener playerAudioListener;
-        private List<AudioSource> audioSources;
+        private Dictionary<string, SoundEffect> _soundEffects;
+        private PlayerAudioListener _playerAudioListener;
+        private List<AudioSource> _audioSources;
 
         public AudioManager()
         {
-            soundEffects = new Dictionary<string, SoundEffect>();
-            audioSources = new List<AudioSource>();
+            _soundEffects = new Dictionary<string, SoundEffect>();
+            _audioSources = new List<AudioSource>();
         }
 
         public void SetPlayerAudioListener(PlayerAudioListener playerAudioListener)
         {
-            this.playerAudioListener = playerAudioListener;
+            this._playerAudioListener = playerAudioListener;
         }
 
         public void LoadSoundEffect(string soundEffectName)
         {
             SoundEffect soundEffect = GameWorld.Instance.Content.Load<SoundEffect>($"SoundFX\\{soundEffectName}");
-            soundEffects.Add(soundEffectName, soundEffect);
+            _soundEffects.Add(soundEffectName, soundEffect);
         }
 
         public SoundEffect GetSoundEffect(string soundEffectName)
         {
-            return soundEffects.ContainsKey(soundEffectName) ? soundEffects[soundEffectName] : null;
+            return _soundEffects.ContainsKey(soundEffectName) ? _soundEffects[soundEffectName] : null;
         }
 
         public void AddAudioSource(AudioSource audioSource)
         {
-            audioSources.Add(audioSource);
+            _audioSources.Add(audioSource);
         }
 
         public void Update()
         {
-            if(playerAudioListener != null)
+            if(_playerAudioListener != null)
             {
-                playerAudioListener.Update();
-                foreach(var audioSource in audioSources)
+                _playerAudioListener.Update();
+                foreach(var audioSource in _audioSources)
                 {
                     audioSource.Update();
                     if(audioSource.SoundEffectInstance != null)
                     {
-                        audioSource.SoundEffectInstance.Apply3D(playerAudioListener.Listener, audioSource.Emitter);
+                        audioSource.SoundEffectInstance.Apply3D(_playerAudioListener.Listener, audioSource.Emitter);
                     }
                 }
             }
