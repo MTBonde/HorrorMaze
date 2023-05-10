@@ -1,9 +1,11 @@
-﻿namespace HorrorMaze
+﻿using Microsoft.Xna.Framework.Audio;
+
+namespace HorrorMaze
 {
     public class AudioSource : Component
     {
         public AudioEmitter Emitter { get; private set; }        
-        public SoundEffectInstance SoundEffectInstance { get; set; }
+        public SoundEffectInstance SFXInstance { get; set; }
 
         public AudioSource()
         {            
@@ -19,8 +21,9 @@
         {
             if(soundEffect != null)
             {
-                SoundEffectInstance = soundEffect.CreateInstance();
-                SoundEffectInstance.Play();
+                SFXInstance = soundEffect.CreateInstance();
+                SFXInstance.IsLooped = true;
+                SFXInstance.Play();
             }
         }
     }

@@ -11,10 +11,12 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace HorrorMaze
 {
+    
     public static class SceneManager
     {
-
         #region Fields & Variables
+
+        private static AudioManager _audioManager = new();
         /// <summary>
         /// the cunrently active scene
         /// </summary>
@@ -65,7 +67,13 @@ namespace HorrorMaze
         /// <param name="gameTime"></param>
         public static void Update(GameTime gameTime)
         {
+            //Manager Update
+            _audioManager.Update();
+
+            //Global Update
             Globals.Update(gameTime);
+
+            //Scene Update
             for (int i = 0; i < active_scene.gameObjects.Count; i++)
             {
                 active_scene.gameObjects[i].Update(gameTime);

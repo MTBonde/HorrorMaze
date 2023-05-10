@@ -46,9 +46,9 @@ namespace HorrorMaze
                 foreach(var audioSource in _audioSources)
                 {
                     audioSource.Update();
-                    if(audioSource.SoundEffectInstance != null)
+                    if(audioSource.SFXInstance != null)
                     {
-                        audioSource.SoundEffectInstance.Apply3D(_playerAudioListener.Listener, audioSource.Emitter);
+                        audioSource.SFXInstance.Apply3D(_playerAudioListener.Listener, audioSource.Emitter);
                     }
                 }
             }
