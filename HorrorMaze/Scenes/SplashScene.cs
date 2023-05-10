@@ -15,6 +15,7 @@ namespace HorrorMaze
         {
             GameObject go = new GameObject();
             go.AddComponent<SpriteRenderer>().SetSprite("Company Logo");
+            go.transform.Position = new Vector2(GameWorld.Instance.GraphicsDevice.Viewport.Width / 2, GameWorld.Instance.GraphicsDevice.Viewport.Height / 2);
 
             go = new GameObject();
             go.AddComponent<SplashScreenController>();

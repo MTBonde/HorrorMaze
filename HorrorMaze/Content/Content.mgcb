@@ -114,6 +114,13 @@
 /processorParam:Quality=Best
 /build:SoundFX/heartbeat.wav
 
+#begin UIFont.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:UIFont.spritefont
+
 #begin Vignette.png
 /importer:TextureImporter
 /processor:TextureProcessor

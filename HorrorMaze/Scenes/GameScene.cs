@@ -56,7 +56,6 @@ namespace HorrorMaze
             goal.transform.Position3D = new Vector3(4.5f,4.5f,0);
             goal.AddComponent<MeshRenderer>().SetModel("win_item");
             goal.AddComponent<BoxCollider>().size = Vector3.One / 10;
-         
 
             // Add the EnemyAudioController to the enemy object and set its properties:
             EnemyAudioController enemyAudioController = enemy.AddComponent<EnemyAudioController>();
