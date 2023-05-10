@@ -53,5 +53,18 @@ namespace HorrorMaze
                 }
             }
         }
+
+        public void StopAllSounds()
+        {
+            foreach(AudioSource audioSource in _audioSources)
+            {
+                if(audioSource.SFXInstance != null)
+                {
+                    audioSource.SFXInstance.Stop();
+                    audioSource.SFXInstance.Dispose();
+                    audioSource.SFXInstance = null;
+                }
+            }
+        }
     }
 }
