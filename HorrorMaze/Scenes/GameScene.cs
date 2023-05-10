@@ -44,9 +44,11 @@ namespace HorrorMaze
             go.AddComponent<PlayerController>();
             go.AddComponent<Camera>();
 
-            //test Collider
+            //test Goal
             go = new GameObject();
-            go.AddComponent<BoxCollider>().size = Vector3.One;
+            go.transform.Position3D = new Vector3(4.5f,4.5f,0);
+            go.AddComponent<MeshRenderer>().SetModel("win_item");
+            go.AddComponent<BoxCollider>().size = Vector3.One / 10;
         }
         #endregion
     }

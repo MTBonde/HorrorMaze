@@ -13,6 +13,7 @@ namespace HorrorMaze
         float moveScale = 2.5f;
         float mouseSensetivity = 0.5f;
         float rotateScale = 50;
+        float _playerRadius = 0.15f;
         Vector2 oldMousePos;
 
         //chesks player inputs every frame and moves the player based on the input
@@ -36,10 +37,22 @@ namespace HorrorMaze
             //moves player based on keyboard inputs
             if (keyState.IsKeyDown(Keys.W))
             {
-                transform.Position3D = CollisionManager.CheckCircleCollision(transform.Position3D,transform.Position3D + facing * moveScale * elapsed,0.1f);
+                CollisionInfo colInfor = CollisionManager.CheckCircleCollision(transform.Position3D,transform.Position3D + facing * moveScale * elapsed,_playerRadius);
+                transform.Position3D = colInfor.collisionPoint;
+                //checks if we colide with the win game object needs to use a object reference or name istead of coordinate
+                if (colInfor.collider != null)
+                    if (colInfor.collider.transform.Position == new Vector2(4.5f, 4.5f))
+                        SceneManager.LoadScene(0);
             }
             if (keyState.IsKeyDown(Keys.S))
-                transform.Position3D -= facing * moveScale * elapsed;
+            {
+                CollisionInfo colInfor = CollisionManager.CheckCircleCollision(transform.Position3D,transform.Position3D - facing * moveScale * elapsed,_playerRadius);
+                transform.Position3D = colInfor.collisionPoint;
+                //checks if we colide with the win game object needs to use a object reference or name istead of coordinate
+                if (colInfor.collider != null)
+                    if (colInfor.collider.transform.Position == new Vector2(4.5f, 4.5f))
+                        SceneManager.LoadScene(0);
+            }
             //rotates player based on mouse movement and resets mouse position to center of screen
             Vector2 currentMouse = Mouse.GetState().Position.ToVector2();
             Vector2 centerOfScreen = new Vector2(GameWorld.Instance.GraphicsDevice.Viewport.Width / 2, GameWorld.Instance.GraphicsDevice.Viewport.Height / 2);

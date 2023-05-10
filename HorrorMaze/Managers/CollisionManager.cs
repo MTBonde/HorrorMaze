@@ -11,15 +11,17 @@ namespace HorrorMaze
 
         public static List<Collider> colliders = new List<Collider>();
 
-        public static Vector3 CheckCircleCollision(Vector3 start, Vector3 end, float radius)
+        public static CollisionInfo CheckCircleCollision(Vector3 start, Vector3 end, float radius)
         {
+            CollisionInfo col = new CollisionInfo();
+            col.collisionPoint = end;
             for (int i = 0; i < colliders.Count; i++)
             {
-                Vector3 newEnd = colliders[i].CheckCircleCollision(start, end, radius);
-                if (end != newEnd)
-                    return newEnd;
+                CollisionInfo newCol = colliders[i].CheckCircleCollision(start, end, radius);
+                if (end != newCol.collisionPoint)
+                    return newCol;
             }
-            return end;
+            return col;
         }
     }
 }
