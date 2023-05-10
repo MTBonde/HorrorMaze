@@ -27,25 +27,22 @@ namespace HorrorMaze
             KeyboardState keyState = Keyboard.GetState();
             //the forward vector for the object
             Vector3 facing = Vector3.Transform(Vector3.Up, Matrix.CreateRotationZ(MathHelper.ToRadians(transform.Rotation.Z + 90)));
+            Vector3 sideVector = Vector3.Transform(Vector3.Up, Matrix.CreateRotationZ(MathHelper.ToRadians(transform.Rotation.Z)));
             //rotates player based on keboard inputs
-            if (keyState.IsKeyDown(Keys.D))
-                transform.Rotation -= new Vector3(0, 0, rotateScale * elapsed);
-            if (keyState.IsKeyDown(Keys.A))
-                transform.Rotation += new Vector3(0, 0, rotateScale * elapsed);
             if (keyState.IsKeyDown(Keys.E))
-                transform.Rotation += new Vector3(0, rotateScale * elapsed, 0);
+                transform.Rotation += new Vector3(0, 0, rotateScale * elapsed);
             if (keyState.IsKeyDown(Keys.Q))
-                transform.Rotation -= new Vector3(0, rotateScale * elapsed, 0);
+                transform.Rotation -= new Vector3(0, 0, rotateScale * elapsed);
             //moves player based on keyboard inputs
             Vector3 movement = transform.Position3D;
             if (keyState.IsKeyDown(Keys.W))
-            {
                 movement += facing * moveScale * elapsed;
-            }
             if (keyState.IsKeyDown(Keys.S))
-            {
                 movement -= facing * moveScale * elapsed;
-            }
+            if (keyState.IsKeyDown(Keys.D))
+                movement += sideVector * moveScale * elapsed;
+            if (keyState.IsKeyDown(Keys.A))
+                movement -= sideVector * moveScale * elapsed;
             if (keyState.IsKeyDown(Keys.LeftShift))
             {
                 movement += (movement - transform.Position3D) * _sprintMultiplier;
