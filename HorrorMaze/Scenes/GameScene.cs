@@ -21,9 +21,9 @@ namespace HorrorMaze
             //Test maze
             Maze maze = new Maze();
             MazeCell[,] cells = maze.GenerateMaze(10, 10);
-            GameObject go = new GameObject();
-            go.AddComponent<MazeRenderer>().SetMaze(cells);
-            go.AddComponent<MazeCollider>().SetMaze(cells);
+            GameObject mazeObject = new GameObject();
+            mazeObject.AddComponent<MazeRenderer>().SetMaze(cells);
+            mazeObject.AddComponent<MazeCollider>().SetMaze(cells);
 
             //test enemy
             GameObject enemy = new GameObject();
