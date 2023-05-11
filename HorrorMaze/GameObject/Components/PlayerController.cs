@@ -34,9 +34,9 @@ namespace HorrorMaze
             {
                 //rotates player based on keboard inputs
                 if (keyState.IsKeyDown(Keys.D))
-                    transform.Rotation += new Vector3(0, 0, rotateScale * elapsed);
+                    transform.Rotation += new Vector3(0, 0, rotateScale * elapsed/3);
                 if (keyState.IsKeyDown(Keys.A))
-                    transform.Rotation -= new Vector3(0, 0, rotateScale * elapsed);
+                    transform.Rotation -= new Vector3(0, 0, (rotateScale * elapsed)/3);
                 //moves player based on keyboard input
                 if (keyState.IsKeyDown(Keys.W))
                     movement += facing * moveScale * elapsed;
