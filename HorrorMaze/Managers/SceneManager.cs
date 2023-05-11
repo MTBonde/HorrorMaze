@@ -11,10 +11,12 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace HorrorMaze
 {
+    
     public static class SceneManager
     {
-
         #region Fields & Variables
+
+        public static AudioManager audioManager = new();
         /// <summary>
         /// the cunrently active scene
         /// </summary>
@@ -42,6 +44,9 @@ namespace HorrorMaze
         public static void LoadScene(int scene_number)//maybe make one that uses a string instead and looks it up in a dictionary
         {
             active_scene.gameObjects.Clear();
+            CollisionManager.colliders.Clear();
+            audioManager.StopAllSounds();
+            audioManager = new AudioManager();
             active_scene = scenes[scene_number];
             SetupScene();
         }
@@ -65,7 +70,13 @@ namespace HorrorMaze
         /// <param name="gameTime"></param>
         public static void Update(GameTime gameTime)
         {
+            //Manager Update
+            audioManager.Update();
+
+            //Global Update
             Globals.Update(gameTime);
+
+            //Scene Update
             for (int i = 0; i < active_scene.gameObjects.Count; i++)
             {
                 active_scene.gameObjects[i].Update(gameTime);
@@ -89,6 +100,7 @@ namespace HorrorMaze
             {
                 active_scene.gameObjects[i].Draw2D(spriteBatch);
             }
+            CameraManager.ApplyCameraEffects(spriteBatch);
             spriteBatch.End();
             spriteBatch.Begin(SpriteSortMode.FrontToBack, null);
             for (int i = 0; i < active_scene.gameObjects.Count; i++)

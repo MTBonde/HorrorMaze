@@ -89,8 +89,8 @@ namespace HorrorMaze
             {
                 foreach (BasicEffect effect in mesh.Effects)
                 {
-                    effect.LightingEnabled = false;
-                    effect.AmbientLightColor = Vector3.One / 10;
+
+                    CameraManager.ApplyWorldShading(effect);
 
                     effect.View = SceneManager.active_scene.viewMatrix;
                     effect.World = SceneManager.active_scene.worldMatrix * Matrix.CreateRotationX(MathHelper.ToRadians(rotation.X)) * Matrix.CreateRotationY(MathHelper.ToRadians(rotation.Y)) * Matrix.CreateRotationZ(MathHelper.ToRadians(rotation.Z)) * Matrix.CreateTranslation(centerPosition);
@@ -111,12 +111,8 @@ namespace HorrorMaze
             {
                 foreach (BasicEffect effect in mesh.Effects)
                 {
-                    effect.LightingEnabled = false;
-                    effect.AmbientLightColor = Vector3.One / 20;
-                    //needs to come from a light variable so all objects lighting is in synch
-                    effect.DirectionalLight0.Direction = new Vector3(0.5f,0.5f,0.5f);
-                    effect.DirectionalLight0.DiffuseColor = Vector3.One / 5;
-                    effect.DirectionalLight0.Enabled = true;
+
+                    CameraManager.ApplyWorldShading(effect);
 
                     effect.View = SceneManager.active_scene.viewMatrix;
                     effect.World = SceneManager.active_scene.worldMatrix * Matrix.CreateRotationX(MathHelper.ToRadians(wallRotation.X)) * Matrix.CreateRotationY(MathHelper.ToRadians(wallRotation.Y)) * Matrix.CreateRotationZ(MathHelper.ToRadians(wallRotation.Z)) * Matrix.CreateTranslation(wallCorner);

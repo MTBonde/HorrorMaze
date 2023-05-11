@@ -44,6 +44,8 @@ namespace HorrorMaze
                 foreach (BasicEffect effect in mesh.Effects)
                 {
                     effect.LightingEnabled = false;
+
+                    CameraManager.ApplyWorldShading(effect);
                     //effect.
                     //effect.EnableDefaultLighting();
                     //effect.AmbientLightColor = new Vector3(1f, 0, 0);

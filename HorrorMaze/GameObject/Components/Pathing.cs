@@ -101,7 +101,6 @@ namespace HorrorMaze
                             {
                                 if_data = true;
                             }
-
                         }
                         if (!if_data)
                         {

@@ -1,22 +1,19 @@
-﻿using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-
+﻿
 namespace HorrorMaze
 {
     public class GameScene : Scene
     {
-
-
-
         #region Methods
         public override void SetupScene()
         {
+            CameraManager.Setup();
+
+            // Load sound effects
+            SceneManager.audioManager.LoadSoundEffect("heartbeat");
+            //audioManager.LoadSoundEffect("breathing");
+            //audioManager.LoadSoundEffect("Footsteps");
+
+            
             //GameWorld.Instance.IsMouseVisible = true;
             //creates worlds center point
             worldMatrix = Matrix.CreateWorld(Vector3.Zero, Vector3.Forward, Vector3.Up);
@@ -24,24 +21,47 @@ namespace HorrorMaze
             //Test maze
             Maze maze = new Maze();
             MazeCell[,] cells = maze.GenerateMaze(10, 10);
-            GameObject go = new GameObject();
-            go.AddComponent<MazeRenderer>().SetMaze(cells);
+            GameObject mazeObject = new GameObject();
+            mazeObject.AddComponent<MazeRenderer>().SetMaze(cells);
+            mazeObject.AddComponent<MazeCollider>().SetMaze(cells);
 
             //test enemy
-            go = new GameObject();
-            go.AddComponent<MeshRenderer>().SetModel("ghost_rig");
-            go.transform.Position3D = new Vector3(0.5f, 0.5f, 0);
-            go.AddComponent<Pathing>().mazeCells = cells;
-            go.AddComponent<Enemy>();
+            GameObject enemy = new GameObject();
+            enemy.name = "Enemy";
+            enemy.AddComponent<BoxCollider>().size = new Vector3(1, 1, 1);            
+            enemy.AddComponent<MeshRenderer>().SetModel("ghost_rig");
+            enemy.transform.Position3D = new Vector3(0.5f, 0.5f, 0);
+            enemy.AddComponent<Pathing>().mazeCells = cells;
+            enemy.AddComponent<Enemy>();
+            AudioSource enemyAudioSource = enemy.AddComponent<AudioSource>();
 
-            ThreadManager.Startup(go);
+            // test thread
+            ThreadManager.Startup(enemy);
 
-            //test cam
-            go = new GameObject();
-            go.transform.Position3D = new Vector3(0.5f, 1.5f, 1.6f);
-            go.transform.Rotation = new Vector3(0, 0, 0);
-            go.AddComponent<PlayerController>();
-            go.AddComponent<Camera>();
+            // Add the AudioComponent to AudioManager
+            SceneManager.audioManager.AddAudioSource(enemyAudioSource);
+
+            //test player
+            GameObject player = new GameObject();
+            player.transform.Position3D = new Vector3(1.5f, 1.5f, 1.6f);            
+            player.transform.Rotation = new Vector3(0, 0, 0);
+            player.AddComponent<PlayerController>();
+            player.AddComponent<Camera>();
+            // Set up the listener AudioComponent and attach it to the player
+            PlayerAudioListener playerAudioListener = player.AddComponent<PlayerAudioListener>();
+
+            //test Goal
+            GameObject goal = new GameObject();
+            goal.name = "Goal";
+            goal.transform.Position3D = new Vector3(4.5f,4.5f,0);
+            goal.AddComponent<MeshRenderer>().SetModel("win_item");
+            goal.AddComponent<BoxCollider>().size = Vector3.One / 10;
+
+            // Add the EnemyAudioController to the enemy object and set its properties:
+            EnemyAudioController enemyAudioController = enemy.AddComponent<EnemyAudioController>();
+            enemyAudioController.Setup(enemyAudioSource, playerAudioListener, SceneManager.audioManager);
+            // Set the PlayerAudioListener in the AudioManager:
+            SceneManager.audioManager.SetPlayerAudioListener(playerAudioListener);          
         }
         #endregion
     }

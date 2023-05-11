@@ -37,7 +37,6 @@ namespace HorrorMaze
                 //move
                 transform.Position += getDirection(transform.Position);
             }
-            
         }
         /// <summary>
         /// gets a vector to add to monster vector, based on the direction to the point in path. The vectors lenght is based on speed.
