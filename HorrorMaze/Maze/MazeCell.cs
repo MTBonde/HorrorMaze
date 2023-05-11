@@ -16,5 +16,8 @@ namespace HorrorMaze
         public bool[] Walls = new bool[2] { true, true }; 
         // set mazecells to not visited from the beginning
         public bool Visited = false;
+        // Wall texture
+        public int wallmodel;
+
     }
 }
