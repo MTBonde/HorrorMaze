@@ -1,6 +1,6 @@
 ﻿// AudioManager.cs
 using Microsoft.Xna.Framework.Audio;
-
+using Microsoft.Xna.Framework.Media;
 using System.Collections.Generic;
 
 namespace HorrorMaze
@@ -10,11 +10,19 @@ namespace HorrorMaze
         private Dictionary<string, SoundEffect> _soundEffects;
         private PlayerAudioListener _playerAudioListener;
         private List<AudioSource> _audioSources;
+        private List<Song> _songs;
 
         public AudioManager()
         {
             _soundEffects = new Dictionary<string, SoundEffect>();
             _audioSources = new List<AudioSource>();
+            _songs = new List<Song>();
+            AddSong("background_music");
+        }
+
+        public void AddSong(string songName)
+        {
+            _songs.Add(GameWorld.Instance.Content.Load<Song>(songName));
         }
 
         public void SetPlayerAudioListener(PlayerAudioListener playerAudioListener)

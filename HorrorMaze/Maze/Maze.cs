@@ -17,9 +17,9 @@ namespace HorrorMaze
     {
         #region Fields
         private Random _random = new Random();
-        public MazeCell[,] MazeCells = new MazeCell[20,20];
-        private int mazeWidth = 20;
-        private int mazeHeight = 20;
+        public MazeCell[,] MazeCells;
+        private int mazeWidth;
+        private int mazeHeight;
         //GraphicsDevice _device;
 
         //VertexBuffer _floorBuffer;
@@ -45,6 +45,23 @@ namespace HorrorMaze
             }
             MazeCells[0,0].Visited = true;
             return EvaluateCell(new Vector2(0,0));
+        }
+
+        public MazeCell[,] GenerateMazeFromMaze(MazeCell[,] maze, Vector2 MazeStartPoint)
+        {
+            _random.Next(1, 10);
+            MazeCells = maze;
+            mazeWidth = maze.GetLength(0);
+            mazeHeight = maze.GetLength(1);
+            //for (int x = 0; x < mazeWidth; x++)
+            //{
+            //    for (int y = 0; y < mazeHeight; y++)
+            //    {
+            //        MazeCells[x, y] = new MazeCell();
+            //    }
+            //}
+            MazeCells[(int)MazeStartPoint.X, (int)MazeStartPoint.Y].Visited = true;
+            return EvaluateCell(MazeStartPoint);
         }
 
         /// <summary>

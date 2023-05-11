@@ -20,7 +20,31 @@ namespace HorrorMaze
 
             //Test maze
             Maze maze = new Maze();
-            MazeCell[,] cells = maze.GenerateMaze(10, 10);
+            //make maze start room
+            MazeCell[,] testCells = new MazeCell[10,10];
+            for (int x = 0; x < testCells.GetLength(0); x++)
+            {
+                for (int y = 0; y < testCells.GetLength(1); y++)
+                {
+                    testCells[x, y] = new MazeCell();
+                }
+            }
+            for (int x = 0; x < 3; x++)
+            {
+                for (int y = 0; y < 3; y++)
+                {
+                    testCells[x, y].Visited = true;
+                    testCells[x, y].Walls[0] = false;
+                    testCells[x, y].Walls[1] = false;
+                }
+            }
+            testCells[0,2].Walls[0] = true;
+            testCells[2,0].Walls[1] = true;
+            testCells[2,1].Walls[1] = true;
+            testCells[2,2].Walls[0] = true;
+            testCells[2,2].Walls[1] = true;
+            //generates maze around the start room
+            MazeCell[,] cells = maze.GenerateMazeFromMaze(testCells,new Vector2(1,2));
             GameObject mazeObject = new GameObject();
             mazeObject.AddComponent<MazeRenderer>().SetMaze(cells);
             mazeObject.AddComponent<MazeCollider>().SetMaze(cells);
@@ -53,7 +77,7 @@ namespace HorrorMaze
             //test Goal
             GameObject goal = new GameObject();
             goal.name = "Goal";
-            goal.transform.Position3D = new Vector3(4.5f,4.5f,0);
+            goal.transform.Position3D = new Vector3(9.5f,9.5f,0);
             goal.AddComponent<MeshRenderer>().SetModel("win_item");
             goal.AddComponent<BoxCollider>().size = Vector3.One / 10;
 
