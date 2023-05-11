@@ -27,10 +27,10 @@ namespace HorrorMaze
             if(distance <= maxDistance && _enemyAudioSource.SFXInstance == null)
             {
                 _enemyAudioSource.PlaySound(_audioManager.GetSoundEffect("heartbeat"));
-                //CalculateVolumenBasedOnDistance(distance, maxDistance);
-                //if(enemyAudioSource.SFXInstance.Volume > 0.1f)
+                CalculateVolumenBasedOnDistance(distance, maxDistance);
+                //if(_enemyAudioSource.SFXInstance.Volume > 0.1f)
                 //    StopAllSound();
-                    
+
             }
             else if(distance <= maxDistanceBreathing && _enemyAudioSource.SFXInstance == null)
             {
