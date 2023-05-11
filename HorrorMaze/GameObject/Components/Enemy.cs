@@ -15,15 +15,13 @@ namespace HorrorMaze
         {
             Random rnd = new Random();
             //get path
-            path = gameObject.GetComponent<Pathing>().GetPath(transform.Position, new Vector2(rnd.Next(5),rnd.Next(5)));
+            path = gameObject.GetComponent<Pathing>().GetPath(new Vector2(rnd.Next(10),rnd.Next(10)), transform.Position);
             at_pos = false;
         }
         void Update()
         {
             if (!at_pos)
             {
-                //move
-                transform.Position += getDirection(transform.Position);
                 
                 // checks if at next position in path, if so remove it from list.
                 if (transform.Position.X - 0.5 >= path[path.Count - 1][0] - 0.005
@@ -36,6 +34,8 @@ namespace HorrorMaze
                         if (path.Count == 0)
                             at_pos = true;
                     }
+                //move
+                transform.Position += getDirection(transform.Position);
             }
             
         }
@@ -50,21 +50,49 @@ namespace HorrorMaze
             switch (path[path.Count - 1])
             {
                 case int[] n when n[0] < monster.X - 0.5:
-                    direction.X -= speed;
+                    if ((monster.X - 0.5) - n[0] < speed)
+                        direction.X -= (float)(n[0] - (monster.X - 0.5));
+                    else
+                        direction.X -= speed;
                     break;
                 case int[] n when n[0] > monster.X - 0.5:
-                    direction.X += speed;
+                    if (n[0] - (monster.X - 0.5) < speed)
+                        direction.X += (float)(n[0] - (monster.X - 0.5));
+                    else
+                        direction.X += speed;
                     break;
             }
             switch (path[path.Count - 1])
             {
                 case int[] n when n[1] < monster.Y - 0.5:
-                    direction.Y -= speed;
+                    if ((monster.Y - 0.5) - n[1]< speed)
+                        direction.Y -= (float)(n[1] - (monster.Y - 0.5));
+                    else
+                        direction.Y -= speed;
                     break;
                 case int[] n when n[1] > monster.Y - 0.5:
-                    direction.Y += speed;
+                    if (n[1] - (monster.Y - 0.5) < speed)
+                        direction.Y += (float)(n[1] - (monster.Y - 0.5));
+                    else
+                        direction.Y += speed;
                     break;
             }
+            //Random rnd = new Random();
+            //switch (rnd.Next(10))
+            //{
+            //    case 0:
+            //        direction.X = -speed;
+            //        break;
+            //    case 1:
+            //        direction.X = speed;
+            //        break;
+            //    case 2:
+            //        direction.Y = -speed;
+            //        break;
+            //    case 3:
+            //        direction.Y = speed;
+            //        break;
+            //}
             return direction;
         }
     }

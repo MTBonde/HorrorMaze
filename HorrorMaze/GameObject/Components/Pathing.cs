@@ -25,42 +25,25 @@ namespace HorrorMaze
         /// <param name="map_width"> The width of the labyrinth </param>
         /// <param name="map_height"> The height of the labyrinth </param>
         /// <returns></returns>
+        
         public List<int[]> GetPath(Vector2 player, Vector2 monster)
         {
             List<int[]> open = new List<int[]>();
             List<int[]> closed = new List<int[]>();
 
+
             int map_width = mazeCells.GetLength(0);
             int map_height = mazeCells.GetLength(1);
 
-            #region assign mapt tiles
-            int[][] map = new int[map_width * map_height][];
-            int x_1 = 0;
-            int y_1 = 0;
-            for (int i = 0; i < map_width * map_height; i++)
-            {
-                int[] map_pos = new int[6]; // 2: F, 3: G, 4: H, 5: path
-                map_pos[0] = x_1;
-                map_pos[1] = y_1;
-                if (x_1 == map_width - 1)
-                {
-                    x_1 = 0;
-                    y_1 += 1;
-                }
-                else
-                {
-                    x_1 += 1;
-                }
-                map[i] = map_pos;
-            }
-            #endregion
-            
             List<int[]> path = new List<int[]>();
             bool path_found = false;
             bool add_ = false;
-            bool wall_check = false;
             int index_found = 0;
-            int[] current_one = new int[3] { (int)player.X, (int)player.Y, 1000 };
+            bool wall_check = false;
+            int key_found = 0;
+
+            int[] current_one = new int[5] { (int)monster.X, (int)monster.Y, 1000, 0, 0 };
+            int key_id = 1;
             while (!path_found)
             {
                 #region assign new info
@@ -73,7 +56,7 @@ namespace HorrorMaze
                     #region check for walls
                     if (current_one[0] + direction[0] >= 0
                     && current_one[1] + direction[1] >= 0
-                    && current_one[1] + direction[1] < map_height 
+                    && current_one[1] + direction[1] < map_height
                     && current_one[0] + direction[0] < map_width)
                     {
                         wall_check = true;
@@ -85,7 +68,7 @@ namespace HorrorMaze
                                     {
                                         wall_check = false;
                                     }
-                                
+
                                 break;
                             case 1: // right
                                 if (mazeCells[current_one[0], current_one[1]].Walls[1])
@@ -124,23 +107,23 @@ namespace HorrorMaze
                         {
                             int index = (current_one[1] + direction[1]) * map_width + current_one[0] + direction[0];
                             //add f, g, h and direction
-                            map[index][2] = Distance(current_one[0] + direction[0], current_one[1] + direction[1], (int)monster.X, (int)monster.Y); //g
-                            map[index][3] = Distance(current_one[0] + direction[0], current_one[1] + direction[1], (int)player.X, (int)player.Y); //h
-                            map[index][4] = map[index][2] + map[index][3]; // F
-                            map[index][5] = i; // direction
-                            if (map[index][2] == 0)
+                            if (current_one[0] + direction[0] == player.X && current_one[1] + direction[1] == player.Y)
                             {
-                                index_found = index;
+                                key_found = current_one[3];
                                 path_found = true;
                             }
-                            int[] new_open = new int[3] { current_one[0] + direction[0], current_one[1] + direction[1], map[index][2] + map[index][3] };
-                            open.Add(new_open);
+                            int[] new_closed = new int[5] { current_one[0] + direction[0], current_one[1] + direction[1],
+                                Distance(current_one[0] + direction[0], current_one[1] + direction[1], (int)player.X, (int)player.Y) +
+                                Distance(current_one[0] + direction[0], current_one[1] + direction[1], (int)player.X, (int)player.Y), key_id, current_one[3] };
+                            key_id++;
+                            open.Add(new_closed);
                         }
                     }
                 }
                 #endregion
 
                 #region close used
+                add_ = true;
                 for (int i = 0; i < closed.Count; i++)
                 {
                     if (closed[i][0] == current_one[0] && closed[i][1] == current_one[1])
@@ -151,7 +134,6 @@ namespace HorrorMaze
                 }
                 if (add_)
                     closed.Add(current_one);
-                add_ = true;
                 for (int i = 0; i < open.Count; i++)
                 {
                     if (open[i][0] == current_one[0] && open[i][1] == current_one[1])
@@ -177,29 +159,23 @@ namespace HorrorMaze
 
                 #endregion
             }
-
             #region assign path to list
             bool path_added = false;
             while (!path_added)
             {
-                int[] cell = new int[2] { map[index_found][0], map[index_found][1] };
-                path.Add(cell);
-                switch (map[index_found][5])
+                for (int i = 0; i < closed.Count; i++)
                 {
-                    case 0:
-                        index_found = index_found + map_width;
+                    if (closed[i][3] == key_found)
+                    {
+                        index_found = i;
                         break;
-                    case 1:
-                        index_found--;
-                        break;
-                    case 2:
-                        index_found = index_found - map_width;
-                        break;
-                    case 3:
-                        index_found++;
-                        break;
+                    }
                 }
-                if ((int)player.Y * map_width + (int)player.X == index_found)
+                int[] cell = new int[2] { closed[index_found][0], closed[index_found][1] };
+
+                path.Add(cell);
+                key_found = closed[index_found][4];
+                if ((int)monster.X == closed[index_found][0] && (int)monster.Y == closed[index_found][1])
                     path_added = true;
             }
             #endregion
