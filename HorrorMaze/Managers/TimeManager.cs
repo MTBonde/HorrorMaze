@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HorrorMaze
 {
-    public class Timer
+    public class TimeManager
     {
         private TimeSpan _timer;
 
@@ -15,7 +15,7 @@ namespace HorrorMaze
         public int TargetMilliseconds { get; set; }
 
 
-        public Timer(int targetMilliseconds, bool startTimerAsReady = false)
+        public TimeManager(int targetMilliseconds, bool startTimerAsReady = false)
         {
             TimerIsReady = startTimerAsReady;
             TargetMilliseconds = targetMilliseconds;
