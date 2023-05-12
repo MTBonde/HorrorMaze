@@ -18,6 +18,8 @@ namespace HorrorMaze
 
         MazeCell[,] _mazeCells = new MazeCell[5,5];
         Model _wall, _floor, _celing;
+        int _renderDist = 4;
+        Transform _playerTransform;
 
         /// <summary>
         /// sets up the MazeRenderer to draw a given maze
@@ -29,6 +31,7 @@ namespace HorrorMaze
             _wall = GameWorld.Instance.Content.Load<Model>("wall");
             _floor = GameWorld.Instance.Content.Load<Model>("floor");
             _celing = GameWorld.Instance.Content.Load<Model>("celling");
+            _playerTransform = SceneManager.GetGameObjectByName("Player").transform;
         }
 
         public void SetMaze(MazeCell[,] maze)
@@ -46,30 +49,48 @@ namespace HorrorMaze
                 Debug.WriteLine("Warning: the maze that is given is null");
                 return;
             }
+            //defines the range of tiles to render
+            Point min = new Point(), max = new Point();
+            if (_playerTransform.Position3D.X - _renderDist < 0)
+                min.X = 0;
+            else
+                min.X = ((int)_playerTransform.Position3D.X) - _renderDist;
+            if (_playerTransform.Position3D.X + _renderDist > _mazeCells.GetLength(0))
+                max.X = _mazeCells.GetLength(0);
+            else
+                max.X = ((int)_playerTransform.Position3D.X) + _renderDist;
+            if (_playerTransform.Position3D.Y - _renderDist < 0)
+                min.Y = 0;
+            else
+                min.Y = ((int)_playerTransform.Position3D.Y) - _renderDist;
+            if (_playerTransform.Position3D.Y + _renderDist > _mazeCells.GetLength(0))
+                max.Y = _mazeCells.GetLength(0);
+            else
+                max.Y = ((int)_playerTransform.Position3D.Y) + _renderDist;
             //draws floor and celling
-            for (int x = 0; x < _mazeCells.GetLength(0); x++)
+            for (int x = min.X; x < max.X; x++)
             {
-                for (int y = 0; y < _mazeCells.GetLength(1); y++)
+                for (int y = min.Y; y < max.Y; y++)
                 {
                     DrawFloor(new Vector3(x + 0.5f,y + 0.5f,0), new Vector3(0,0,0));
                     DrawFloor(new Vector3(x + 0.5f,y + 0.5f,2), new Vector3(0,180,0));
                 }
             }
             //outer walls spawning
-            for (int x = 0; x < _mazeCells.GetLength(0); x++)
+            for (int x = min.X; x < max.X; x++)
             {
                 DrawWall(transform.Position3D + new Vector3(x, 0, 0), transform.Rotation + new Vector3(0,0,270));
                 //DrawWall(transform.Position3D + new Vector3(x, _mazeCells.GetLength(1), 0), transform.Rotation + new Vector3(0, 0, 270));
             }
-            for (int y = 0; y < _mazeCells.GetLength(1); y++)
+            for (int y = min.Y; y < max.Y; y++)
             {
                 DrawWall(transform.Position3D + new Vector3(0, y, 0), transform.Rotation + new Vector3(0, 0, 0));
                 //DrawWall(transform.Position3D + new Vector3(_mazeCells.GetLength(0), y, 0), transform.Rotation + new Vector3(0, 0, 0));
             }
             //inner walls spawning
-            for (int x = 0; x < _mazeCells.GetLength(0); x++)
+            for (int x = min.X; x < max.X; x++)
             {
-                for (int y = 0; y < _mazeCells.GetLength(1); y++)
+                for (int y = min.Y; y < max.Y; y++)
                 {
                     if (_mazeCells[x, y].Walls[1])
                     {

@@ -44,10 +44,10 @@ namespace HorrorMaze
                 }
             }
             MazeCells[0,0].Visited = true;
-            return EvaluateCell(new Vector2(0,0));
+            return EvaluateCell(new Point(0,0));
         }
 
-        public MazeCell[,] GenerateMazeFromMaze(MazeCell[,] maze, Vector2 MazeStartPoint)
+        public MazeCell[,] GenerateMazeFromMaze(MazeCell[,] maze, Point MazeStartPoint)
         {
             _random.Next(1, 10);
             MazeCells = maze;
@@ -60,7 +60,6 @@ namespace HorrorMaze
             //        MazeCells[x, y] = new MazeCell();
             //    }
             //}
-            MazeCells[(int)MazeStartPoint.X, (int)MazeStartPoint.Y].Visited = true;
             return EvaluateCell(MazeStartPoint);
         }
 
@@ -69,7 +68,7 @@ namespace HorrorMaze
         /// Evaluate each cell using DFS to create a maze out of the mazecells
         /// </summary>
         /// <param name="cell">is the current cell to evaluate</param>
-        private MazeCell[,] EvaluateCell(Vector2 cell)
+        private MazeCell[,] EvaluateCell(Point cell)
         {
             // create a list of neoghboring cells 
             List<int> neighborCells = new List<int>();
@@ -87,20 +86,20 @@ namespace HorrorMaze
                 neighborCells.RemoveAt(pick);
 
                 // Find the coordinate of the neighbor
-                Vector2 neighbor = cell;
+                Point neighbor = cell;
                 switch(selectedNeighbor)
                 {
                     case 0:
-                        neighbor += new Vector2(0, -1);
+                        neighbor += new Point(0, -1);
                         break;
                     case 1:
-                        neighbor += new Vector2(1, 0);
+                        neighbor += new Point(1, 0);
                         break;
                     case 2:
-                        neighbor += new Vector2(0, 1);
+                        neighbor += new Point(0, 1);
                         break;
                     case 3:
-                        neighbor += new Vector2(-1, 0);
+                        neighbor += new Point(-1, 0);
                         break;
                 }
                 // make sure the neighbor is within the maze
@@ -112,33 +111,33 @@ namespace HorrorMaze
                 )
                 {
                     // if the neighbor has not been visited
-                    if(!MazeCells[(int)neighbor.X, (int)neighbor.Y].Visited)
+                    if(!MazeCells[neighbor.X, neighbor.Y].Visited)
                     {
                         // mark the neighbor as visited
-                        MazeCells[(int)neighbor.X, (int)neighbor.Y].Visited = true;
+                        MazeCells[neighbor.X, neighbor.Y].Visited = true;
 
                         // Update the current cell's wall
                         if(selectedNeighbor == 1) // Right neighbor
                         {
                             // Remove the right wall of the current cell
-                            MazeCells[(int)cell.X, (int)cell.Y].Walls[1] = false;
+                            MazeCells[cell.X, cell.Y].Walls[1] = false;
                         }
                         else if(selectedNeighbor == 2) // up neighbor
                         {
                             // Remove the bottom wall of the current cell
-                            MazeCells[(int)cell.X, (int)cell.Y].Walls[0] = false;
+                            MazeCells[cell.X, cell.Y].Walls[0] = false;
                         }
 
                         // Update the corresponding wall of the neighboring cell
                         if(selectedNeighbor == 0) // buttom neighbor
                         {
                             // Remove the right wall of the neighboring cell
-                            MazeCells[(int)neighbor.X, (int)neighbor.Y].Walls[0] = false;
+                            MazeCells[neighbor.X, neighbor.Y].Walls[0] = false;
                         }
                         else if(selectedNeighbor == 3) // left neighbor
                         {
                             // Remove the bottom wall of the neighboring cell
-                            MazeCells[(int)neighbor.X, (int)neighbor.Y].Walls[1] = false;
+                            MazeCells[neighbor.X, neighbor.Y].Walls[1] = false;
                         }
 
                         // Recursively evaluate the neighboring cell untill all cells are marked as visited

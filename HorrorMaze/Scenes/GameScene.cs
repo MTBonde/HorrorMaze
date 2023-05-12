@@ -18,10 +18,18 @@ namespace HorrorMaze
             //creates worlds center point
             worldMatrix = Matrix.CreateWorld(Vector3.Zero, Vector3.Forward, Vector3.Up);
 
+            //test player
+            GameObject player = new GameObject();
+            player.name = "Player";
+            player.transform.Position3D = new Vector3(1.5f, 1.5f, 1.6f);
+            player.transform.Rotation = new Vector3(0, 0, 0);
+            player.AddComponent<PlayerController>();
+            player.AddComponent<Camera>();
+
             //Test maze
             Maze maze = new Maze();
             //make maze start room
-            MazeCell[,] testCells = new MazeCell[10,10];
+            MazeCell[,] testCells = new MazeCell[100,100];
             for (int x = 0; x < testCells.GetLength(0); x++)
             {
                 for (int y = 0; y < testCells.GetLength(1); y++)
@@ -44,7 +52,7 @@ namespace HorrorMaze
             testCells[2,2].Walls[0] = true;
             testCells[2,2].Walls[1] = true;
             //generates maze around the start room
-            MazeCell[,] cells = maze.GenerateMazeFromMaze(testCells,new Vector2(1,2));
+            MazeCell[,] cells = maze.GenerateMazeFromMaze(testCells,new Point(1,2));
             GameObject mazeObject = new GameObject();
             mazeObject.AddComponent<MazeRenderer>().SetMaze(cells);
             mazeObject.AddComponent<MazeCollider>().SetMaze(cells);
@@ -65,12 +73,7 @@ namespace HorrorMaze
             // Add the AudioComponent to AudioManager
             SceneManager.audioManager.AddAudioSource(enemyAudioSource);
 
-            //test player
-            GameObject player = new GameObject();
-            player.transform.Position3D = new Vector3(1.5f, 1.5f, 1.6f);            
-            player.transform.Rotation = new Vector3(0, 0, 0);
-            player.AddComponent<PlayerController>();
-            player.AddComponent<Camera>();
+            
             // Set up the listener AudioComponent and attach it to the player
             PlayerAudioListener playerAudioListener = player.AddComponent<PlayerAudioListener>();
 

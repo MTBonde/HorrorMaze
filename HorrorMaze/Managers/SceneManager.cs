@@ -46,6 +46,7 @@ namespace HorrorMaze
             active_scene.gameObjects.Clear();
             CollisionManager.colliders.Clear();
             audioManager.StopAllSounds();
+            audioManager = new AudioManager();
             active_scene = scenes[scene_number];
             SetupScene();
         }
@@ -107,6 +108,16 @@ namespace HorrorMaze
                 active_scene.gameObjects[i].DrawUI(spriteBatch);
             }
             spriteBatch.End();
+        }
+
+        public static GameObject GetGameObjectByName(string name)
+        {
+            for (int i = 0; i < active_scene.gameObjects.Count; i++)
+            {
+                if (active_scene.gameObjects[i].name == name)
+                    return active_scene.gameObjects[i];
+            }
+            return null;
         }
         #endregion
     }
