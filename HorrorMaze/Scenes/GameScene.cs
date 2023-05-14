@@ -29,7 +29,7 @@ namespace HorrorMaze
             //Test maze
             Maze maze = new Maze();
             //make maze start room
-            MazeCell[,] testCells = new MazeCell[100,100];
+            MazeCell[,] testCells = new MazeCell[10,10];
             for (int x = 0; x < testCells.GetLength(0); x++)
             {
                 for (int y = 0; y < testCells.GetLength(1); y++)
