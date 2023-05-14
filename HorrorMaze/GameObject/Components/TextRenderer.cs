@@ -9,6 +9,13 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace HorrorMaze
 {
+    public enum TextAlignment
+    {
+        Left,
+        Rigt,
+        Center
+    }
+
     public class TextRenderer : Component
     {
 
@@ -16,7 +23,13 @@ namespace HorrorMaze
         public string text = "Text";
         public Color color = Color.Black;
         public float scale = 1;
-        private TextAlignment _textAlignment;
+        Vector2 origin;
+
+        public void SetText(string text)
+        {
+            this.text = text;
+            origin = font.MeasureString(text) / 2;
+        }
 
         TextRenderer()
         {
@@ -30,7 +43,7 @@ namespace HorrorMaze
 
         public void DrawUI(SpriteBatch spriteBatch)
         {
-            spriteBatch.DrawString(font,text,transform.Position,color,0,Vector2.Zero,scale/10, SpriteEffects.None,1);
+            spriteBatch.DrawString(font,text,transform.Position,color,0,origin,scale/10, SpriteEffects.None,1);
         }
     }
 }

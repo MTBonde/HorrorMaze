@@ -17,7 +17,6 @@ namespace HorrorMaze
             _soundEffects = new Dictionary<string, SoundEffect>();
             _audioSources = new List<AudioSource>();
             _songs = new List<Song>();
-            AddSong("background_music");
         }
 
         public void AddSong(string songName)
