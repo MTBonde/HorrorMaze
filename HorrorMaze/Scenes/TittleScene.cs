@@ -30,7 +30,7 @@ namespace HorrorMaze
             btnText.SetText("Play");
 
             GameObject quit = new GameObject();
-            quit.transform.Position = new Vector2(GameWorld.Instance.GraphicsDevice.Viewport.Width / 2, GameWorld.Instance.GraphicsDevice.Viewport.Height / 2 + 200);
+            quit.transform.Position = new Vector2(GameWorld.Instance.GraphicsDevice.Viewport.Width / 2, GameWorld.Instance.GraphicsDevice.Viewport.Height / 2 + 400);
             UIButton btm1 = quit.AddComponent<UIButton>();
             btm1.OnClick += Quit;
             TextRenderer btnText1 = quit.AddComponent<TextRenderer>();
