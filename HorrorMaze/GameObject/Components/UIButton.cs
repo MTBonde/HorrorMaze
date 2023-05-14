@@ -19,7 +19,7 @@ namespace HorrorMaze
         private Vector2 origin;
         private Vector2 buttonSize;
         bool hover;
-        Color color;
+        Color color = Color.White;
 
         UIButton()
         {
@@ -62,7 +62,7 @@ namespace HorrorMaze
 
         public void DrawUI(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(_texture, transform.Position,null, color,0,origin,scale,SpriteEffects.None,1);
+            spriteBatch.Draw(_texture, transform.Position,null, color,0,origin,scale,SpriteEffects.None,0.9f);
         }
     }
 }
