@@ -15,7 +15,7 @@ namespace HorrorMaze
         {
             Random rnd = new Random();
             //get path
-            path = gameObject.GetComponent<Pathing>().GetPath(new Vector2(rnd.Next(10),rnd.Next(10)), transform.Position);
+            path = gameObject.GetComponent<Pathing>().GetPath(new Vector2(rnd.Next(20),rnd.Next(20)), transform.Position);
             at_pos = false;
         }
         void Update()

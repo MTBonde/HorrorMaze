@@ -27,8 +27,8 @@ namespace HorrorMaze
         {
             while (!threads_lifeline[0])
             {
+                Thread.Sleep(20 * 1000);
                 enemies[0].Start();
-                Thread.Sleep(10 * 1);
             }
         }
         static void KillÁllThreads()
