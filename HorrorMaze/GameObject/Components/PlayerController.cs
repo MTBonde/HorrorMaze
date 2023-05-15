@@ -76,7 +76,7 @@ namespace HorrorMaze
                 {
                     //stop timer here
                     int endTime = SceneManager._gameTimer.GetTimer();
-                    SceneManager._gameTimer.ResetToZero();
+                    SceneManager._gameTimer.StopTimer();
                     Debug.WriteLine($"Game ends. The end time is {endTime} milliseconds.");
 
                     //

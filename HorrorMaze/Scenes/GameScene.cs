@@ -31,7 +31,7 @@ namespace HorrorMaze
             //Test maze
             Maze maze = new Maze();
             //make maze start room
-            MazeCell[,] testCells = new MazeCell[20,20];
+            MazeCell[,] testCells = new MazeCell[10,10];
             for (int x = 0; x < testCells.GetLength(0); x++)
             {
                 for (int y = 0; y < testCells.GetLength(1); y++)
@@ -106,7 +106,9 @@ namespace HorrorMaze
             EnemyAudioController enemyAudioController = enemy.AddComponent<EnemyAudioController>();
             enemyAudioController.Setup(enemyAudioSource, playerAudioListener, SceneManager.audioManager);
             // Set the PlayerAudioListener in the AudioManager:
-            SceneManager.audioManager.SetPlayerAudioListener(playerAudioListener);          
+            SceneManager.audioManager.SetPlayerAudioListener(playerAudioListener);
+            SceneManager._gameTimer.ResetToZero();
+            SceneManager._gameTimer.StartTimer();
         }
         #endregion
     }

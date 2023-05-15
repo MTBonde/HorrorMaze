@@ -13,6 +13,7 @@ namespace HorrorMaze
         // PROPERTIES
         public bool TimerIsReady { get; private set; }
         public int TargetMilliseconds { get; set; }
+        private bool _timerRunning;
 
 
         public TimeManager(int targetMilliseconds, bool startTimerAsReady = false)
@@ -29,7 +30,8 @@ namespace HorrorMaze
 
         public void UpdateTimer()
         {
-            _timer += Globals.GameTime.ElapsedGameTime;
+            if (_timerRunning)
+                _timer += Globals.GameTime.ElapsedGameTime;
         }
 
         public void UpdateTimer(float speed)
@@ -75,6 +77,16 @@ namespace HorrorMaze
         public void SetTimer(int milliseconds)
         {
             _timer = TimeSpan.FromMilliseconds(milliseconds);
+        }
+
+        public void StopTimer()
+        {
+            _timerRunning = false;
+        }
+
+        public void StartTimer()
+        {
+            _timerRunning = true;
         }
     }
 }
