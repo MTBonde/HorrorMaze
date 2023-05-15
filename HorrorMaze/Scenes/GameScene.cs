@@ -78,12 +78,17 @@ namespace HorrorMaze
             GameObject entranceDoor = new GameObject();
             entranceDoor.transform.Position3D = new Vector3(0.5f, 0, 0); 
             entranceDoor.AddComponent<MeshRenderer>().SetModel("3DModels\\door");
-            entranceDoor.AddComponent<Door>();
+            Door door1 = entranceDoor.AddComponent<Door>();
             BoxCollider doorCol = entranceDoor.AddComponent<BoxCollider>();
             doorCol.size = new Vector3(1, 0.2f, 2.1f);
             doorCol.offset = new Vector3(0, 0, 1);
 
             //key
+            GameObject key = new GameObject();
+            key.transform.Position3D = new Vector3(0.5f, -0.5f, 1.25f);
+            key.AddComponent<MeshRenderer>().SetModel("3DModels\\key");
+            key.AddComponent<Key>().door = door1;
+            key.AddComponent<BoxCollider>().size = new Vector3(0.25f, 0.25f, 0.25f);
 
             //test enemy
             GameObject enemy = new GameObject();
@@ -105,13 +110,22 @@ namespace HorrorMaze
             // Set up the listener AudioComponent and attach it to the player
             PlayerAudioListener playerAudioListener = player.AddComponent<PlayerAudioListener>();
 
-            //test Goal
+            //Goal
             GameObject goal = new GameObject();
             goal.name = "Goal";
             goal.transform.Position3D = new Vector3(testCells.GetLength(0) - 1.5f,testCells.GetLength(1) - 0.5f,0);
             goal.AddComponent<MeshRenderer>().SetModel("3DModels\\win_item");
             goal.AddComponent<BoxCollider>().size = Vector3.One / 10;
-            
+            goal.AddComponent<Goal>();
+
+            MazeCell[,] tutorialCells = new MazeCell[10, 10];
+            for (int x = 0; x < tutorialCells.GetLength(0); x++)
+            {
+                for (int y = 0; y < tutorialCells.GetLength(1); y++)
+                {
+                    tutorialCells[x, y] = new MazeCell();
+                }
+            }
 
 
             // Add the EnemyAudioController to the enemy object and set its properties:

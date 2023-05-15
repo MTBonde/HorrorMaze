@@ -97,5 +97,11 @@ namespace HorrorMaze
             //}
             return direction;
         }
+
+        public void OnCollision(GameObject go)
+        {
+            if(go.name == "Player")
+                SceneManager.LoadScene(6);
+        }
     }
 }

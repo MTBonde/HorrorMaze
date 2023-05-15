@@ -20,7 +20,7 @@ namespace HorrorMaze
         }
 
         public abstract CollisionInfo CheckPointCollision(Vector3 startPoint, Vector3 endPoint);
-        public abstract CollisionInfo CheckCircleCollision(Vector3 startPoint, Vector3 endPoint, float radius, float height);
+        public abstract CollisionInfo CheckCylinderCollision(Vector3 startPoint, Vector3 endPoint, GameObject go, float radius, float height);
     }
 
     public class CollisionInfo
@@ -63,31 +63,33 @@ namespace HorrorMaze
             return col;
         }
 
-        public override CollisionInfo CheckCircleCollision(Vector3 startPoint, Vector3 endPoint, float radius, float height)
+        public override CollisionInfo CheckCylinderCollision(Vector3 startPoint, Vector3 endPoint, GameObject go, float radius, float height)
         {
             CollisionInfo col = new CollisionInfo();
             col.collider = this;
             col.collisionPoint = endPoint;
             cord1 = -(size / 2) + offset + transform.Position3D;
             cord2 = (size / 2) + offset + transform.Position3D;
-            if (endPoint.X > cord1.X - radius && endPoint.X < cord2.X + radius)
-                if (endPoint.Y > cord1.Y - radius && endPoint.Y < cord2.Y + radius)
-                {
-                    if (startPoint.X > cord1.X - radius && startPoint.X < cord2.X + radius)
+            if(endPoint.Z >= cord1.Z &&  endPoint.Z < cord2.Z + height)
+                if (endPoint.X > cord1.X - radius && endPoint.X < cord2.X + radius)
+                    if (endPoint.Y > cord1.Y - radius && endPoint.Y < cord2.Y + radius)
                     {
-                        if (startPoint.Y < transform.Position.Y - radius)
-                            col.collisionPoint = new Vector3(endPoint.X, cord1.Y - radius, endPoint.Z);
+                        if (startPoint.X > cord1.X - radius && startPoint.X < cord2.X + radius)
+                        {
+                            if (startPoint.Y < transform.Position.Y - radius)
+                                col.collisionPoint = new Vector3(endPoint.X, cord1.Y - radius, endPoint.Z);
+                            else
+                                col.collisionPoint = new Vector3(endPoint.X, cord2.Y + radius, endPoint.Z);
+                        }
                         else
-                            col.collisionPoint = new Vector3(endPoint.X, cord2.Y + radius, endPoint.Z);
+                        {
+                            if (startPoint.X < transform.Position.X - radius)
+                                col.collisionPoint = new Vector3(cord1.X - radius, endPoint.Y, endPoint.Z);
+                            else
+                                col.collisionPoint = new Vector3(cord2.X + radius, endPoint.Y, endPoint.Z);
+                        }
+                        gameObject.OnCollision(go);
                     }
-                    else
-                    {
-                        if (startPoint.X < transform.Position.X - radius)
-                            col.collisionPoint = new Vector3(cord1.X - radius, endPoint.Y, endPoint.Z);
-                        else
-                            col.collisionPoint = new Vector3(cord2.X + radius, endPoint.Y, endPoint.Z);
-                    }
-                }
             return col;
         }
     }
@@ -103,14 +105,14 @@ namespace HorrorMaze
             _cells = maze;
         }
 
-        public override CollisionInfo CheckCircleCollision(Vector3 startPoint, Vector3 endPoint, float radius, float height)
+        public override CollisionInfo CheckCylinderCollision(Vector3 startPoint, Vector3 endPoint, GameObject go, float radius, float height)
         {
             CollisionInfo col = new CollisionInfo();
             col.collider = this;
             int currentX = (int)(startPoint.X - transform.Position.X);
             int currentY = (int)(startPoint.Y - transform.Position.Y);
             Vector3 newEndPoint = endPoint;
-            if(transform.Position3D.Z + height > 0)
+            if(transform.Position3D.Z + height > startPoint.Z && transform.Position3D.Z <= startPoint.Z)
                 if (0 <= currentX && _cells.GetLength(0) > currentX)
                     if (0 <= currentY && _cells.GetLength(1) > currentY)
                     {

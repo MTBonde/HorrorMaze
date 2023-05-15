@@ -66,26 +66,8 @@ namespace HorrorMaze
                 if (keyState.IsKeyDown(Keys.LeftShift))
                     movement += (movement - transform.Position3D) * _sprintMultiplier;
             }
-            CollisionInfo colInfor = CollisionManager.CheckCircleCollision(transform.Position3D, movement, _playerRadius);
+            CollisionInfo colInfor = CollisionManager.CheckCircleCollision(transform.Position3D, movement, gameObject, _playerRadius,1.7f);
             transform.Position3D = colInfor.collisionPoint;
-            //checks if we colide with a object
-            if (colInfor.collider != null)
-            {
-                //goal collision behaviour
-                if (colInfor.collider.gameObject.name == "Goal")
-                {
-                    //stop timer here
-                    TimeSpan endTime = SceneManager._gameTimer.GetElapsedTime();
-                    SceneManager._gameTimer.StopTimer();
-                    Debug.WriteLine($"Game ends. The end time is {endTime} milliseconds.");
-
-                    //
-                    SceneManager.LoadScene(5);
-                }
-                //enemy collision behaviour
-                if (colInfor.collider.gameObject.name == "Enemy")
-                    SceneManager.LoadScene(6);
-            }
             CameraManager.lightDirection = facing;
         }
     }
