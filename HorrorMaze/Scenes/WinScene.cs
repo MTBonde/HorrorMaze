@@ -15,20 +15,36 @@ namespace HorrorMaze
         {
             GameObject winText = new GameObject();
             TextRenderer text = winText.AddComponent<TextRenderer>();
-            text.text = "You Win";
             text.scale = 10;
+            text.SetText("You Win!");
             text.color = Color.Red;
+            text.transform.Position = new Vector2 (GameWorld.Instance.GraphicsDevice.Viewport.Width / 2, -200);
 
             GameObject tryAgain = new GameObject(); 
             tryAgain.transform.Position = new Vector2(GameWorld.Instance.GraphicsDevice.Viewport.Width / 2, GameWorld.Instance.GraphicsDevice.Viewport.Height / 2);
             UIButton btn = tryAgain.AddComponent<UIButton>();
-            btn.size = new Vector2(200, 200);
             btn.OnClick += TryAgain;
+            TextRenderer btnText = tryAgain.AddComponent<TextRenderer>();
+            btnText.scale = 4;
+            btnText.SetText("Retry");
+
+            GameObject mainMenu = new GameObject();
+            mainMenu.transform.Position = new Vector2(GameWorld.Instance.GraphicsDevice.Viewport.Width / 2, GameWorld.Instance.GraphicsDevice.Viewport.Height / 2 + 200);
+            UIButton btn1 = mainMenu.AddComponent<UIButton>();
+            btn1.OnClick += MainMenu;
+            TextRenderer btnText1 = mainMenu.AddComponent<TextRenderer>();
+            btnText1.scale = 3.5f;
+            btnText1.SetText("MainMenu");
         }
 
         public void TryAgain()
         {
             SceneManager.LoadScene(2);
+        }
+
+        public void MainMenu()
+        {
+            SceneManager.LoadScene(1);
         }
     }
 }

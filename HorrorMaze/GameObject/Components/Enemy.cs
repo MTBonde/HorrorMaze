@@ -9,7 +9,7 @@ namespace HorrorMaze
     public class Enemy : Component
     {
         List<int[]> path = new List<int[]>();
-        float speed = 0.5f;
+        float speed = 1.5f;
         bool at_pos = false;
         void Start()
         {

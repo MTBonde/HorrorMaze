@@ -7,7 +7,7 @@ namespace HorrorMaze
 {
     public class AudioManager
     {
-        private Dictionary<string, SoundEffect> _soundEffects;
+        public Dictionary<string, SoundEffect> _soundEffects;
         private PlayerAudioListener _playerAudioListener;
         private List<AudioSource> _audioSources;
         private List<Song> _songs;
@@ -17,7 +17,6 @@ namespace HorrorMaze
             _soundEffects = new Dictionary<string, SoundEffect>();
             _audioSources = new List<AudioSource>();
             _songs = new List<Song>();
-            AddSong("background_music");
         }
 
         public void AddSong(string songName)

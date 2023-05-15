@@ -17,7 +17,7 @@ namespace HorrorMaze
         // set mazecells to not visited from the beginning
         public bool Visited = false;
         // Wall texture
-        public int wallmodel;
+        public int[] wallmodel = new int[2] { 0, 0 };
 
     }
 }
