@@ -1,92 +1,55 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace HorrorMaze
 {
+    /// <summary>
+    /// Time Manager Class by Thor
+    /// </summary>
     public class TimeManager
     {
-        private TimeSpan _timer;
+        // Stopwatch is build into diagnostics
+        private Stopwatch _stopwatch;
 
-        // PROPERTIES
-        public bool TimerIsReady { get; private set; }
-        public int TargetMilliseconds { get; set; }
-        private bool _timerRunning;
-
-
-        public TimeManager(int targetMilliseconds, bool startTimerAsReady = false)
+        /// <summary>
+        /// Initializes a new instance of the TimeManager class.
+        /// </summary>
+        public TimeManager()
         {
-            TimerIsReady = startTimerAsReady;
-            TargetMilliseconds = targetMilliseconds;
-            _timer = TimeSpan.Zero;
+            _stopwatch = new Stopwatch();
         }
 
-        public int GetTimer()
-        {
-            return (int)_timer.TotalMilliseconds;
-        }
-
-        public void UpdateTimer()
-        {
-            if (_timerRunning)
-                _timer += Globals.GameTime.ElapsedGameTime;
-        }
-
-        public void UpdateTimer(float speed)
-        {
-            _timer += TimeSpan.FromTicks((long)(Globals.GameTime.ElapsedGameTime.Ticks * speed));
-        }
-
-        public void AddToTimer(int milliseconds)
-        {
-            _timer += TimeSpan.FromMilliseconds(milliseconds);
-        }
-
-        public bool Test()
-        {
-            return _timer.TotalMilliseconds >= TargetMilliseconds || TimerIsReady;
-        }
-
-        public void Reset()
-        {
-            _timer -= TimeSpan.FromMilliseconds(TargetMilliseconds);
-            _timer = _timer.TotalMilliseconds < 0 ? TimeSpan.Zero : _timer;
-            TimerIsReady = false;
-        }
-
-        public void Reset(int newTargetMilliseconds)
-        {
-            _timer = TimeSpan.Zero;
-            TargetMilliseconds = newTargetMilliseconds;
-            TimerIsReady = false;
-        }
-
-        public void ResetToZero()
-        {
-            _timer = TimeSpan.Zero;
-            TimerIsReady = false;
-        }     
-
-        public void SetTimer(TimeSpan time)
-        {
-            _timer = time;
-        }
-
-        public void SetTimer(int milliseconds)
-        {
-            _timer = TimeSpan.FromMilliseconds(milliseconds);
-        }
-
-        public void StopTimer()
-        {
-            _timerRunning = false;
-        }
-
+        /// <summary>
+        /// Start the timer.
+        /// </summary>
         public void StartTimer()
         {
-            _timerRunning = true;
+            _stopwatch.Start();
+        }
+
+        /// <summary>
+        /// Stop the timer.
+        /// </summary>
+        public void StopTimer()
+        {
+            _stopwatch.Stop();
+        }
+
+        /// <summary>
+        /// Reset the timer to zero.
+        /// </summary>
+        public void ResetTimer()
+        {
+            _stopwatch.Reset();
+        }
+
+        /// <summary>
+        /// Gets the current elapsed time and return it as a TimeSpan.
+        /// </summary>
+        /// <returns>TimeSpan is the current elapsed time of the timer.</returns>
+        public TimeSpan GetElapsedTime()
+        {
+            return _stopwatch.Elapsed;
         }
     }
 }

@@ -107,7 +107,7 @@ namespace HorrorMaze
             enemyAudioController.Setup(enemyAudioSource, playerAudioListener, SceneManager.audioManager);
             // Set the PlayerAudioListener in the AudioManager:
             SceneManager.audioManager.SetPlayerAudioListener(playerAudioListener);
-            SceneManager._gameTimer.ResetToZero();
+            SceneManager._gameTimer.ResetTimer();
             SceneManager._gameTimer.StartTimer();
         }
         #endregion

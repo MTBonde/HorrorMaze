@@ -16,7 +16,7 @@ namespace HorrorMaze
     {
         #region Fields & Variables
 
-        public static TimeManager _gameTimer = new TimeManager(0, true);
+        public static TimeManager _gameTimer = new();
 
         public static AudioManager audioManager = new();
         /// <summary>
@@ -77,8 +77,8 @@ namespace HorrorMaze
 
             //Manager Update
             audioManager.Update();
-            if(_gameTimer != null)
-                _gameTimer.UpdateTimer();
+            //if(_gameTimer != null)
+            //    _gameTimer.UpdateTimer();
 
             
 

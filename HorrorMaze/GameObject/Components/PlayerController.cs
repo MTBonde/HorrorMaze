@@ -75,7 +75,7 @@ namespace HorrorMaze
                 if (colInfor.collider.gameObject.name == "Goal")
                 {
                     //stop timer here
-                    int endTime = SceneManager._gameTimer.GetTimer();
+                    TimeSpan endTime = SceneManager._gameTimer.GetElapsedTime();
                     SceneManager._gameTimer.StopTimer();
                     Debug.WriteLine($"Game ends. The end time is {endTime} milliseconds.");
 
