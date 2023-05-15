@@ -20,7 +20,7 @@ namespace HorrorMaze
         }
 
         public abstract CollisionInfo CheckPointCollision(Vector3 startPoint, Vector3 endPoint);
-        public abstract CollisionInfo CheckCircleCollision(Vector3 startPoint, Vector3 endPoint, float radius);
+        public abstract CollisionInfo CheckCircleCollision(Vector3 startPoint, Vector3 endPoint, float radius, float height);
     }
 
     public class CollisionInfo
@@ -63,7 +63,7 @@ namespace HorrorMaze
             return col;
         }
 
-        public override CollisionInfo CheckCircleCollision(Vector3 startPoint, Vector3 endPoint, float radius)
+        public override CollisionInfo CheckCircleCollision(Vector3 startPoint, Vector3 endPoint, float radius, float height)
         {
             CollisionInfo col = new CollisionInfo();
             col.collider = this;
@@ -103,70 +103,71 @@ namespace HorrorMaze
             _cells = maze;
         }
 
-        public override CollisionInfo CheckCircleCollision(Vector3 startPoint, Vector3 endPoint, float radius)
+        public override CollisionInfo CheckCircleCollision(Vector3 startPoint, Vector3 endPoint, float radius, float height)
         {
             CollisionInfo col = new CollisionInfo();
             col.collider = this;
             int currentX = (int)(startPoint.X - transform.Position.X);
             int currentY = (int)(startPoint.Y - transform.Position.Y);
             Vector3 newEndPoint = endPoint;
-            if (0 <= currentX && _cells.GetLength(0) > currentX)
-                if (0 <= currentY && _cells.GetLength(1) > currentY)
-                {
-                    //gets stuck on the wall on the x axis if u walk up against the wall
-                    if (_cells[currentX, currentY].Walls[1])
+            if(transform.Position3D.Z + height > 0)
+                if (0 <= currentX && _cells.GetLength(0) > currentX)
+                    if (0 <= currentY && _cells.GetLength(1) > currentY)
                     {
-                        newEndPoint = BoxSolver(new Vector3(wallThickness, 1 + wallThickness, 2), transform.Position3D + new Vector3(currentX + 1, currentY + 0.5f, 1), startPoint, newEndPoint, radius);
-                    }
-                    else
-                    {
-                        newEndPoint = BoxSolver(new Vector3(1 + wallThickness, wallThickness, 2), transform.Position3D + new Vector3(currentX + 1.5f, currentY + 1, 1), startPoint, newEndPoint, radius);
-                        newEndPoint = BoxSolver(new Vector3(1 + wallThickness, wallThickness, 2), transform.Position3D + new Vector3(currentX + 1.5f, currentY, 1), startPoint, newEndPoint, radius);
-                    }
-                    if (currentX > 0)
-                    {
-                        if (_cells[currentX - 1, currentY].Walls[1])
+                        if (_cells[currentX, currentY].Walls[1])
+                        {
+                            newEndPoint = BoxSolver(new Vector3(wallThickness, 1 + wallThickness, 2), transform.Position3D + new Vector3(currentX + 1, currentY + 0.5f, 1), startPoint, newEndPoint, radius);
+                        }
+                        else
+                        {
+                            newEndPoint = BoxSolver(new Vector3(1 + wallThickness, wallThickness, 2), transform.Position3D + new Vector3(currentX + 1.5f, currentY + 1, 1), startPoint, newEndPoint, radius);
+                            newEndPoint = BoxSolver(new Vector3(1 + wallThickness, wallThickness, 2), transform.Position3D + new Vector3(currentX + 1.5f, currentY, 1), startPoint, newEndPoint, radius);
+                        }
+                        if (currentX > 0)
+                        {
+                            if (_cells[currentX - 1, currentY].Walls[1])
+                            {
+                                newEndPoint = BoxSolver(new Vector3(wallThickness, 1 + wallThickness, 2), transform.Position3D + new Vector3(currentX, currentY + 0.5f, 1), startPoint, newEndPoint, radius);
+                            }
+                            else
+                            {
+                                newEndPoint = BoxSolver(new Vector3(1 + wallThickness, wallThickness, 2), transform.Position3D + new Vector3(currentX - 0.5f, currentY + 1, 1), startPoint, newEndPoint, radius);
+                                newEndPoint = BoxSolver(new Vector3(1 + wallThickness, wallThickness, 2), transform.Position3D + new Vector3(currentX - 0.5f, currentY, 1), startPoint, newEndPoint, radius);
+                            }
+                        }
+                        else
                         {
                             newEndPoint = BoxSolver(new Vector3(wallThickness, 1 + wallThickness, 2), transform.Position3D + new Vector3(currentX, currentY + 0.5f, 1), startPoint, newEndPoint, radius);
                         }
-                        else
-                        {
-                            newEndPoint = BoxSolver(new Vector3(1 + wallThickness, wallThickness, 2), transform.Position3D + new Vector3(currentX - 0.5f, currentY + 1, 1), startPoint, newEndPoint, radius);
-                            newEndPoint = BoxSolver(new Vector3(1 + wallThickness, wallThickness, 2), transform.Position3D + new Vector3(currentX - 0.5f, currentY, 1), startPoint, newEndPoint, radius);
-                        }
-                    }
-                    else
-                    {
-                        newEndPoint = BoxSolver(new Vector3(wallThickness, 1 + wallThickness, 2), transform.Position3D + new Vector3(currentX, currentY + 0.5f, 1), startPoint, newEndPoint, radius);
-                    }
 
 
-                    if (_cells[currentX, currentY].Walls[0])
-                    {
-                        newEndPoint = BoxSolver(new Vector3(1 + wallThickness, wallThickness, 2), transform.Position3D + new Vector3(currentX + 0.5f, currentY + 1, 1), startPoint, newEndPoint, radius);
-                    }
-                    else
-                    {
-                        newEndPoint = BoxSolver(new Vector3(wallThickness, 1 + wallThickness, 2), transform.Position3D + new Vector3(currentX + 1f, currentY + 1.5f, 1), startPoint, newEndPoint, radius);
-                        newEndPoint = BoxSolver(new Vector3(wallThickness, 1 + wallThickness, 2), transform.Position3D + new Vector3(currentX, currentY + 1.5f, 1), startPoint, newEndPoint, radius);
-                    }
-                    if (currentY > 0)
-                    {
-                        if (_cells[currentX, currentY - 1].Walls[0])
+                        if (_cells[currentX, currentY].Walls[0])
                         {
-                            newEndPoint = BoxSolver(new Vector3(1 + wallThickness, wallThickness, 2), transform.Position3D + new Vector3(currentX + 0.5f, currentY, 1), startPoint, newEndPoint, radius);
+                            newEndPoint = BoxSolver(new Vector3(1 + wallThickness, wallThickness, 2), transform.Position3D + new Vector3(currentX + 0.5f, currentY + 1, 1), startPoint, newEndPoint, radius);
                         }
                         else
                         {
-                            newEndPoint = BoxSolver(new Vector3(wallThickness, 1 + wallThickness, 2), transform.Position3D + new Vector3(currentX + 1f, currentY - 0.5f, 1), startPoint, newEndPoint, radius);
-                            newEndPoint = BoxSolver(new Vector3(wallThickness, 1 + wallThickness, 2), transform.Position3D + new Vector3(currentX, currentY - 0.5f, 1), startPoint, newEndPoint, radius);
+                            newEndPoint = BoxSolver(new Vector3(wallThickness, 1 + wallThickness, 2), transform.Position3D + new Vector3(currentX + 1f, currentY + 1.5f, 1), startPoint, newEndPoint, radius);
+                            newEndPoint = BoxSolver(new Vector3(wallThickness, 1 + wallThickness, 2), transform.Position3D + new Vector3(currentX, currentY + 1.5f, 1), startPoint, newEndPoint, radius);
+                        }
+                        if (currentY > 0)
+                        {
+                            if (_cells[currentX, currentY - 1].Walls[0])
+                            {
+                                newEndPoint = BoxSolver(new Vector3(1 + wallThickness, wallThickness, 2), transform.Position3D + new Vector3(currentX + 0.5f, currentY, 1), startPoint, newEndPoint, radius);
+                            }
+                            else
+                            {
+                                newEndPoint = BoxSolver(new Vector3(wallThickness, 1 + wallThickness, 2), transform.Position3D + new Vector3(currentX + 1f, currentY - 0.5f, 1), startPoint, newEndPoint, radius);
+                                newEndPoint = BoxSolver(new Vector3(wallThickness, 1 + wallThickness, 2), transform.Position3D + new Vector3(currentX, currentY - 0.5f, 1), startPoint, newEndPoint, radius);
+                            }
+                        }
+                        else
+                        {
+                            if(currentX > 0)
+                                newEndPoint = BoxSolver(new Vector3(1 + wallThickness, wallThickness, 2), transform.Position3D + new Vector3(currentX + 0.5f, currentY, 1), startPoint, newEndPoint, radius);
                         }
                     }
-                    else
-                    {
-                        newEndPoint = BoxSolver(new Vector3(1 + wallThickness, wallThickness, 2), transform.Position3D + new Vector3(currentX + 0.5f, currentY, 1), startPoint, newEndPoint, radius);
-                    }
-                }
             col.collisionPoint = newEndPoint;
             return col;
         }

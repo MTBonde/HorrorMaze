@@ -28,15 +28,15 @@ namespace HorrorMaze
         /// <param name="mazeCells">the maze that needs to be drawn</param>
         public MazeRenderer()
         {
-            _wall = GameWorld.Instance.Content.Load<Model>("wall");
-            _floor = GameWorld.Instance.Content.Load<Model>("floor");
-            _celing = GameWorld.Instance.Content.Load<Model>("celling");
+            _wall = GameWorld.Instance.Content.Load<Model>("3DModels\\wall");
+            _floor = GameWorld.Instance.Content.Load<Model>("3DModels\\floor");
+            _celing = GameWorld.Instance.Content.Load<Model>("3DModels\\celling");
             _wallModels = new Model[5];
-            _wallModels[0] = GameWorld.Instance.Content.Load<Model>("wall");
-            _wallModels[1] = GameWorld.Instance.Content.Load<Model>("wall_1_m");
-            _wallModels[2] = GameWorld.Instance.Content.Load<Model>("wall_2_m");
-            _wallModels[3] = GameWorld.Instance.Content.Load<Model>("wall_3_m");
-            _wallModels[4] = GameWorld.Instance.Content.Load<Model>("wall_4_m");
+            _wallModels[0] = GameWorld.Instance.Content.Load<Model>("3DModels\\wall");
+            _wallModels[1] = GameWorld.Instance.Content.Load<Model>("3DModels\\wall_1");
+            _wallModels[2] = GameWorld.Instance.Content.Load<Model>("3DModels\\wall_2");
+            _wallModels[3] = GameWorld.Instance.Content.Load<Model>("3DModels\\wall_3");
+            _wallModels[4] = GameWorld.Instance.Content.Load<Model>("3DModels\\wall_4");
             _playerTransform = SceneManager.GetGameObjectByName("Player").transform;
         }
 
@@ -109,7 +109,8 @@ namespace HorrorMaze
             //outer walls spawning
             for (int x = min.X; x < max.X; x++)
             {
-                DrawWall(transform.Position3D + new Vector3(x, 0, 0), transform.Rotation + new Vector3(0,0,270),0);
+                if(x > 0)
+                    DrawWall(transform.Position3D + new Vector3(x, 0, 0), transform.Rotation + new Vector3(0,0,270),0);
                 //DrawWall(transform.Position3D + new Vector3(x, _mazeCells.GetLength(1), 0), transform.Rotation + new Vector3(0, 0, 270));
             }
             for (int y = min.Y; y < max.Y; y++)

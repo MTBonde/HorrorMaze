@@ -21,7 +21,7 @@ namespace HorrorMaze
             //test player
             GameObject player = new GameObject();
             player.name = "Player";
-            player.transform.Position3D = new Vector3(1.5f, 1.5f, 1.6f);
+            player.transform.Position3D = new Vector3(0.5f, -1.5f, 1.6f);
             player.transform.Rotation = new Vector3(0, 0, 0);
             player.AddComponent<PlayerController>();
             player.AddComponent<Camera>();
@@ -71,11 +71,22 @@ namespace HorrorMaze
             mazeObject.AddComponent<MazeRenderer>().SetMaze(cells);
             mazeObject.AddComponent<MazeCollider>().SetMaze(cells);
 
+            //door
+            GameObject entranceDoor = new GameObject();
+            entranceDoor.transform.Position3D = new Vector3(0.5f, 0, 0); 
+            entranceDoor.AddComponent<MeshRenderer>().SetModel("3DModels\\door");
+            entranceDoor.AddComponent<Door>();
+            BoxCollider doorCol = entranceDoor.AddComponent<BoxCollider>();
+            doorCol.size = new Vector3(1, 0.2f, 2.1f);
+            doorCol.offset = new Vector3(0, 0, 1);
+
+            //key
+
             //test enemy
             GameObject enemy = new GameObject();
             enemy.name = "Enemy";
             enemy.AddComponent<BoxCollider>().size = new Vector3(1, 1, 1);            
-            enemy.AddComponent<MeshRenderer>().SetModel("ghost_rig");
+            enemy.AddComponent<MeshRenderer>().SetModel("3DModels\\ghost_rig");
             enemy.transform.Position3D = new Vector3(0.5f, 0.5f, 0);
             enemy.AddComponent<Pathing>().mazeCells = cells;
             enemy.AddComponent<Enemy>();
@@ -95,7 +106,7 @@ namespace HorrorMaze
             GameObject goal = new GameObject();
             goal.name = "Goal";
             goal.transform.Position3D = new Vector3(testCells.GetLength(0) - 1.5f,testCells.GetLength(1) - 0.5f,0);
-            goal.AddComponent<MeshRenderer>().SetModel("win_item");
+            goal.AddComponent<MeshRenderer>().SetModel("3DModels\\win_item");
             goal.AddComponent<BoxCollider>().size = Vector3.One / 10;
 
             // Add the EnemyAudioController to the enemy object and set its properties:
