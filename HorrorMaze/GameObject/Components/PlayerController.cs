@@ -72,7 +72,10 @@ namespace HorrorMaze
             {
                 //goal collision behaviour
                 if (colInfor.collider.gameObject.name == "Goal")
+                {
+                    //stop timer here
                     SceneManager.LoadScene(5);
+                }
                 //enemy collision behaviour
                 if (colInfor.collider.gameObject.name == "Enemy")
                     SceneManager.LoadScene(6);
