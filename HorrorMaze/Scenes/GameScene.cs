@@ -27,10 +27,11 @@ namespace HorrorMaze
             player.transform.Position3D = new Vector3(1.5f, 1.5f, 1.6f);
             player.transform.Rotation = new Vector3(0, 0, 0);
             player.AddComponent<PlayerController>();
+            player.AddComponent<PlayerController>();
             player.AddComponent<Camera>();
 
             //Test maze
-            Maze maze = new Maze();
+            Maze maze = new Maze(10, 10);
             //make maze start room
             MazeCell[,] testCells = new MazeCell[10,10];
             for (int x = 0; x < testCells.GetLength(0); x++)
