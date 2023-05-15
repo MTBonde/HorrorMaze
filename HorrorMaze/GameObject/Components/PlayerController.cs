@@ -19,11 +19,12 @@ namespace HorrorMaze
         float _sprintMultiplier = 0.25f;
         float energy = 10f; // Energy for sprint, in seconds
         float energyRechargeTime = 20f; // Time to fully recharge energy, in seconds
-        bool playHeartBeatSound = false; // Heartbeat state
         Stopwatch sprintTimer = new Stopwatch(); // Timer for sprint function
 
         Vector2 oldMousePos;
         bool oldSchool = false;
+
+        public bool PlayHeartBeatSound { get; private set; } = false;
 
         //chesks player inputs every frame and moves the player based on the input
         public void Update()
@@ -90,7 +91,7 @@ namespace HorrorMaze
                     else
                     {
                         // Activate heartbeat
-                        playHeartBeatSound = true;
+                        PlayHeartBeatSound = true;
                         // Reset sprint timer
                         sprintTimer.Reset(); 
                     }
@@ -111,8 +112,8 @@ namespace HorrorMaze
                     }
 
                     // Deactivate heartbeat once energy is fully recharged
-                    if(playHeartBeatSound && energy == 10)
-                        playHeartBeatSound = false;
+                    if(PlayHeartBeatSound && energy == 10)
+                        PlayHeartBeatSound = false;
                 }
             }
             CollisionInfo colInfor = CollisionManager.CheckCircleCollision(transform.Position3D, movement, _playerRadius);

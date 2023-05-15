@@ -35,7 +35,8 @@ namespace HorrorMaze
         /// </summary>
         public void Update()
         {
-            
+            if(gameObject.GetComponent<PlayerController>().PlayHeartBeatSound)
+                _playerAudioSource.PlaySound(_audioManager.GetSoundEffect("heartbeat"));
         }
 
 
