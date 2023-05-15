@@ -17,7 +17,7 @@ namespace HorrorMaze
         float rotateScale = 50;
         float _playerRadius = 0.15f;
         float _sprintMultiplier = 0.25f;
-        float energy = 10f; // Energy for sprint, in seconds
+        float energy = 0.1f; // Energy for sprint, in seconds
         float energyRechargeTime = 20f; // Time to fully recharge energy, in seconds
         Stopwatch sprintTimer = new Stopwatch(); // Timer for sprint function
 
