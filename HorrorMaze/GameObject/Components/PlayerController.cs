@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Security.Cryptography.Xml;
 using System.Text;
@@ -74,6 +75,11 @@ namespace HorrorMaze
                 if (colInfor.collider.gameObject.name == "Goal")
                 {
                     //stop timer here
+                    int endTime = SceneManager._gameTimer.GetTimer();
+                    SceneManager._gameTimer.ResetToZero();
+                    Debug.WriteLine($"Game ends. The end time is {endTime} milliseconds.");
+
+                    //
                     SceneManager.LoadScene(5);
                 }
                 //enemy collision behaviour

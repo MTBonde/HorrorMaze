@@ -20,7 +20,6 @@ namespace HorrorMaze
     {
         // FIELDS
         #region Fields        
-        public static GameTime GameTime;
 
         public static Random Rnd = new Random();
 
@@ -38,6 +37,7 @@ namespace HorrorMaze
         public static bool DebugModeToggled { get; set; } // Debug
         
         public static SpriteFont DebugFont { get; set; }
+        public static GameTime GameTime { get; set; }
         #endregion Properties
 
         // METHODS
@@ -46,6 +46,7 @@ namespace HorrorMaze
         {
             // DeltaTime Calculation
             DeltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            GameTime = gameTime;
 
           
         }

@@ -13,7 +13,9 @@ namespace HorrorMaze
             //audioManager.LoadSoundEffect("breathing");
             //audioManager.LoadSoundEffect("Footsteps");
 
-            
+            //SceneManager._gameTimer = new TimeManager(0, true);
+
+
             //GameWorld.Instance.IsMouseVisible = true;
             //creates worlds center point
             worldMatrix = Matrix.CreateWorld(Vector3.Zero, Vector3.Forward, Vector3.Up);
@@ -97,6 +99,8 @@ namespace HorrorMaze
             goal.transform.Position3D = new Vector3(testCells.GetLength(0) - 1.5f,testCells.GetLength(1) - 0.5f,0);
             goal.AddComponent<MeshRenderer>().SetModel("win_item");
             goal.AddComponent<BoxCollider>().size = Vector3.One / 10;
+            
+
 
             // Add the EnemyAudioController to the enemy object and set its properties:
             EnemyAudioController enemyAudioController = enemy.AddComponent<EnemyAudioController>();
