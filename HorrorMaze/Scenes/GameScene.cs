@@ -30,7 +30,7 @@ namespace HorrorMaze
             player.AddComponent<Camera>();
 
             //Test maze
-            Maze maze = new Maze();
+            Maze maze = new Maze(10, 10);
             //make maze start room
             MazeCell[,] testCells = new MazeCell[10,10];
             for (int x = 0; x < testCells.GetLength(0); x++)

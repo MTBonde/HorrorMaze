@@ -20,32 +20,50 @@ namespace HorrorMaze
         public MazeCell[,] MazeCells;
         private int mazeWidth;
         private int mazeHeight;
-        //GraphicsDevice _device;
-
-        //VertexBuffer _floorBuffer;
-        //Color[] _floorColors = new Color[2] { Color.White, Color.Gray };
-
-        //VertexBuffer _wallBuffer;
-        //Vector3[] _wallPoints = new Vector3[8];
-        //Color[] _wallColors = new Color[4] { Color.Red, Color.Orange, Color.Red, Color.Orange };
         #endregion
+
+        public Maze(int width, int height)
+        {
+            _random.Next(1, 100);
+            mazeWidth = width;
+            mazeHeight = height;
+            MazeCells = new MazeCell[mazeWidth, mazeHeight];
+            for(int i = 0; i < mazeWidth; i++)
+            {
+                for(int j = 0; j < mazeHeight; j++)
+                {
+                    MazeCells[i, j] = new MazeCell();
+                }
+            }
+
+            //// Start generating the maze from a random cell
+            ///MazeStartPoint = new Point(_random.Next(mazeWidth), _random.Next(mazeHeight))
+            ///MazeCells[MazeStartPoint].Visited = true;
+            //EvaluateCell(MazeStartPoint);
+        }
 
         public MazeCell[,] GenerateMaze(int width, int height)
         {
-            _random.Next(1, 10);
-            mazeHeight = height;
-            mazeWidth = width;
-            MazeCells = new MazeCell[mazeWidth, mazeHeight];
-            for (int x = 0; x < mazeWidth; x++)
-            {
-                for (int y = 0; y < mazeHeight; y++)
-                {
-                    MazeCells[x, y] = new MazeCell();
-                }
-            }
-            MazeCells[0,0].Visited = true;
-            return EvaluateCell(new Point(0,0));
+            
+
+
+            //mazeHeight = height;
+            //mazeWidth = width;
+            //MazeCells = new MazeCell[mazeWidth, mazeHeight];
+            //for (int x = 0; x < mazeWidth; x++)
+            //{
+            //    for (int y = 0; y < mazeHeight; y++)
+            //    {
+            //        MazeCells[x, y] = new MazeCell();
+            //    }
+            //}
+
+            //// Start generating the maze from a random cell
+            //EvaluateCell(new Point(_random.Next(mazeWidth), _random.Next(mazeHeight)));
+            MazeCells[0, 0].Visited = true;
+            return EvaluateCell(new Point(0, 0));
         }
+
 
         public MazeCell[,] GenerateMazeFromMaze(MazeCell[,] maze, Point MazeStartPoint)
         {
@@ -60,7 +78,19 @@ namespace HorrorMaze
             //        MazeCells[x, y] = new MazeCell();
             //    }
             //}
+
+            AddRooms();
             return EvaluateCell(MazeStartPoint);
+        }
+        private void AddRooms()
+        {
+            // set the number of rooms based on overall maze size
+            int totalCells = mazeWidth * mazeHeight;
+            // one 1 room per 10 maze cells
+            int numberOfRooms = totalCells / 10;
+
+            // Add open spaces
+            AddOpenSpace(3, 3, numberOfRooms);
         }
 
         /// <summary>
@@ -148,5 +178,53 @@ namespace HorrorMaze
             //if no more 
             return MazeCells;
         }
+        public void AddOpenSpace(int width, int height, int numberOfSpaces)
+        {
+            for(int i = 0; i < numberOfSpaces; i++)
+            {
+                int attempt = 0;
+                const int maxAttempts = 1000;  // adjust this as needed
+                while(attempt < maxAttempts)
+                {
+                    int startX = _random.Next(0, mazeWidth - width);
+                    int startY = _random.Next(0, mazeHeight - height);
+
+                    // Check if the open space area is unvisited
+                    bool canPlace = true;
+                    for(int x = startX; x < startX + width; x++)
+                    {
+                        for(int y = startY; y < startY + height; y++)
+                        {
+                            if(MazeCells[x, y].Visited)
+                            {
+                                canPlace = false;
+                                break;
+                            }
+                        }
+                        if(!canPlace)
+                            break;
+                    }
+
+                    // If the area is unvisited, mark it as visited and remove walls
+                    if(canPlace)
+                    {
+                        for(int x = startX; x < startX + width; x++)
+                        {
+                            for(int y = startY; y < startY + height; y++)
+                            {
+                                MazeCells[x, y].Visited = true;
+                                // Remove walls appropriately
+                                if(x > startX) MazeCells[x, y].Walls[1] = false;
+                                if(y > startY) MazeCells[x, y].Walls[0] = false;
+                            }
+                        }
+                        break;
+                    }
+
+                    attempt++;
+                }
+            }
+        }
+
     }
 }
