@@ -40,7 +40,7 @@ namespace HorrorMaze
             float maxDistanceBreathing = 5f;
             float maxDistance = 10f; // TODO: Rename to the right sound
 
-            Debug.WriteLine(distance);
+            //Debug.WriteLine(distance);
 
             if(distance >= maxDistanceGrudge
                     && HasLineOfSightToPlayer())

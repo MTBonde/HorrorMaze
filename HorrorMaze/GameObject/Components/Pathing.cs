@@ -25,7 +25,7 @@ namespace HorrorMaze
         /// <param name="map_width"> The width of the labyrinth </param>
         /// <param name="map_height"> The height of the labyrinth </param>
         /// <returns></returns>
-        
+
         public List<int[]> GetPath(Vector2 player, Vector2 monster)
         {
             List<int[]> open = new List<int[]>();
@@ -41,6 +41,7 @@ namespace HorrorMaze
             int index_found = 0;
             bool wall_check = false;
             int key_found = 0;
+            int key_set = 0;
 
             int[] current_one = new int[5] { (int)monster.X, (int)monster.Y, 1000, 0, 0 };
             int key_id = 1;
@@ -53,46 +54,8 @@ namespace HorrorMaze
                     bool if_data = false;
                     int[] direction = Direction(i);
                     wall_check = false;
-                    #region check for walls
-                    if (current_one[0] + direction[0] >= 0
-                    && current_one[1] + direction[1] >= 0
-                    && current_one[1] + direction[1] < map_height
-                    && current_one[0] + direction[0] < map_width)
-                    {
-                        wall_check = true;
-                        switch (i)
-                        {
-                            case 0: // up
-                                if (current_one[1] > 0)
-                                    if (mazeCells[current_one[0], current_one[1] - 1].Walls[0])
-                                    {
-                                        wall_check = false;
-                                    }
 
-                                break;
-                            case 1: // right
-                                if (mazeCells[current_one[0], current_one[1]].Walls[1])
-                                {
-                                    wall_check = false;
-                                }
-                                break;
-                            case 2: // down
-                                if (mazeCells[current_one[0], current_one[1]].Walls[0])
-                                {
-                                    wall_check = false;
-                                }
-                                break;
-                            case 3: // left
-                                if (current_one[0] > 0)
-                                    if (mazeCells[current_one[0] - 1, current_one[1]].Walls[1])
-                                    {
-                                        wall_check = false;
-                                    }
-                                break;
-                        }
-                    }
-                    #endregion
-                    if (wall_check)
+                    if (WallCheck(current_one[0], current_one[1], i, map_width, map_height, direction))
                     {
                         for (int i_2 = 0; i_2 < closed.Count; i_2++) //check if theres data
                         {
@@ -111,9 +74,12 @@ namespace HorrorMaze
                                 key_found = current_one[3];
                                 path_found = true;
                             }
-                            int[] new_closed = new int[5] { current_one[0] + direction[0], current_one[1] + direction[1],
-                                Distance(current_one[0] + direction[0], current_one[1] + direction[1], (int)player.X, (int)player.Y) +
-                                Distance(current_one[0] + direction[0], current_one[1] + direction[1], (int)player.X, (int)player.Y), key_id, current_one[3] };
+                            int f = Distance(current_one[0] + direction[0], current_one[1] + direction[1], (int)monster.X, (int)monster.Y) +
+                                Distance(current_one[0] + direction[0], current_one[1] + direction[1], (int)player.X, (int)player.Y);
+
+                            //key_set = KeyDirection(current_one, map_width, map_height, closed, current_one[3], f);
+
+                            int[] new_closed = new int[5] { current_one[0] + direction[0], current_one[1] + direction[1], f, key_id, current_one[3] };
                             key_id++;
                             open.Add(new_closed);
                         }
@@ -226,6 +192,101 @@ namespace HorrorMaze
             #endregion
         }
         #endregion
+        bool WallCheck(int player_x, int player_y, int i, int map_width, int map_height, int[] direction)
+        {
+            bool wall_check = false;
+            if (player_x + direction[0] >= 0
+                   && player_y + direction[1] >= 0
+                   && player_y + direction[1] < map_height
+                   && player_x + direction[0] < map_width)
+            {
+                wall_check = true;
+                switch (i)
+                {
+                    case 0: // up
+                        if (player_y > 0)
+                            if (mazeCells[player_x, player_y - 1].Walls[0])
+                            {
+                                wall_check = false;
+                            }
+
+                        break;
+                    case 1: // right
+                        if (mazeCells[player_x, player_y].Walls[1])
+                        {
+                            wall_check = false;
+                        }
+                        break;
+                    case 2: // down
+                        if (mazeCells[player_x, player_y].Walls[0])
+                        {
+                            wall_check = false;
+                        }
+                        break;
+                    case 3: // left
+                        if (player_x > 0)
+                            if (mazeCells[player_x - 1, player_y].Walls[1])
+                            {
+                                wall_check = false;
+                            }
+                        break;
+                }
+            }
+            return wall_check;
+        }
+        int KeyDirection(int[] current, int map_width, int map_height, List<int[]> closed, int key, int f_value)
+        {
+            int key_find = 0;
+            if (closed.Count > 0)
+                for (int i = 0; i < 4; i++)
+            {
+                int[] direction = Direction(i);
+                if (WallCheck(current[0], current[1], i, map_width, map_height, direction))
+                {
+
+                    #region switch
+                    switch (i)
+                    {
+                        case 0:
+                            for (int k = 0; k < closed.Count; k++)
+                            {
+                                if (closed[k][0] == current[0] && closed[k][1] == current[1] + 1)
+                                    key_find = k;
+                            }
+                            break;
+                        case 1:
+                            for (int k = 0; k < closed.Count; k++)
+                            {
+                                if (closed[k][0] == current[0] + 1 && closed[k][1] == current[1])
+                                    key_find = k;
+                            }
+                            break;
+                        case 2:
+                            for (int k = 0; k < closed.Count; k++)
+                            {
+                                if (closed[k][0] == current[0] && closed[k][1] == current[1] - 1)
+                                    key_find = k;
+                            }
+                            break;
+                        case 3:
+                            for (int k = 0; k < closed.Count; k++)
+                            {
+                                if (closed[k][0] == current[0] + 1 && closed[k][1] == current[1])
+                                    key_find = k;
+                            }
+                            break;
+                    }
+                    #endregion
+                    if (closed[key_find][2] < f_value)
+                    {
+                        key = key_find;
+                        f_value = closed[key_find][2];
+                    }
+
+                }
+            }
+            return key;
+        }
         #endregion
     }
 }
