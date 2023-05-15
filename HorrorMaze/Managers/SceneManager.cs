@@ -16,6 +16,8 @@ namespace HorrorMaze
     {
         #region Fields & Variables
 
+        public static TimeManager _gameTimer = new();
+
         public static AudioManager audioManager = new();
         /// <summary>
         /// the cunrently active scene
@@ -70,11 +72,15 @@ namespace HorrorMaze
         /// <param name="gameTime"></param>
         public static void Update(GameTime gameTime)
         {
-            //Manager Update
-            audioManager.Update();
-
             //Global Update
             Globals.Update(gameTime);
+
+            //Manager Update
+            audioManager.Update();
+            //if(_gameTimer != null)
+            //    _gameTimer.UpdateTimer();
+
+            
 
             //Scene Update
             for (int i = 0; i < active_scene.gameObjects.Count; i++)

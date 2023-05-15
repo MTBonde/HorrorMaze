@@ -14,7 +14,9 @@ namespace HorrorMaze
             //audioManager.LoadSoundEffect("breathing");
             //audioManager.LoadSoundEffect("Footsteps");
 
-            
+            //SceneManager._gameTimer = new TimeManager(0, true);
+
+
             //GameWorld.Instance.IsMouseVisible = true;
             //creates worlds center point
             worldMatrix = Matrix.CreateWorld(Vector3.Zero, Vector3.Forward, Vector3.Up);
@@ -30,7 +32,7 @@ namespace HorrorMaze
             //Test maze
             Maze maze = new Maze();
             //make maze start room
-            MazeCell[,] testCells = new MazeCell[20,20];
+            MazeCell[,] testCells = new MazeCell[10,10];
             for (int x = 0; x < testCells.GetLength(0); x++)
             {
                 for (int y = 0; y < testCells.GetLength(1); y++)
@@ -98,12 +100,16 @@ namespace HorrorMaze
             goal.transform.Position3D = new Vector3(testCells.GetLength(0) - 1.5f,testCells.GetLength(1) - 0.5f,0);
             goal.AddComponent<MeshRenderer>().SetModel("win_item");
             goal.AddComponent<BoxCollider>().size = Vector3.One / 10;
+            
+
 
             // Add the EnemyAudioController to the enemy object and set its properties:
             EnemyAudioController enemyAudioController = enemy.AddComponent<EnemyAudioController>();
             enemyAudioController.Setup(enemyAudioSource, playerAudioListener, SceneManager.audioManager);
             // Set the PlayerAudioListener in the AudioManager:
-            SceneManager.audioManager.SetPlayerAudioListener(playerAudioListener);          
+            SceneManager.audioManager.SetPlayerAudioListener(playerAudioListener);
+            SceneManager._gameTimer.ResetTimer();
+            SceneManager._gameTimer.StartTimer();
         }
         #endregion
     }
