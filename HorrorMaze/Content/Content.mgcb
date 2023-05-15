@@ -150,11 +150,11 @@
 /processorParam:TextureFormat=Color
 /build:roof_texture.png
 
-#begin SoundFX/grudge.wav
-/importer:WavImporter
+#begin SoundFX/grudge.mp3
+/importer:Mp3Importer
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
-/build:SoundFX/grudge.wav
+/build:SoundFX/grudge.mp3
 
 #begin SoundFX/heartbeat.wav
 /importer:WavImporter

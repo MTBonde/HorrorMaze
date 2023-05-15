@@ -32,7 +32,7 @@ namespace HorrorMaze
             Listener.Forward = Vector3.Transform(Vector3.Up, Matrix.CreateRotationZ(MathHelper.ToRadians(transform.Rotation.Z + 90)));
 
             // Set the upward vector of the listener
-            Listener.Up = Vector3.Up;
+            Listener.Up = new Vector3(0,0,1);
         }
     }
 }

@@ -1,4 +1,6 @@
 ﻿
+using System.Diagnostics;
+
 namespace HorrorMaze
 {
     /// <summary>
@@ -34,28 +36,31 @@ namespace HorrorMaze
         public void Update()
         {
             float distance = Vector3.Distance(_playerAudioListener.Listener.Position, _enemyAudioSource.Emitter.Position);
-            float maxDistance = 5f; // TODO: Rename to the right sound
-            float maxDistanceBreathing = 5f;
             float maxDistanceGrudge = 3f; // Maximum distance for the screech sound
+            float maxDistanceBreathing = 5f;
+            float maxDistance = 10f; // TODO: Rename to the right sound
 
-            if(distance <= maxDistance && _enemyAudioSource.SFXInstance == null)
+            Debug.WriteLine(distance);
+
+            if(distance >= maxDistanceGrudge
+                    && HasLineOfSightToPlayer())
+                    //&& _enemyAudioSource.SFXInstance != null
+                    //&& _enemyAudioSource.SFXInstance.Name == "heartbeat")
             {
-                _enemyAudioSource.PlaySound(_audioManager.GetSoundEffect("heartbeat"));
-                //CalculateVolumeBasedOnDistance(distance, maxDistance);
-                //if(_enemyAudioSource.SFXInstance.Volume > 0.1f)
-                //    StopAllSound();
+                if(_enemyAudioSource.SFXInstance != null)
+                    StopAllSound();
+                _enemyAudioSource.PlaySound(_audioManager.GetSoundEffect("grudge"));
             }
             else if(distance <= maxDistanceBreathing && _enemyAudioSource.SFXInstance == null)
             {
                 _enemyAudioSource.PlaySound(_audioManager.GetSoundEffect("breathing"));
             }
-            else if(distance <= maxDistanceGrudge
-                    && HasLineOfSightToPlayer())
-                    //&& _enemyAudioSource.SFXInstance != null
-                    //&& _enemyAudioSource.SFXInstance.Name == "heartbeat")
+            else if(distance <= maxDistance && _enemyAudioSource.SFXInstance == null)
             {
-                StopAllSound();
-                _enemyAudioSource.PlaySound(_audioManager.GetSoundEffect("grudge"));
+                _enemyAudioSource.PlaySound(_audioManager.GetSoundEffect("heartbeat"));
+                //CalculateVolumeBasedOnDistance(distance, maxDistance);
+                //if(_enemyAudioSource.SFXInstance.Volume > 0.1f)
+                //    StopAllSound();
             }
             else if(distance > maxDistance && _enemyAudioSource.SFXInstance != null)
             {
