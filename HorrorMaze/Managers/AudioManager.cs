@@ -7,7 +7,7 @@ namespace HorrorMaze
 {
     public class AudioManager
     {
-        private Dictionary<string, SoundEffect> _soundEffects;
+        public Dictionary<string, SoundEffect> _soundEffects;
         private PlayerAudioListener _playerAudioListener;
         private List<AudioSource> _audioSources;
         private List<Song> _songs;
