@@ -81,22 +81,22 @@ namespace HorrorMaze
             }
             //defines the range of tiles to render
             Point min = new Point(), max = new Point();
-            if (_playerTransform.Position3D.X - _renderDist < 0)
+            if (_playerTransform.Position3D.X - _renderDist - transform.Position3D.X < 0)
                 min.X = 0;
             else
-                min.X = ((int)_playerTransform.Position3D.X) - _renderDist;
-            if (_playerTransform.Position3D.X + _renderDist > _mazeCells.GetLength(0))
+                min.X = ((int)_playerTransform.Position3D.X) - _renderDist - (int)transform.Position3D.X;
+            if (_playerTransform.Position3D.X + _renderDist - transform.Position3D.X > _mazeCells.GetLength(0))
                 max.X = _mazeCells.GetLength(0);
             else
-                max.X = ((int)_playerTransform.Position3D.X) + _renderDist;
-            if (_playerTransform.Position3D.Y - _renderDist < 0)
+                max.X = ((int)_playerTransform.Position3D.X) + _renderDist - (int)transform.Position3D.X;
+            if (_playerTransform.Position3D.Y - _renderDist - transform.Position3D.Y < 0)
                 min.Y = 0;
             else
-                min.Y = ((int)_playerTransform.Position3D.Y) - _renderDist;
-            if (_playerTransform.Position3D.Y + _renderDist > _mazeCells.GetLength(0))
+                min.Y = ((int)_playerTransform.Position3D.Y) - _renderDist - (int)transform.Position3D.Y;
+            if (_playerTransform.Position3D.Y + _renderDist - transform.Position3D.Y > _mazeCells.GetLength(0))
                 max.Y = _mazeCells.GetLength(0);
             else
-                max.Y = ((int)_playerTransform.Position3D.Y) + _renderDist;
+                max.Y = ((int)_playerTransform.Position3D.Y) + _renderDist - (int)transform.Position3D.Y;
             //draws floor and celling
             for (int x = min.X; x < max.X; x++)
             {

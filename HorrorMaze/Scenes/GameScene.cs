@@ -1,4 +1,6 @@
 ﻿
+using System.Security.Cryptography.X509Certificates;
+
 namespace HorrorMaze
 {
     public class GameScene : Scene
@@ -118,6 +120,7 @@ namespace HorrorMaze
             goal.AddComponent<BoxCollider>().size = Vector3.One / 10;
             goal.AddComponent<Goal>();
 
+            //tutorial entrance
             MazeCell[,] tutorialCells = new MazeCell[10, 10];
             for (int x = 0; x < tutorialCells.GetLength(0); x++)
             {
@@ -126,6 +129,9 @@ namespace HorrorMaze
                     tutorialCells[x, y] = new MazeCell();
                 }
             }
+            GameObject tutorialMaze = new GameObject();
+            tutorialMaze.transform.Position = new Vector2(-9, -10);
+            tutorialMaze.AddComponent<MazeRenderer>().SetMaze(tutorialCells);
 
 
             // Add the EnemyAudioController to the enemy object and set its properties:
