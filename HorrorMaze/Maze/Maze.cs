@@ -183,13 +183,13 @@ namespace HorrorMaze
             for(int i = 0; i < numberOfSpaces; i++)
             {
                 int attempt = 0;
-                const int maxAttempts = 1000;  // adjust this as needed
+                const int maxAttempts = 10;  // might be to high/low
                 while(attempt < maxAttempts)
                 {
                     int startX = _random.Next(0, mazeWidth - width);
                     int startY = _random.Next(0, mazeHeight - height);
 
-                    // Check if the open space area is unvisited
+                    // Check if the open space area is unvisited aka has a room
                     bool canPlace = true;
                     for(int x = startX; x < startX + width; x++)
                     {
@@ -213,7 +213,7 @@ namespace HorrorMaze
                             for(int y = startY; y < startY + height; y++)
                             {
                                 MazeCells[x, y].Visited = true;
-                                // Remove walls appropriately
+                                // Remove walls 
                                 if(x > startX) MazeCells[x, y].Walls[1] = false;
                                 if(y > startY) MazeCells[x, y].Walls[0] = false;
                             }
