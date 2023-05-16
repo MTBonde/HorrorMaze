@@ -64,7 +64,7 @@ namespace HorrorMaze
             if(soundEffect != null && !_SoundEffectsPlaying.ContainsKey(soundName))
             {
                 SoundEffectInstance instance = soundEffect.CreateInstance();
-                instance.IsLooped = true;
+                //instance.IsLooped = true;
                 instance.Play();
 
                 _SoundEffectsPlaying.Add(soundName, instance);
