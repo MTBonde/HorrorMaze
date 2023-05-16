@@ -25,14 +25,14 @@ namespace HorrorMaze
         private GameWorld()
         {
             Graphics = new GraphicsDeviceManager(this);
-            Graphics.PreferredBackBufferWidth = 1600;
-            Graphics.PreferredBackBufferHeight = 900;
+            Graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+            Graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;      
             Graphics.ApplyChanges();
             this.IsFixedTimeStep = false;//false;
             this.TargetElapsedTime = TimeSpan.FromSeconds(1d / 120d); //60);
 
             Content.RootDirectory = "Content";
-            IsMouseVisible = true;
+            IsMouseVisible = false;
         }
         
 
