@@ -178,6 +178,50 @@ namespace HorrorMaze
             //if no more 
             return MazeCells;
         }
+
+        public void KnockDownRandomWalls(int chance)
+        {
+            for(int x = 0; x < mazeWidth; x++)
+            {
+                for(int y = 0; y < mazeHeight; y++)
+                {
+                    // Randomly decide if we should create an extra path at this cell
+                    if(_random.Next(100) < chance)
+                    {
+                        // Randomly pick a direction
+                        int direction = _random.Next(4);
+
+                        Point neighbor = new Point(x, y);
+                        switch(direction)
+                        {
+                            case 0: // Up
+                                neighbor.Y--;
+                                break;
+                            case 1: // Right
+                                neighbor.X++;
+                                break;
+                            case 2: // Down
+                                neighbor.Y++;
+                                break;
+                            case 3: // Left
+                                neighbor.X--;
+                                break;
+                        }
+
+                        // If the neighbor is within the maze, remove the wall
+                        if(
+                            neighbor.X >= 0 && neighbor.X < mazeWidth &&
+                            neighbor.Y >= 0 && neighbor.Y < mazeHeight
+                        )
+                        {
+                            MazeCells[x, y].Walls[direction] = false;
+                            MazeCells[neighbor.X, neighbor.Y].Walls[(direction + 2) % 4] = false;
+                        }
+                    }
+                }
+            }
+        }
+
         public void AddOpenSpace(int width, int height, int numberOfSpaces)
         {
             for(int i = 0; i < numberOfSpaces; i++)
