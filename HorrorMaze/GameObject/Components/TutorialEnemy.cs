@@ -13,16 +13,21 @@ namespace HorrorMaze
         int currentPath;
         float _speed = 2;
         GameObject player;
+        float waitTimer;
 
         public void Start()
         {
-            path = new Vector3[3] { new Vector3(-6.5f, -6.5f, 0) , new Vector3(-6.5f, -3.5f, 0) , new Vector3(0.5f, -3.5f, 0) };
+            path = new Vector3[4] { new Vector3(-8.5f, -9.5f, 0), new Vector3(-6.5f, -6.5f, 0) , new Vector3(-6.5f, -3.5f, 0) , new Vector3(0.5f, -3.5f, 0) };
             player = SceneManager.GetGameObjectByName("Player");
         }
 
         public void Update()
         {
-            if (currentPath < path.Length)
+            if (waitTimer < 1)
+            {
+                waitTimer += Globals.DeltaTime;
+            }
+            else if (currentPath < path.Length)
             {
                 if (player.transform.Position3D.Y > -5)
                 {
