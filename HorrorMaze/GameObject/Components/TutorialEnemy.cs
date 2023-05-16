@@ -23,9 +23,22 @@ namespace HorrorMaze
 
         public void Update()
         {
-            if (waitTimer < 1)
+            if (waitTimer < 2)
             {
                 waitTimer += Globals.DeltaTime;
+
+                if (transform.Position3D == path[currentPath])
+                {
+                    currentPath++;
+                }
+                else if(currentPath == 0)
+                {
+                    Vector3 dir = path[currentPath] - transform.Position3D;
+                    dir.Normalize();
+                    Vector3 minLocation = transform.Position3D;
+                    Vector3 maxLocation = path[currentPath];
+                    transform.Position3D = Vector3.Clamp(transform.Position3D + (dir * _speed * Globals.DeltaTime), minLocation, maxLocation);
+                }
             }
             else if (currentPath < path.Length)
             {
