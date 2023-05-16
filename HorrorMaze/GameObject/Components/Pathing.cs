@@ -127,7 +127,6 @@ namespace HorrorMaze
             }
             #region assign path to list
             bool path_added = false;
-            int[] cell = new int[2] { closed[index_found][0], closed[index_found][1] };
             while (!path_added)
             {
                 for (int i = 0; i < closed.Count; i++)
@@ -138,8 +137,7 @@ namespace HorrorMaze
                         break;
                     }
                 }
-                cell[0] = closed[index_found][0];
-                cell[1] = closed[index_found][1];
+                int[] cell = new int[2] { closed[index_found][0], closed[index_found][1] };
 
                 path.Add(cell);
                 key_found = closed[index_found][4];
@@ -173,7 +171,7 @@ namespace HorrorMaze
             {
                 case 0:
                     direction[0] = 0;
-                    direction[1] = +1;
+                    direction[1] = -1;
                     return direction;
                 case 1:
                     direction[0] = +1;
@@ -181,7 +179,7 @@ namespace HorrorMaze
                     return direction;
                 case 2:
                     direction[0] = 0;
-                    direction[1] = -1;
+                    direction[1] = +1;
                     return direction;
                 case 3:
                     direction[0] = -1;

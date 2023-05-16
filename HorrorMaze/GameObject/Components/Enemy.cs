@@ -24,7 +24,6 @@ namespace HorrorMaze
         {
             if (!at_pos)
             {
-                
                 // checks if at next position in path, if so remove it from list.
                 if (transform.Position.X - 0.5 >= path[path.Count - 1][0] - 0.005
                  && transform.Position.X - 0.5 <= path[path.Count - 1][0] + 0.005)
