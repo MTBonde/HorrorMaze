@@ -73,7 +73,7 @@ namespace HorrorMaze
                 //    movement += (movement - transform.Position3D) * _sprintMultiplier;
 
                 // If LeftShift is pressed and there's enough energy
-                if(keyState.IsKeyDown(Keys.LeftShift) && energy > 1)
+                if(keyState.IsKeyDown(Keys.LeftShift) && energy > 0)
                 {
                     // Start sprint timer if not already running
                     if(!sprintTimer.IsRunning)
@@ -133,7 +133,7 @@ namespace HorrorMaze
                     TimeSpan endTime = SceneManager._gameTimer.GetElapsedTime();
                     
                     SceneManager._gameTimer.StopTimer();
-                    Debug.WriteLine($"Game ends. The end time is {endTime} milliseconds.");
+                    Debug.WriteLine($"Game ends. The end time is {endTime} mælliseconds.");
 
                     //
                     SceneManager.LoadScene(5);

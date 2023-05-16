@@ -47,7 +47,7 @@ namespace HorrorMaze
                     //&& _enemyAudioSource.SFXInstance != null
                     //&& _enemyAudioSource.SFXInstance.Name == "heartbeat")
             {
-                if(_enemyAudioSource.SFXInstance != null)
+                if(_enemyAudioSource.SFXInstance == null)
                     //StopAllSound();
                 _enemyAudioSource.PlaySound(_audioManager.GetSoundEffect("grudge"));
             }
