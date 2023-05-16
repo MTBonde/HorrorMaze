@@ -40,21 +40,22 @@ namespace HorrorMaze
             float maxDistanceBreathing = 5f;
             float maxDistance = 10f; // TODO: Rename to the right sound
 
-            //Debug.WriteLine(distance);
+            Debug.WriteLine(distance);
 
-            if(distance <= maxDistanceGrudge
-                    && HasLineOfSightToPlayer())
-                    //&& _enemyAudioSource.SFXInstance != null
-                    //&& _enemyAudioSource.SFXInstance.Name == "heartbeat")
+            if(distance <= maxDistanceGrudge && HasLineOfSightToPlayer())                
             {
                 if(_enemyAudioSource.SFXInstance == null)
+                {
                     //StopAllSound();
-                _enemyAudioSource.PlaySound(_audioManager.GetSoundEffect("grudge"));
+                    _enemyAudioSource.PlaySound(_audioManager.GetSoundEffect("grudge"));
+                }
+                else
+                CalculateVolumenBasedOnDistance(distance, maxDistanceGrudge);
             }
-            else if(distance <= maxDistanceBreathing && _enemyAudioSource.SFXInstance == null)
-            {
-                _enemyAudioSource.PlaySound(_audioManager.GetSoundEffect("breathing"));
-            }
+            //else if(distance <= maxDistanceBreathing && _enemyAudioSource.SFXInstance == null)
+            //{
+            //    _enemyAudioSource.PlaySound(_audioManager.GetSoundEffect("breathing"));
+            //}
             //else if(distance <= maxDistance && _enemyAudioSource.SFXInstance == null)
             //{
             //    _enemyAudioSource.PlaySound(_audioManager.GetSoundEffect("heartbeat"));
@@ -62,9 +63,13 @@ namespace HorrorMaze
             //    //if(_enemyAudioSource.SFXInstance.Volume > 0.1f)
             //    //    StopAllSound();
             //}
-            else if(distance > maxDistance && _enemyAudioSource.SFXInstance != null)
+            //else if(distance > maxDistance && _enemyAudioSource.SFXInstance != null)
+            //{
+            //   // StopAllSound();
+            //}
+            else
             {
-               // StopAllSound();
+                _enemyAudioSource.StopSound();
             }
         }
 

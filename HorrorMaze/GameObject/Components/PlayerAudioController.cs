@@ -44,7 +44,7 @@ namespace HorrorMaze
             }
             if(gameObject.GetComponent<PlayerController>().PlayHeartBeatSound == false && _playerAudioSource.SFXInstance != null)
             {
-                StopAllSound();
+                _playerAudioSource.StopSound();
             }
         }
 

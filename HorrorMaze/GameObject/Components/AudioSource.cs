@@ -8,6 +8,7 @@ namespace HorrorMaze
     /// </summary>
     public class AudioSource : Component
     {       
+        public Dictionary<string, SoundEffect> _SoundeffectsPlaying= new();
         /// <summary>
         /// Gets the audio emitter associated with the audio source.
         /// </summary>
@@ -42,10 +43,17 @@ namespace HorrorMaze
         {
             if(soundEffect != null)
             {
-                
                 SFXInstance = soundEffect.CreateInstance();
                 SFXInstance.IsLooped = true;
                 SFXInstance.Play();
+                //_SoundeffectsPlaying.Add(gameObject.name, soundEffect);
+            }
+        }
+        public void StopSound()
+        {
+            if(SFXInstance != null)
+            {
+                SFXInstance.Stop();
             }
         }
     }
