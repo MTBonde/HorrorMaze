@@ -33,75 +33,50 @@ namespace HorrorMaze
         /// <summary>
         /// Updates the audio behavior of the player
         /// </summary>
-        //public void Update()
-        //{
-        //    if(gameObject.GetComponent<PlayerController>().PlayBreathingSound == true)
-        //    {
-        //        if(_playerAudioSource.SFXInstance == null)
-        //            _playerAudioSource.PlaySound(_audioManager.GetSoundEffect("Breathing"));
-        //        else
-        //            CalculateVolumenBasedOnEnergy();
-        //    }
-        //    if(gameObject.GetComponent<PlayerController>().PlayBreathingSound == false && _playerAudioSource.SFXInstance != null)
-        //    {
-        //        _playerAudioSource.StopSound();
-        //    }
-        //}
-
         public void Update()
         {
             if(gameObject.GetComponent<PlayerController>().PlayBreathingSound == true)
             {
-                if(!_playerAudioSource._SoundEffectsPlaying.ContainsKey("Breathing"))
+                if(!_playerAudioSource._SoundEffectsPlaying.ContainsKey("breathing"))
                 {
-                    _playerAudioSource.PlaySound("Breathing", _audioManager.GetSoundEffect("Breathing"));
+                    _playerAudioSource.PlaySound("breathing", _audioManager.GetSoundEffect("breathing"));
                 }
                 else
                 {
-                    CalculateVolumenBasedOnEnergy("Breathing");
+                    CalculateVolumenBasedOnEnergy("breathing");
                 }
             }
-            else if(_playerAudioSource._SoundEffectsPlaying.ContainsKey("Breathing"))
+            else if(_playerAudioSource._SoundEffectsPlaying.ContainsKey("breathing"))
             {
-                _playerAudioSource.StopSound("Breathing");
+                _playerAudioSource.StopSound("breathing");
             }
 
-            // TODO: FOOTSTEPS
+            if(gameObject.GetComponent<PlayerController>().isSprinting == true)
+            {
+                if(!_playerAudioSource._SoundEffectsPlaying.ContainsKey("running"))
+                {
+                    _playerAudioSource.PlaySound("running", _audioManager.GetSoundEffect("running"));
+                }
+                else
+                {
+                    CalculateVolumenBasedOnEnergy("running");
+                }
+            }
+            else if(_playerAudioSource._SoundEffectsPlaying.ContainsKey("running"))
+            {
+                _playerAudioSource.StopSound("running");
+            }
+            else
+            {
+                //TODO: ONLY PLAY WHEN MOVING??!
+                _playerAudioSource.PlaySound("walking", _audioManager.GetSoundEffect("walking"));
+            }
         }
-
-
 
 
         /// <summary>
-        /// Stops and disposes the sound instance of the enemy.
-        /// </summary>
-        private void StopAllSound()
-        {
-            _playerAudioSource.SFXInstance.Stop();
-            _playerAudioSource.SFXInstance.Dispose();
-            _playerAudioSource.SFXInstance = null;
-        }
-
-        /// <summary>
-        /// Calculates the volume of the sound effect based on the distance between the player and the enemy.
-        /// </summary>
-        /// <param name="distance">The distance between the player and the enemy.</param>
-        /// <param name="maxDistance">The maximum distance for the sound effect.</param>
-        private void CalculateVolumenBasedOnEnergy()
-        {
-            float energy = gameObject.GetComponent<PlayerController>().energy;
-            float maxEnergy = gameObject.GetComponent<PlayerController>().maxEnergy;
-
-            // Calculate the volume based on the distance
-            float volume = 1f - (energy / maxEnergy);
-
-            // Clamp the volume between 0 and 1
-            volume = MathHelper.Clamp(volume, 0f, 1f);
-
-            // Apply the volume to the sound effect instance
-            _playerAudioSource.SFXInstance.Volume = volume;
-        }
-
+        /// Calculates the volume of the sound effect based on the energi.
+        /// </summary>          
         private void CalculateVolumenBasedOnEnergy(string soundName)
         {
             float energy = gameObject.GetComponent<PlayerController>().energy;

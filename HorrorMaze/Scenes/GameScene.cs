@@ -254,8 +254,9 @@ namespace HorrorMaze
             // Load sound effects
             SceneManager.audioManager.LoadSoundEffect("heartbeat");
             SceneManager.audioManager.LoadSoundEffect("grudge");
-            //SceneManager.audioManager.LoadSoundEffect("breathing");
-            //SceneManager.audioManager.LoadSoundEffect("Footsteps");
+            SceneManager.audioManager.LoadSoundEffect("breathing");
+            SceneManager.audioManager.LoadSoundEffect("running");
+            SceneManager.audioManager.LoadSoundEffect("walking");
         }
         private GameObject SetupPlayer()
         {

@@ -25,6 +25,7 @@ namespace HorrorMaze
         Vector2 oldMousePos;
         bool oldSchool = false;
         bool canSprint = true;
+        public bool isSprinting = false;
 
         public bool PlayBreathingSound { get; private set; } = false;
 
@@ -77,12 +78,16 @@ namespace HorrorMaze
                 {
                     movement += (movement - transform.Position3D) * _sprintMultiplier;
                     energy -= Globals.DeltaTime;
+                    isSprinting = true;
                 }
                 else
                 {
+                     isSprinting = false;
+                    
                     //rechages enegy
                     if (energy < maxEnergy)
                     {
+                       
                         canSprint = false;
                         energy = Math.Clamp(energy + Globals.DeltaTime / energyRechargeTime * maxEnergy,0,maxEnergy);
                         PlayBreathingSound = true;
