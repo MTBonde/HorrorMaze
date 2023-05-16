@@ -26,7 +26,7 @@ namespace HorrorMaze
         bool oldSchool = false;
         bool canSprint = true;
 
-        public bool PlayHeartBeatSound { get; private set; } = false;
+        public bool PlayBreathingSound { get; private set; } = false;
 
         //chesks player inputs every frame and moves the player based on the input
         public void Update()
@@ -85,13 +85,13 @@ namespace HorrorMaze
                     {
                         canSprint = false;
                         energy = Math.Clamp(energy + Globals.DeltaTime / energyRechargeTime * maxEnergy,0,maxEnergy);
-                        PlayHeartBeatSound = true;
+                        PlayBreathingSound = true;
                         if (energy > maxEnergy / 2)
                             canSprint = true;
                     }
                     // Deactivate heartbeat once energy is fully recharged
-                    else if(PlayHeartBeatSound)
-                        PlayHeartBeatSound = false;
+                    else if(PlayBreathingSound)
+                        PlayBreathingSound = false;
                 }
             }
             CollisionInfo colInfor = CollisionManager.CheckCircleCollision(transform.Position3D, movement, gameObject, _playerRadius,1.7f);

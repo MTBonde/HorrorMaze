@@ -35,14 +35,14 @@ namespace HorrorMaze
         /// </summary>
         public void Update()
         {
-            if(gameObject.GetComponent<PlayerController>().PlayHeartBeatSound == true)
+            if(gameObject.GetComponent<PlayerController>().PlayBreathingSound == true)
             {
                 if(_playerAudioSource.SFXInstance == null)
-                    _playerAudioSource.PlaySound(_audioManager.GetSoundEffect("heartbeat"));
+                    _playerAudioSource.PlaySound(_audioManager.GetSoundEffect("Breathing"));
                 else
                     CalculateVolumenBasedOnEnergy();
             }
-            if(gameObject.GetComponent<PlayerController>().PlayHeartBeatSound == false && _playerAudioSource.SFXInstance != null)
+            if(gameObject.GetComponent<PlayerController>().PlayBreathingSound == false && _playerAudioSource.SFXInstance != null)
             {
                 _playerAudioSource.StopSound();
             }
