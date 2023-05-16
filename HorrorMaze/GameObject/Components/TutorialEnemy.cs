@@ -28,7 +28,14 @@ namespace HorrorMaze
                 {
                     Vector3 dir = path[currentPath] - transform.Position3D;
                     dir.Normalize();
-                    transform.Position3D = Vector3.Clamp(transform.Position3D + (dir * _speed * Globals.DeltaTime), transform.Position3D, path[currentPath]);
+                    Vector3 minLocation = transform.Position3D;
+                    Vector3 maxLocation = player.transform.Position3D;
+                    if(transform.Position3D.X > -5.5f)
+                    {
+                        minLocation.X = path[currentPath].X;
+                        maxLocation.X = player.transform.Position3D.X;
+                    }
+                    transform.Position3D = Vector3.Clamp(transform.Position3D + (dir * _speed * Globals.DeltaTime), minLocation, maxLocation);
                     if (transform.Position3D == path[currentPath])
                     {
                         currentPath++;
