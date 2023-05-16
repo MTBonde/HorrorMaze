@@ -241,30 +241,6 @@
 /processorParam:TextureFormat=Compressed
 /build:3DModels/win_item.fbx
 
-#begin Ambience/scary1.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Ambience/scary1.wav
-
-#begin Ambience/scary2.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Ambience/scary2.wav
-
-#begin Ambience/scary3.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Ambience/scary3.wav
-
-#begin Ambience/scary4.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Ambience/scary4.wav
-
 #begin button.png
 /importer:TextureImporter
 /processor:TextureProcessor

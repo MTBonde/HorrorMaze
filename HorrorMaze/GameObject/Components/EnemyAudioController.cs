@@ -66,7 +66,7 @@ namespace HorrorMaze
                 }
                 else
                 {
-                    //CalculateVolumenBasedOnDistance("heartbeat", distance, maxDistanceHeartbeat);
+                    CalculateVolumenBasedOnDistance("heartbeat", distance, maxDistanceHeartbeat);
                 }
             }
             else if(_enemyAudioSource._SoundEffectsPlaying.ContainsKey("heartbeat"))
