@@ -10,12 +10,12 @@ namespace HorrorMaze
     {
         List<int[]> path = new List<int[]>();
         float speed = 1.5f;
-        bool at_pos = false;
-        void Start()
+        bool at_pos = true;
+        public void GetPath()
         {
             Random rnd = new Random();
             //get path
-            path = gameObject.GetComponent<Pathing>().GetPath(new Vector2(rnd.Next(10),rnd.Next(10)), transform.Position);
+            path = gameObject.GetComponent<Pathing>().GetPath(new Vector2(rnd.Next(1) + 1,rnd.Next(1)), transform.Position);
             at_pos = false;
         }
         void Update()

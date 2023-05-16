@@ -47,24 +47,24 @@ namespace HorrorMaze
                     //&& _enemyAudioSource.SFXInstance != null
                     //&& _enemyAudioSource.SFXInstance.Name == "heartbeat")
             {
-                if(_enemyAudioSource.SFXInstance != null)
-                    StopAllSound();
+                if(_enemyAudioSource.SFXInstance == null)
+                    //StopAllSound();
                 _enemyAudioSource.PlaySound(_audioManager.GetSoundEffect("grudge"));
             }
             else if(distance <= maxDistanceBreathing && _enemyAudioSource.SFXInstance == null)
             {
                 _enemyAudioSource.PlaySound(_audioManager.GetSoundEffect("breathing"));
             }
-            else if(distance <= maxDistance && _enemyAudioSource.SFXInstance == null)
-            {
-                _enemyAudioSource.PlaySound(_audioManager.GetSoundEffect("heartbeat"));
-                //CalculateVolumeBasedOnDistance(distance, maxDistance);
-                //if(_enemyAudioSource.SFXInstance.Volume > 0.1f)
-                //    StopAllSound();
-            }
+            //else if(distance <= maxDistance && _enemyAudioSource.SFXInstance == null)
+            //{
+            //    _enemyAudioSource.PlaySound(_audioManager.GetSoundEffect("heartbeat"));
+            //    //CalculateVolumeBasedOnDistance(distance, maxDistance);
+            //    //if(_enemyAudioSource.SFXInstance.Volume > 0.1f)
+            //    //    StopAllSound();
+            //}
             else if(distance > maxDistance && _enemyAudioSource.SFXInstance != null)
             {
-                StopAllSound();
+               // StopAllSound();
             }
         }
 

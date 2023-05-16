@@ -14,21 +14,25 @@ namespace HorrorMaze
         static bool kill_thread = false;
         static List<GameObject> enemies = new List<GameObject>();
         static List<bool> threads_lifeline = new List<bool>();
+        static bool have_been_called = false;
         public static void Startup(GameObject enemy)
         {
+            if (have_been_called)
+                KillÁllThreads();
             enemies.Add(enemy);
             bool pathings = false;
             threads_lifeline.Add(pathings);
             Thread pathing = new Thread(UpdatePathing);
             pathing.IsBackground = true;
             pathing.Start();
+            have_been_called = true;
         }
         static void UpdatePathing()
         {
             while (!threads_lifeline[0])
             {
-                Thread.Sleep(10 * 1000);
-                enemies[0].Start();
+                SceneManager.GetGameObjectByName("Enemy").GetComponent<Enemy>().GetPath();
+                Thread.Sleep(1000 * 1000);
             }
         }
         static void KillÁllThreads()

@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualBasic.ApplicationServices;
+using SharpDX.Direct3D9;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -126,6 +127,7 @@ namespace HorrorMaze
             }
             #region assign path to list
             bool path_added = false;
+            int[] cell = new int[2] { closed[index_found][0], closed[index_found][1] };
             while (!path_added)
             {
                 for (int i = 0; i < closed.Count; i++)
@@ -136,13 +138,17 @@ namespace HorrorMaze
                         break;
                     }
                 }
-                int[] cell = new int[2] { closed[index_found][0], closed[index_found][1] };
+                cell[0] = closed[index_found][0];
+                cell[1] = closed[index_found][1];
 
                 path.Add(cell);
                 key_found = closed[index_found][4];
                 if ((int)monster.X == closed[index_found][0] && (int)monster.Y == closed[index_found][1])
                     path_added = true;
             }
+            cell[0] = (int)player.X;
+            cell[1] = (int)player.Y;
+            path.Add(cell);
             #endregion
 
             return path;

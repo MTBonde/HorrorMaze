@@ -79,8 +79,8 @@ namespace HorrorMaze
             //    }
             //}
 
-            //AddRooms();
             return EvaluateCell(MazeStartPoint);
+            //AddRooms();
         }
         private void AddRooms()
         {
