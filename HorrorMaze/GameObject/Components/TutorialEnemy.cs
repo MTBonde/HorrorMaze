@@ -30,6 +30,7 @@ namespace HorrorMaze
                 if (transform.Position3D == path[currentPath])
                 {
                     currentPath++;
+                    SceneManager.GetGameObjectByName("MonsterDoor").GetComponent<Door>().CloseDoor();
                 }
                 else if(currentPath == 0)
                 {

@@ -180,6 +180,7 @@ namespace HorrorMaze
             
             //tutorial doors
             GameObject tutorialMonsterDoor = new GameObject();
+            tutorialMonsterDoor.name = "MonsterDoor";
             tutorialMonsterDoor.transform.Position3D = new Vector3(-8.5f, -10f, 0);
             tutorialMonsterDoor.AddComponent<MeshRenderer>().SetModel("3DModels\\door");
             Door tutorialMonsterDoor1 = tutorialMonsterDoor.AddComponent<Door>();
