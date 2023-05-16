@@ -13,6 +13,8 @@ namespace HorrorMaze
 
         public override void SetupScene()
         {
+            BackupAudioManager.StartBackgroundMusic();
+
             GameObject loseText = new GameObject();
             TextRenderer text = loseText.AddComponent<TextRenderer>();
             text.scale = 10;

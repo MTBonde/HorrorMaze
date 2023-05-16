@@ -22,7 +22,7 @@ namespace HorrorMaze
         /// <summary>
         /// the cunrently active scene
         /// </summary>
-        public static Scene active_scene = new GameScene();
+        public static Scene active_scene = new SplashScene();
         /// <summary>
         /// list of all scenes
         /// </summary>
@@ -108,7 +108,6 @@ namespace HorrorMaze
             {
                 active_scene.gameObjects[i].Draw2D(spriteBatch);
             }
-            CameraManager.Setup();
             CameraManager.ApplyCameraEffects(spriteBatch);
             spriteBatch.End();
             spriteBatch.Begin(SpriteSortMode.FrontToBack, null);

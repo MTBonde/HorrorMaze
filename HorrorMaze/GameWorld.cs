@@ -49,6 +49,8 @@ namespace HorrorMaze
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            CameraManager.Setup();
+            BackupAudioManager.LoadMusic();
             SceneManager.SetupScene();
         }
 

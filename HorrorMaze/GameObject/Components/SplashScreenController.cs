@@ -16,6 +16,7 @@ namespace HorrorMaze
             timer += Globals.DeltaTime;
             if (timer > waitTimer)
             {
+                BackupAudioManager.StartBackgroundMusic();
                 SceneManager.LoadScene(1);
             }
         }

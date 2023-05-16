@@ -13,10 +13,11 @@ namespace HorrorMaze
         public override void SetupScene()
         {
             GameWorld.Instance.IsMouseVisible = false;
+            BackupAudioManager.StatBackgroundSound();
             //creates worlds center point
             worldMatrix = Matrix.CreateWorld(Vector3.Zero, Vector3.Forward, Vector3.Up);
 
-            SetupCameraAndLoadSoundEffects();
+            //SetupCameraAndLoadSoundEffects();
 
             //test player
             //GameObject player = SetupPlayer();
@@ -118,6 +119,12 @@ namespace HorrorMaze
             enemyAudioSouce.Spacial = true;
             enemyAudioSouce.maxDistance = 3f;
             enemyAudioSouce.Play();
+            BackupAudioSouce enemyAudioSouce1 = enemy.AddComponent<BackupAudioSouce>();
+            enemyAudioSouce1.SetSoundEffect("SoundFX\\heartBeat");
+            enemyAudioSouce1.loop = true;
+            enemyAudioSouce1.Spacial = true;
+            enemyAudioSouce1.maxDistance = 5f;
+            enemyAudioSouce1.Play();
             //enemy.AddComponent<Pathing>().mazeCells = cells;
             //enemy.AddComponent<Enemy>();
             //AudioSource enemyAudioSource = enemy.AddComponent<AudioSource>();
@@ -247,6 +254,12 @@ namespace HorrorMaze
             enemyAudioSouce.Spacial = true;
             enemyAudioSouce.maxDistance = 3f;
             enemyAudioSouce.Play();
+            BackupAudioSouce enemyAudioSouce1 = enemy.AddComponent<BackupAudioSouce>();
+            enemyAudioSouce1.SetSoundEffect("SoundFX\\heartBeat");
+            enemyAudioSouce1.loop = true;
+            enemyAudioSouce1.Spacial = true;
+            enemyAudioSouce1.maxDistance = 5f;
+            enemyAudioSouce1.Play();
             //AudioSource enemyAudioSource = enemy.AddComponent<AudioSource>();
 
             // Add the AudioComponent to AudioManager
