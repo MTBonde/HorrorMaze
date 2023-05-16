@@ -18,12 +18,13 @@ namespace HorrorMaze
         float _playerRadius = 0.15f;
         float _sprintMultiplier = 2.25f;
         public float energy = 3f; // Energy for sprint, in seconds
-        float maxEnergy = 3f;
+        public float maxEnergy = 3f;
         float energyRechargeTime = 5f; // Time to fully recharge energy, in seconds
         Stopwatch sprintTimer = new Stopwatch(); // Timer for sprint function
 
         Vector2 oldMousePos;
         bool oldSchool = false;
+        bool canSprint = true;
 
         public bool PlayHeartBeatSound { get; private set; } = false;
 
@@ -72,7 +73,7 @@ namespace HorrorMaze
                     movement -= sideVector * moveScale * elapsed;
 
                 // If LeftShift is pressed and there's enough energy
-                if(keyState.IsKeyDown(Keys.LeftShift) && energy > 0)
+                if(keyState.IsKeyDown(Keys.LeftShift) && energy > 0 && canSprint)
                 {
                     movement += (movement - transform.Position3D) * _sprintMultiplier;
                     energy -= Globals.DeltaTime;
@@ -82,8 +83,11 @@ namespace HorrorMaze
                     //rechages enegy
                     if (energy < maxEnergy)
                     {
+                        canSprint = false;
                         energy = Math.Clamp(energy + Globals.DeltaTime / energyRechargeTime * maxEnergy,0,maxEnergy);
                         PlayHeartBeatSound = true;
+                        if (energy > maxEnergy / 2)
+                            canSprint = true;
                     }
                     // Deactivate heartbeat once energy is fully recharged
                     else if(PlayHeartBeatSound)

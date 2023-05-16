@@ -35,15 +35,12 @@ namespace HorrorMaze
                 Thread.Sleep(10 * 1000);
             }
         }
-        static void KillÁllThreads()
+        public static void KillÁllThreads()
         {
             for (int i = 0; i < threads_lifeline.Count; i++)
             {
                 threads_lifeline[i] = true;
             }
-            Thread killing = new Thread(KillThreading);
-            killing.IsBackground = true;
-            killing.Start();
         }
         static void KillThreading()
         {
