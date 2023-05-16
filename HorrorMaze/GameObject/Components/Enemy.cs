@@ -15,7 +15,9 @@ namespace HorrorMaze
         {
             Random rnd = new Random();
             //get path
-            path = gameObject.GetComponent<Pathing>().GetPath(new Vector2(rnd.Next(1)+2,rnd.Next(1)+2), transform.Position);
+            path = gameObject.GetComponent<Pathing>().GetPath(new Vector2(
+                rnd.Next(gameObject.GetComponent<Pathing>().mazeCells.GetLength(0)),
+                rnd.Next(gameObject.GetComponent<Pathing>().mazeCells.GetLength(1))), transform.Position);
             at_pos = false;
         }
         void Update()
@@ -96,6 +98,12 @@ namespace HorrorMaze
             //        break;
             //}
             return direction;
+        }
+
+        public void OnCollision(GameObject go)
+        {
+            if(go.name == "Player")
+                SceneManager.LoadScene(6);
         }
     }
 }

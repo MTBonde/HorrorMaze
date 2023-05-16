@@ -35,8 +35,17 @@ namespace HorrorMaze
         /// </summary>
         public void Update()
         {
-            if(gameObject.GetComponent<PlayerController>().PlayHeartBeatSound == true && _playerAudioSource.SFXInstance == null)            
-                _playerAudioSource.PlaySound(_audioManager.GetSoundEffect("heartbeat"));
+            if(gameObject.GetComponent<PlayerController>().PlayHeartBeatSound == true)
+            {
+                if(_playerAudioSource.SFXInstance == null)
+                    _playerAudioSource.PlaySound(_audioManager.GetSoundEffect("heartbeat"));
+                else
+                    CalculateVolumenBasedOnEnergy();
+            }
+            if(gameObject.GetComponent<PlayerController>().PlayHeartBeatSound == false && _playerAudioSource.SFXInstance != null)
+            {
+                StopAllSound();
+            }
         }
 
 
@@ -57,10 +66,13 @@ namespace HorrorMaze
         /// </summary>
         /// <param name="distance">The distance between the player and the enemy.</param>
         /// <param name="maxDistance">The maximum distance for the sound effect.</param>
-        private void CalculateVolumenBasedOnTime()
+        private void CalculateVolumenBasedOnEnergy()
         {
+            float energy = gameObject.GetComponent<PlayerController>().energy;
+            float maxEnergy = gameObject.GetComponent<PlayerController>().maxEnergy;
+
             // Calculate the volume based on the distance
-            float volume = 1f ;
+            float volume = 1f - (energy / maxEnergy);
 
             // Clamp the volume between 0 and 1
             volume = MathHelper.Clamp(volume, 0f, 1f);

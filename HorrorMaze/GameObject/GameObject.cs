@@ -135,6 +135,11 @@ namespace HorrorMaze
             InvokeComponentsMethod("DrawUI", new object[] { spriteBatch });
         }
 
+        public void OnCollision(GameObject go)
+        {
+            InvokeComponentsMethod("OnCollision", new object[] { go });
+        }
+
         /// <summary>
         /// invokes a method in all components on tyhe gameobject if the method is implemented
         /// </summary>

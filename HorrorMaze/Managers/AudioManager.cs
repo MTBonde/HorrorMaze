@@ -63,6 +63,7 @@ namespace HorrorMaze
 
         public void StopAllSounds()
         {
+            _soundEffects = new Dictionary<string, SoundEffect>();
             foreach(AudioSource audioSource in _audioSources)
             {
                 if(audioSource.SFXInstance != null)

@@ -42,7 +42,7 @@ namespace HorrorMaze
 
             //Debug.WriteLine(distance);
 
-            if(distance >= maxDistanceGrudge
+            if(distance <= maxDistanceGrudge
                     && HasLineOfSightToPlayer())
                     //&& _enemyAudioSource.SFXInstance != null
                     //&& _enemyAudioSource.SFXInstance.Name == "heartbeat")

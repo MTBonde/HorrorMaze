@@ -50,6 +50,7 @@ namespace HorrorMaze
             audioManager.StopAllSounds();
             audioManager = new AudioManager();
             active_scene = scenes[scene_number];
+            ThreadManager.KillÁllThreads();
             SetupScene();
         }
 

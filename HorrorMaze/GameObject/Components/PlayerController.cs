@@ -17,12 +17,14 @@ namespace HorrorMaze
         float rotateScale = 50;
         float _playerRadius = 0.15f;
         float _sprintMultiplier = 2.25f;
-        float energy = 3f; // Energy for sprint, in seconds
+        public float energy = 3f; // Energy for sprint, in seconds
+        public float maxEnergy = 3f;
         float energyRechargeTime = 5f; // Time to fully recharge energy, in seconds
         Stopwatch sprintTimer = new Stopwatch(); // Timer for sprint function
 
         Vector2 oldMousePos;
         bool oldSchool = false;
+        bool canSprint = true;
 
         public bool PlayHeartBeatSound { get; private set; } = false;
 
@@ -69,79 +71,31 @@ namespace HorrorMaze
                     movement += sideVector * moveScale * elapsed;
                 if (keyState.IsKeyDown(Keys.A))
                     movement -= sideVector * moveScale * elapsed;
-                //if (keyState.IsKeyDown(Keys.LeftShift))
-                //    movement += (movement - transform.Position3D) * _sprintMultiplier;
 
                 // If LeftShift is pressed and there's enough energy
-                if(keyState.IsKeyDown(Keys.LeftShift) && energy > 0)
+                if(keyState.IsKeyDown(Keys.LeftShift) && energy > 0 && canSprint)
                 {
-                    // Start sprint timer if not already running
-                    if(!sprintTimer.IsRunning)
-                        sprintTimer.Start();
-
-                    // Calculate energy consumption
-                    float energyConsumed = (float)sprintTimer.Elapsed.TotalSeconds;
-                    if(energyConsumed <= energy)
-                    {
-                        // move at sprint speed
-                        movement += (movement - transform.Position3D) * _sprintMultiplier;
-                        // Drain energy
-                        //energy--;
-                        energy -= energyConsumed; 
-                    }
-                    else
-                    {
-                        // Activate heartbeat
-                        PlayHeartBeatSound = true;
-                        // Reset sprint timer
-                        sprintTimer.Stop();
-                        sprintTimer.Reset(); 
-                    }
+                    movement += (movement - transform.Position3D) * _sprintMultiplier;
+                    energy -= Globals.DeltaTime;
                 }
                 else
                 {
-                    // Regenerate energy over time when not sprinting
-                    if(sprintTimer.IsRunning)
+                    //rechages enegy
+                    if (energy < maxEnergy)
                     {
-                        sprintTimer.Stop();
-                        sprintTimer.Reset();
+                        canSprint = false;
+                        energy = Math.Clamp(energy + Globals.DeltaTime / energyRechargeTime * maxEnergy,0,maxEnergy);
+                        PlayHeartBeatSound = true;
+                        if (energy > maxEnergy / 2)
+                            canSprint = true;
                     }
-
-                    if(energy < 10)
-                    {
-                        // Recharge energy over time
-                        energy += Globals.DeltaTime / energyRechargeTime;
-                        // cap at maximum energy
-                        if(energy > 10) 
-                            energy = 10; 
-                    }
-
                     // Deactivate heartbeat once energy is fully recharged
-                    if(PlayHeartBeatSound && energy == 10)
+                    else if(PlayHeartBeatSound)
                         PlayHeartBeatSound = false;
                 }
             }
-            CollisionInfo colInfor = CollisionManager.CheckCircleCollision(transform.Position3D, movement, _playerRadius);
+            CollisionInfo colInfor = CollisionManager.CheckCircleCollision(transform.Position3D, movement, gameObject, _playerRadius,1.7f);
             transform.Position3D = colInfor.collisionPoint;
-            //checks if we colide with a object
-            if (colInfor.collider != null)
-            {
-                //goal collision behaviour
-                if (colInfor.collider.gameObject.name == "Goal")
-                {
-                    //stop timer here
-                    TimeSpan endTime = SceneManager._gameTimer.GetElapsedTime();
-                    
-                    SceneManager._gameTimer.StopTimer();
-                    Debug.WriteLine($"Game ends. The end time is {endTime} mælliseconds.");
-
-                    //
-                    SceneManager.LoadScene(5);
-                }
-                //enemy collision behaviour
-                if (colInfor.collider.gameObject.name == "Enemy")
-                    SceneManager.LoadScene(6);
-            }
             CameraManager.lightDirection = facing;
         }
     }

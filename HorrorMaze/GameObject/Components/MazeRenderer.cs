@@ -19,7 +19,7 @@ namespace HorrorMaze
         MazeCell[,] _mazeCells = new MazeCell[5,5];
         Model[] _wallModels;
         Model _wall, _floor, _celing;
-        int _renderDist = 4;
+        int _renderDist = 40;
         Transform _playerTransform;
 
         /// <summary>
@@ -28,15 +28,15 @@ namespace HorrorMaze
         /// <param name="mazeCells">the maze that needs to be drawn</param>
         public MazeRenderer()
         {
-            _wall = GameWorld.Instance.Content.Load<Model>("wall");
-            _floor = GameWorld.Instance.Content.Load<Model>("floor");
-            _celing = GameWorld.Instance.Content.Load<Model>("celling");
+            _wall = GameWorld.Instance.Content.Load<Model>("3DModels\\wall");
+            _floor = GameWorld.Instance.Content.Load<Model>("3DModels\\floor");
+            _celing = GameWorld.Instance.Content.Load<Model>("3DModels\\celling");
             _wallModels = new Model[5];
-            _wallModels[0] = GameWorld.Instance.Content.Load<Model>("wall");
-            _wallModels[1] = GameWorld.Instance.Content.Load<Model>("wall_1_m");
-            _wallModels[2] = GameWorld.Instance.Content.Load<Model>("wall_2_m");
-            _wallModels[3] = GameWorld.Instance.Content.Load<Model>("wall_3_m");
-            _wallModels[4] = GameWorld.Instance.Content.Load<Model>("wall_4_m");
+            _wallModels[0] = GameWorld.Instance.Content.Load<Model>("3DModels\\wall");
+            _wallModels[1] = GameWorld.Instance.Content.Load<Model>("3DModels\\wall_1");
+            _wallModels[2] = GameWorld.Instance.Content.Load<Model>("3DModels\\wall_2");
+            _wallModels[3] = GameWorld.Instance.Content.Load<Model>("3DModels\\wall_3");
+            _wallModels[4] = GameWorld.Instance.Content.Load<Model>("3DModels\\wall_4");
             _playerTransform = SceneManager.GetGameObjectByName("Player").transform;
         }
 
@@ -81,35 +81,36 @@ namespace HorrorMaze
             }
             //defines the range of tiles to render
             Point min = new Point(), max = new Point();
-            if (_playerTransform.Position3D.X - _renderDist < 0)
+            if (_playerTransform.Position3D.X - _renderDist - transform.Position3D.X < 0)
                 min.X = 0;
             else
-                min.X = ((int)_playerTransform.Position3D.X) - _renderDist;
-            if (_playerTransform.Position3D.X + _renderDist > _mazeCells.GetLength(0))
+                min.X = ((int)_playerTransform.Position3D.X) - _renderDist - (int)transform.Position3D.X;
+            if (_playerTransform.Position3D.X + _renderDist - transform.Position3D.X > _mazeCells.GetLength(0))
                 max.X = _mazeCells.GetLength(0);
             else
-                max.X = ((int)_playerTransform.Position3D.X) + _renderDist;
-            if (_playerTransform.Position3D.Y - _renderDist < 0)
+                max.X = ((int)_playerTransform.Position3D.X) + _renderDist - (int)transform.Position3D.X;
+            if (_playerTransform.Position3D.Y - _renderDist - transform.Position3D.Y < 0)
                 min.Y = 0;
             else
-                min.Y = ((int)_playerTransform.Position3D.Y) - _renderDist;
-            if (_playerTransform.Position3D.Y + _renderDist > _mazeCells.GetLength(0))
+                min.Y = ((int)_playerTransform.Position3D.Y) - _renderDist - (int)transform.Position3D.Y;
+            if (_playerTransform.Position3D.Y + _renderDist - transform.Position3D.Y > _mazeCells.GetLength(0))
                 max.Y = _mazeCells.GetLength(0);
             else
-                max.Y = ((int)_playerTransform.Position3D.Y) + _renderDist;
+                max.Y = ((int)_playerTransform.Position3D.Y) + _renderDist - (int)transform.Position3D.Y;
             //draws floor and celling
             for (int x = min.X; x < max.X; x++)
             {
                 for (int y = min.Y; y < max.Y; y++)
                 {
-                    DrawFloor(new Vector3(x + 0.5f,y + 0.5f,0), new Vector3(0,0,0));
-                    DrawCelling(new Vector3(x + 0.5f,y + 0.5f,2), new Vector3(0,0,0));
+                    DrawFloor(new Vector3(x + 0.5f,y + 0.5f,0) + transform.Position3D, new Vector3(0,0,0));
+                    DrawCelling(new Vector3(x + 0.5f,y + 0.5f,2) + transform.Position3D, new Vector3(0,0,0));
                 }
             }
             //outer walls spawning
             for (int x = min.X; x < max.X; x++)
             {
-                DrawWall(transform.Position3D + new Vector3(x, 0, 0), transform.Rotation + new Vector3(0,0,270),0);
+                if(x > 0)
+                    DrawWall(transform.Position3D + new Vector3(x, 0, 0), transform.Rotation + new Vector3(0,0,270),0);
                 //DrawWall(transform.Position3D + new Vector3(x, _mazeCells.GetLength(1), 0), transform.Rotation + new Vector3(0, 0, 270));
             }
             for (int y = min.Y; y < max.Y; y++)
