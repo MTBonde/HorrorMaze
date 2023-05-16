@@ -1,13 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-
-namespace HorrorMaze
+﻿namespace HorrorMaze
 {
     /// <summary>     
     /// This class takes care of generating a maze using DFS algoritm
@@ -44,7 +35,7 @@ namespace HorrorMaze
 
         public MazeCell[,] GenerateMaze(int width, int height)
         {
-            
+
 
 
             //mazeHeight = height;
@@ -106,7 +97,7 @@ namespace HorrorMaze
             neighborCells.Add(1); // Right
             neighborCells.Add(2); // Down
             neighborCells.Add(3); // Left
-            
+
             // While there is still an unvisited neighbor cell do this
             while(neighborCells.Count > 0)
             {
@@ -185,37 +176,52 @@ namespace HorrorMaze
             {
                 for(int y = 0; y < mazeHeight; y++)
                 {
-                    // Randomly decide if we should create an extra path at this cell
+                    // rando wall remove change 10 = 10% 
                     if(_random.Next(100) < chance)
                     {
-                        // Randomly pick a direction
+                        // rando direction picker
                         int direction = _random.Next(4);
 
                         Point neighbor = new Point(x, y);
+
+                        int wallToRemove = 0;
                         switch(direction)
                         {
                             case 0: // Up
-                                neighbor.Y--;
+                                if(y > 0)
+                                {
+                                    
+                                    wallToRemove = 0; // Up wall of the current cell
+                                }
                                 break;
                             case 1: // Right
-                                neighbor.X++;
+                                if(x < mazeWidth - 1)
+                                {
+                                    wallToRemove = 1; // Right wall of the current cell
+                                }
                                 break;
                             case 2: // Down
-                                neighbor.Y++;
+                                if(y < mazeHeight - 1)
+                                {
+                                    neighbor.Y++;
+                                    wallToRemove = 0; // Up wall of the down nieghbor
+                                }
                                 break;
                             case 3: // Left
-                                neighbor.X--;
+                                if(x > 0)
+                                {
+                                    neighbor.X--;
+                                    wallToRemove = 1; // Right wall of the left nieghbor
+                                }
                                 break;
                         }
 
                         // If the neighbor is within the maze, remove the wall
                         if(
                             neighbor.X >= 0 && neighbor.X < mazeWidth &&
-                            neighbor.Y >= 0 && neighbor.Y < mazeHeight
-                        )
+                            neighbor.Y >= 0 && neighbor.Y < mazeHeight)
                         {
-                            MazeCells[x, y].Walls[direction] = false;
-                            MazeCells[neighbor.X, neighbor.Y].Walls[(direction + 2) % 4] = false;
+                            MazeCells[neighbor.X, neighbor.Y].Walls[wallToRemove] = false;
                         }
                     }
                 }
