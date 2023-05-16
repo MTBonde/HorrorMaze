@@ -33,23 +33,44 @@ namespace HorrorMaze
         /// <summary>
         /// Updates the audio behavior of the player
         /// </summary>
+        //public void Update()
+        //{
+        //    if(gameObject.GetComponent<PlayerController>().PlayBreathingSound == true)
+        //    {
+        //        if(_playerAudioSource.SFXInstance == null)
+        //            _playerAudioSource.PlaySound(_audioManager.GetSoundEffect("Breathing"));
+        //        else
+        //            CalculateVolumenBasedOnEnergy();
+        //    }
+        //    if(gameObject.GetComponent<PlayerController>().PlayBreathingSound == false && _playerAudioSource.SFXInstance != null)
+        //    {
+        //        _playerAudioSource.StopSound();
+        //    }
+        //}
+
         public void Update()
         {
             if(gameObject.GetComponent<PlayerController>().PlayBreathingSound == true)
             {
-                if(_playerAudioSource.SFXInstance == null)
-                    _playerAudioSource.PlaySound(_audioManager.GetSoundEffect("Breathing"));
+                if(!_playerAudioSource._SoundEffectsPlaying.ContainsKey("Breathing"))
+                {
+                    _playerAudioSource.PlaySound("Breathing", _audioManager.GetSoundEffect("Breathing"));
+                }
                 else
-                    CalculateVolumenBasedOnEnergy();
+                {
+                    CalculateVolumenBasedOnEnergy("Breathing");
+                }
             }
-            if(gameObject.GetComponent<PlayerController>().PlayBreathingSound == false && _playerAudioSource.SFXInstance != null)
+            else if(_playerAudioSource._SoundEffectsPlaying.ContainsKey("Breathing"))
             {
-                _playerAudioSource.StopSound();
+                _playerAudioSource.StopSound("Breathing");
             }
+
+            // TODO: FOOTSTEPS
         }
 
 
-    
+
 
         /// <summary>
         /// Stops and disposes the sound instance of the enemy.
@@ -79,6 +100,24 @@ namespace HorrorMaze
 
             // Apply the volume to the sound effect instance
             _playerAudioSource.SFXInstance.Volume = volume;
+        }
+
+        private void CalculateVolumenBasedOnEnergy(string soundName)
+        {
+            float energy = gameObject.GetComponent<PlayerController>().energy;
+            float maxEnergy = gameObject.GetComponent<PlayerController>().maxEnergy;
+
+            // Calculate the volume based on the energy
+            float volume = 1f - (energy / maxEnergy);
+
+            // Clamp the volume between 0 and 1
+            volume = MathHelper.Clamp(volume, 0f, 1f);
+
+            // Apply the volume to the sound effect instance
+            if(_playerAudioSource._SoundEffectsPlaying.ContainsKey(soundName))
+            {
+                _playerAudioSource._SoundEffectsPlaying[soundName].Volume = volume;
+            }
         }
     }
 }
