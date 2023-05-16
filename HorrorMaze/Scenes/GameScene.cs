@@ -109,12 +109,14 @@ namespace HorrorMaze
             enemy.AddComponent<BoxCollider>().size = new Vector3(1, 1, 1);            
             enemy.AddComponent<MeshRenderer>().SetModel("3DModels\\ghost_rig");
             enemy.transform.Position3D = new Vector3(1.5f, 1.5f, 0);
-            enemy.AddComponent<Pathing>().mazeCells = cells;
-            enemy.AddComponent<Enemy>();
+            enemy.AddComponent<BackupPathing>().SetMaze(cells);
+            enemy.AddComponent<BackupEnemy>();
+            //enemy.AddComponent<Pathing>().mazeCells = cells;
+            //enemy.AddComponent<Enemy>();
             AudioSource enemyAudioSource = enemy.AddComponent<AudioSource>();
 
             // test thread
-            ThreadManager.Startup(enemy);
+            //ThreadManager.Startup(enemy);
 
             // Add the AudioComponent to AudioManager
             SceneManager.audioManager.AddAudioSource(enemyAudioSource);
@@ -244,7 +246,6 @@ namespace HorrorMaze
 
         private void SetupCameraAndLoadSoundEffects()
         {
-            CameraManager.Setup();
 
             // Load sound effects
             SceneManager.audioManager.LoadSoundEffect("heartbeat");

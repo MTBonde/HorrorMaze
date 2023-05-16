@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using SharpDX.Direct2D1.Effects;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -59,6 +60,7 @@ namespace HorrorMaze
                 Vector2 centerOfScreen = new Vector2(GameWorld.Instance.GraphicsDevice.Viewport.Width / 2, GameWorld.Instance.GraphicsDevice.Viewport.Height / 2);
                 Vector2 changeThisFrame = new Vector2(currentMouse.X, currentMouse.Y) - oldMousePos;
                 transform.Rotation -= new Vector3(0,changeThisFrame.Y,changeThisFrame.X) * mouseSensetivity;
+                transform.Rotation = new Vector3(transform.Rotation.X, Math.Clamp(transform.Rotation.Y, 10, 170), transform.Rotation.Z);
                 Mouse.SetPosition((int)centerOfScreen.X, (int)centerOfScreen.Y);
                 oldMousePos = Mouse.GetState().Position.ToVector2();
 

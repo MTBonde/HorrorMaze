@@ -55,6 +55,7 @@ namespace HorrorMaze
                         maxLocation.X = transform.Position3D.X;
                     }
                     transform.Position3D = Vector3.Clamp(transform.Position3D + (dir * _speed * Globals.DeltaTime), minLocation, maxLocation);
+                    transform.Rotation = new Vector3(0, 0, MathHelper.ToDegrees(MathF.Atan2(-dir.X, dir.Y)));
                     if (transform.Position3D == path[currentPath])
                     {
                         currentPath++;

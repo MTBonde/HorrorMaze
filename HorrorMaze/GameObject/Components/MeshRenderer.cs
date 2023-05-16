@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -43,15 +44,13 @@ namespace HorrorMaze
             {
                 foreach (BasicEffect effect in mesh.Effects)
                 {
-                    effect.LightingEnabled = false;
-
                     CameraManager.ApplyWorldShading(effect);
-                    //effect.
-                    //effect.EnableDefaultLighting();
-                    //effect.AmbientLightColor = new Vector3(1f, 0, 0);
+
+                    Debug.WriteLine(gameObject.name + " Y: " + transform.Rotation.Y);
                     effect.View = SceneManager.active_scene.viewMatrix;
-                    effect.World = SceneManager.active_scene.worldMatrix * Matrix.CreateRotationX(MathHelper.ToRadians(gameObject.transform.Rotation.X)) * Matrix.CreateRotationY(MathHelper.ToRadians(gameObject.transform.Rotation.Y)) * Matrix.CreateRotationZ(MathHelper.ToRadians(gameObject.transform.Rotation.Z)) * Matrix.CreateTranslation(gameObject.transform.Position3D);
+                    effect.World = SceneManager.active_scene.worldMatrix * Matrix.CreateRotationX(MathHelper.ToRadians(transform.Rotation.X)) * Matrix.CreateRotationY(MathHelper.ToRadians(transform.Rotation.Y)) * Matrix.CreateRotationZ(MathHelper.ToRadians(transform.Rotation.Z)) * Matrix.CreateTranslation(transform.Position3D);
                     effect.Projection = SceneManager.active_scene.projectionMatrix;
+                    Debug.WriteLine(gameObject.name + " Y: " + transform.Rotation.Y);
                     mesh.Draw();
                 }
             }
