@@ -12,6 +12,7 @@ namespace HorrorMaze
         #region Methods
         public override void SetupScene()
         {
+            GameWorld.Instance.IsMouseVisible = false;
             //creates worlds center point
             worldMatrix = Matrix.CreateWorld(Vector3.Zero, Vector3.Forward, Vector3.Up);
 

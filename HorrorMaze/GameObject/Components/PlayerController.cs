@@ -13,7 +13,7 @@ namespace HorrorMaze
     {
 
         float moveScale = 1.0f;
-        float mouseSensetivity = 0.25f;
+        float mouseSensetivity = 0.1f;
         float rotateScale = 50;
         float _playerRadius = 0.15f;
         float _sprintMultiplier = 2.25f;
