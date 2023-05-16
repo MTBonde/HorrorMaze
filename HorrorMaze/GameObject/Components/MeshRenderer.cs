@@ -46,11 +46,9 @@ namespace HorrorMaze
                 {
                     CameraManager.ApplyWorldShading(effect);
 
-                    Debug.WriteLine(gameObject.name + " Y: " + transform.Rotation.Y);
                     effect.View = SceneManager.active_scene.viewMatrix;
                     effect.World = SceneManager.active_scene.worldMatrix * Matrix.CreateRotationX(MathHelper.ToRadians(transform.Rotation.X)) * Matrix.CreateRotationY(MathHelper.ToRadians(transform.Rotation.Y)) * Matrix.CreateRotationZ(MathHelper.ToRadians(transform.Rotation.Z)) * Matrix.CreateTranslation(transform.Position3D);
                     effect.Projection = SceneManager.active_scene.projectionMatrix;
-                    Debug.WriteLine(gameObject.name + " Y: " + transform.Rotation.Y);
                     mesh.Draw();
                 }
             }

@@ -7,7 +7,7 @@ namespace HorrorMaze
     public class GameScene : Scene
     {
 
-        PlayerAudioListener _playerAudioListner;
+        //PlayerAudioListener _playerAudioListner;
 
         #region Methods
         public override void SetupScene()
@@ -31,6 +31,7 @@ namespace HorrorMaze
             player.AddComponent<PlayerController>();
             player.AddComponent<PlayerController>();
             player.AddComponent<Camera>();
+            player.AddComponent<BackupAudioListner>();
 
             //Test maze
             Maze maze = new Maze(10, 10);
@@ -111,21 +112,27 @@ namespace HorrorMaze
             enemy.transform.Position3D = new Vector3(1.5f, 1.5f, 0);
             enemy.AddComponent<BackupPathing>().SetMaze(cells);
             enemy.AddComponent<BackupEnemy>();
+            BackupAudioSouce enemyAudioSouce = enemy.AddComponent<BackupAudioSouce>();
+            enemyAudioSouce.SetSoundEffect("SoundFX\\grudge");
+            enemyAudioSouce.loop = true;
+            enemyAudioSouce.Spacial = true;
+            enemyAudioSouce.maxDistance = 3f;
+            enemyAudioSouce.Play();
             //enemy.AddComponent<Pathing>().mazeCells = cells;
             //enemy.AddComponent<Enemy>();
-            AudioSource enemyAudioSource = enemy.AddComponent<AudioSource>();
+            //AudioSource enemyAudioSource = enemy.AddComponent<AudioSource>();
 
             // test thread
             //ThreadManager.Startup(enemy);
 
             // Add the AudioComponent to AudioManager
-            SceneManager.audioManager.AddAudioSource(enemyAudioSource);
+            //SceneManager.audioManager.AddAudioSource(enemyAudioSource);
 
 
             // Set up the listener AudioComponent and attach it to the player
-            PlayerAudioListener playerAudioListener = player.AddComponent<PlayerAudioListener>();
-            _playerAudioListner = playerAudioListener;
-            
+            //PlayerAudioListener playerAudioListener = player.AddComponent<PlayerAudioListener>();
+            //_playerAudioListner = playerAudioListener;
+
             //Goal
             GameObject goal = new GameObject();
             goal.name = "Goal";
@@ -210,17 +217,17 @@ namespace HorrorMaze
 
 
             // Add the EnemyAudioController to the enemy object and set its properties:
-            EnemyAudioController enemyAudioController = enemy.AddComponent<EnemyAudioController>();
-            enemyAudioController.Setup(enemyAudioSource, playerAudioListener, SceneManager.audioManager);
+            //EnemyAudioController enemyAudioController = enemy.AddComponent<EnemyAudioController>();
+            //enemyAudioController.Setup(enemyAudioSource, playerAudioListener, SceneManager.audioManager);
 
             // Add playerAudioController and Audio Sourcing for the player 
-            AudioSource playerAudioSource = player.AddComponent<AudioSource>();
-            PlayerAudioController playerAudioController = player.AddComponent<PlayerAudioController>();
-            playerAudioController.Setup(playerAudioSource, playerAudioListener, SceneManager.audioManager);
+            //AudioSource playerAudioSource = player.AddComponent<AudioSource>();
+            //PlayerAudioController playerAudioController = player.AddComponent<PlayerAudioController>();
+            //playerAudioController.Setup(playerAudioSource, playerAudioListener, SceneManager.audioManager);
 
 
             // Set the PlayerAudioListener in the AudioManager:
-            SceneManager.audioManager.SetPlayerAudioListener(playerAudioListener);
+            //SceneManager.audioManager.SetPlayerAudioListener(playerAudioListener);
             SceneManager._gameTimer.ResetTimer();
             SceneManager._gameTimer.StartTimer();
         }
@@ -234,14 +241,20 @@ namespace HorrorMaze
             enemy.transform.Position3D = new Vector3(-8.5f, -10.5f, 0);
             enemy.AddComponent<TutorialEnemy>();
             enemy.Start();
-            AudioSource enemyAudioSource = enemy.AddComponent<AudioSource>();
+            BackupAudioSouce enemyAudioSouce = enemy.AddComponent<BackupAudioSouce>();
+            enemyAudioSouce.SetSoundEffect("SoundFX\\grudge");
+            enemyAudioSouce.loop = true;
+            enemyAudioSouce.Spacial = true;
+            enemyAudioSouce.maxDistance = 3f;
+            enemyAudioSouce.Play();
+            //AudioSource enemyAudioSource = enemy.AddComponent<AudioSource>();
 
             // Add the AudioComponent to AudioManager
-            SceneManager.audioManager.AddAudioSource(enemyAudioSource);
+            //SceneManager.audioManager.AddAudioSource(enemyAudioSource);
 
             // Add the EnemyAudioController to the enemy object and set its properties:
-            EnemyAudioController enemyAudioController = enemy.AddComponent<EnemyAudioController>();
-            enemyAudioController.Setup(enemyAudioSource, _playerAudioListner, SceneManager.audioManager);
+            //EnemyAudioController enemyAudioController = enemy.AddComponent<EnemyAudioController>();
+            //enemyAudioController.Setup(enemyAudioSource, _playerAudioListner, SceneManager.audioManager);
         }
 
         private void SetupCameraAndLoadSoundEffects()

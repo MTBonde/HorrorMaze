@@ -24,7 +24,7 @@
 
             effect.FogEnabled = true;
             effect.FogColor = Color.Black.ToVector3();
-            effect.FogStart = 0;
+            effect.FogStart = 0f;
             effect.FogEnd = 3f;
         }
 
