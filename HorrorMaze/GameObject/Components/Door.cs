@@ -10,7 +10,6 @@ namespace HorrorMaze
     {
 
         Vector3 _openPos, _closePos;
-        bool open;
 
         public void Awake() 
         {
@@ -20,14 +19,12 @@ namespace HorrorMaze
 
         public void OpenDoor()
         {
-            if (!open)
-                transform.Position3D = _openPos;
+            transform.Position3D = _openPos;
         }
 
         public void CloseDoor()
         {
-            if (open)
-                transform.Position3D = _closePos;
+            transform.Position3D = _closePos;
         }
     }
 }

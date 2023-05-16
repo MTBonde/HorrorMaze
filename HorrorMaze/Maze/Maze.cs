@@ -79,7 +79,7 @@ namespace HorrorMaze
             //    }
             //}
 
-            AddRooms();
+            //AddRooms();
             return EvaluateCell(MazeStartPoint);
         }
         private void AddRooms()

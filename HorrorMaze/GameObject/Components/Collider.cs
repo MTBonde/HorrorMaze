@@ -120,7 +120,7 @@ namespace HorrorMaze
                         {
                             newEndPoint = BoxSolver(new Vector3(wallThickness, 1 + wallThickness, 2), transform.Position3D + new Vector3(currentX + 1, currentY + 0.5f, 1), startPoint, newEndPoint, radius);
                         }
-                        else if(currentX < _cells.GetLength(0))
+                        else if(currentX < _cells.GetLength(0) - 1)
                         {
                             if(_cells[currentX + 1, currentY].Walls[0])
                                 newEndPoint = BoxSolver(new Vector3(1 + wallThickness, wallThickness, 2), transform.Position3D + new Vector3(currentX + 1.5f, currentY + 1, 1), startPoint, newEndPoint, radius);
@@ -153,7 +153,7 @@ namespace HorrorMaze
                         {
                             newEndPoint = BoxSolver(new Vector3(1 + wallThickness, wallThickness, 2), transform.Position3D + new Vector3(currentX + 0.5f, currentY + 1, 1), startPoint, newEndPoint, radius);
                         }
-                        else if(currentY < _cells.GetLength(1))
+                        else if(currentY < _cells.GetLength(1) - 1)
                         {
                             if (_cells[currentX, currentY + 1].Walls[1])
                                 newEndPoint = BoxSolver(new Vector3(wallThickness, 1 + wallThickness, 2), transform.Position3D + new Vector3(currentX + 1f, currentY + 1.5f, 1), startPoint, newEndPoint, radius);

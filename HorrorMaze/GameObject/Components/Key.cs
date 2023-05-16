@@ -6,11 +6,14 @@ using System.Threading.Tasks;
 
 namespace HorrorMaze
 {
+    public delegate void KeyEvent();
+
     public class Key : Component
     {
 
         public Door door;
         int _rotationSpeed = 100;
+        public event KeyEvent keyEvent;
 
         public void Update()
         {
@@ -19,7 +22,12 @@ namespace HorrorMaze
 
         public void OnCollision(GameObject go)
         {
-            door.OpenDoor();
+            if(keyEvent != null)
+            {
+                keyEvent.Invoke();
+            }
+            if(door != null)
+                door.OpenDoor();
             CollisionManager.colliders.Remove(gameObject.GetComponent<BoxCollider>());
             SceneManager.active_scene.gameObjects.Remove(gameObject);
         }

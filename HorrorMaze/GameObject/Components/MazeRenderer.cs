@@ -19,7 +19,7 @@ namespace HorrorMaze
         MazeCell[,] _mazeCells = new MazeCell[5,5];
         Model[] _wallModels;
         Model _wall, _floor, _celing;
-        int _renderDist = 4;
+        int _renderDist = 40;
         Transform _playerTransform;
 
         /// <summary>
@@ -102,8 +102,8 @@ namespace HorrorMaze
             {
                 for (int y = min.Y; y < max.Y; y++)
                 {
-                    DrawFloor(new Vector3(x + 0.5f,y + 0.5f,0), new Vector3(0,0,0));
-                    DrawCelling(new Vector3(x + 0.5f,y + 0.5f,2), new Vector3(0,0,0));
+                    DrawFloor(new Vector3(x + 0.5f,y + 0.5f,0) + transform.Position3D, new Vector3(0,0,0));
+                    DrawCelling(new Vector3(x + 0.5f,y + 0.5f,2) + transform.Position3D, new Vector3(0,0,0));
                 }
             }
             //outer walls spawning
