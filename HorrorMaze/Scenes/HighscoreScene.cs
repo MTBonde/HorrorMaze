@@ -13,7 +13,7 @@ namespace HorrorMaze
 
         public override void SetupScene()
         {
-            throw new NotImplementedException();
+
         }
     }
 }
