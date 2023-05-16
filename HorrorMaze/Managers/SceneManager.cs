@@ -51,6 +51,7 @@ namespace HorrorMaze
             audioManager = new AudioManager();
             active_scene = scenes[scene_number];
             ThreadManager.KillÁllThreads();
+            GameWorld.Instance.IsMouseVisible = true;
             SetupScene();
         }
 

@@ -54,6 +54,8 @@ namespace HorrorMaze
             if(SFXInstance != null)
             {
                 SFXInstance.Stop();
+                SFXInstance.Dispose();
+                SFXInstance=null;
             }
         }
     }

@@ -32,7 +32,6 @@ namespace HorrorMaze
             this.TargetElapsedTime = TimeSpan.FromSeconds(1d / 120d); //60);
 
             Content.RootDirectory = "Content";
-            IsMouseVisible = false;
         }
         
 
