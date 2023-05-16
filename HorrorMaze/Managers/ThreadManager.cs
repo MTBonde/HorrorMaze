@@ -17,8 +17,11 @@ namespace HorrorMaze
         static bool have_been_called = false;
         public static void Startup(GameObject enemy)
         {
-            if (have_been_called)
+            if(have_been_called)
+            {
                 KillÁllThreads();
+                threads_lifeline[0] = true;
+            }
             enemies.Add(enemy);
             bool pathings = false;
             threads_lifeline.Add(pathings);
@@ -32,7 +35,7 @@ namespace HorrorMaze
             while (!threads_lifeline[0])
             {
                 SceneManager.GetGameObjectByName("Enemy").GetComponent<Enemy>().GetPath();
-                Thread.Sleep(10 * 1000);
+                Thread.Sleep(5 * 1000);
             }
         }
         public static void KillÁllThreads()
