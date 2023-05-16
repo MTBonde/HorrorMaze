@@ -32,7 +32,7 @@ namespace HorrorMaze
             while (!threads_lifeline[0])
             {
                 SceneManager.GetGameObjectByName("Enemy").GetComponent<Enemy>().GetPath();
-                Thread.Sleep(1000 * 1000);
+                Thread.Sleep(10 * 1000);
             }
         }
         static void KillÁllThreads()
@@ -41,9 +41,6 @@ namespace HorrorMaze
             {
                 threads_lifeline[i] = true;
             }
-            Thread killing = new Thread(KillThreading);
-            killing.IsBackground = true;
-            killing.Start();
         }
         static void KillThreading()
         {

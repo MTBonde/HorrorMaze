@@ -146,9 +146,6 @@ namespace HorrorMaze
                 if ((int)monster.X == closed[index_found][0] && (int)monster.Y == closed[index_found][1])
                     path_added = true;
             }
-            cell[0] = (int)player.X;
-            cell[1] = (int)player.Y;
-            path.Add(cell);
             #endregion
 
             return path;
@@ -176,7 +173,7 @@ namespace HorrorMaze
             {
                 case 0:
                     direction[0] = 0;
-                    direction[1] = -1;
+                    direction[1] = +1;
                     return direction;
                 case 1:
                     direction[0] = +1;
@@ -184,7 +181,7 @@ namespace HorrorMaze
                     return direction;
                 case 2:
                     direction[0] = 0;
-                    direction[1] = +1;
+                    direction[1] = -1;
                     return direction;
                 case 3:
                     direction[0] = -1;

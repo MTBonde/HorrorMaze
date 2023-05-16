@@ -26,8 +26,6 @@ namespace HorrorMaze
                 for(int y = 0; y < testCells.GetLength(1); y++)
                 {
                     testCells[x, y] = new MazeCell();
-                    testCells[x, y].Walls[0] = false;
-                    testCells[x, y].Walls[1] = false;
                 }
             }
             //makes start room
