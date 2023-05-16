@@ -13,22 +13,48 @@ namespace HorrorMaze
         int currentPath;
         float _speed = 2;
         GameObject player;
+        float waitTimer;
 
         public void Start()
         {
-            path = new Vector3[3] { new Vector3(-6.5f, -6.5f, 0) , new Vector3(-6.5f, -3.5f, 0) , new Vector3(0.5f, -3.5f, 0) };
+            path = new Vector3[4] { new Vector3(-8.5f, -9.5f, 0), new Vector3(-6.5f, -6.5f, 0) , new Vector3(-6.5f, -3.5f, 0) , new Vector3(0.5f, -3.5f, 0) };
             player = SceneManager.GetGameObjectByName("Player");
         }
 
         public void Update()
         {
-            if (currentPath < path.Length)
+            if (waitTimer < 2)
+            {
+                waitTimer += Globals.DeltaTime;
+
+                if (transform.Position3D == path[currentPath])
+                {
+                    currentPath++;
+                    SceneManager.GetGameObjectByName("MonsterDoor").GetComponent<Door>().CloseDoor();
+                }
+                else if(currentPath == 0)
+                {
+                    Vector3 dir = path[currentPath] - transform.Position3D;
+                    dir.Normalize();
+                    Vector3 minLocation = transform.Position3D;
+                    Vector3 maxLocation = path[currentPath];
+                    transform.Position3D = Vector3.Clamp(transform.Position3D + (dir * _speed * Globals.DeltaTime), minLocation, maxLocation);
+                }
+            }
+            else if (currentPath < path.Length)
             {
                 if (player.transform.Position3D.Y > -5)
                 {
                     Vector3 dir = path[currentPath] - transform.Position3D;
                     dir.Normalize();
-                    transform.Position3D = Vector3.Clamp(transform.Position3D + (dir * _speed * Globals.DeltaTime), transform.Position3D, path[currentPath]);
+                    Vector3 minLocation = transform.Position3D;
+                    Vector3 maxLocation = path[currentPath];
+                    if (transform.Position3D.X > -6.5f && currentPath == 0)
+                    {
+                        minLocation.X = path[currentPath].X;
+                        maxLocation.X = transform.Position3D.X;
+                    }
+                    transform.Position3D = Vector3.Clamp(transform.Position3D + (dir * _speed * Globals.DeltaTime), minLocation, maxLocation);
                     if (transform.Position3D == path[currentPath])
                     {
                         currentPath++;
