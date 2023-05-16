@@ -17,15 +17,29 @@ namespace HorrorMaze
         static bool have_been_called = false;
         public static void Startup(GameObject enemy)
         {
-            if (have_been_called)
-                KillÁllThreads();
+
             enemies.Add(enemy);
             bool pathings = false;
             threads_lifeline.Add(pathings);
-            Thread pathing = new Thread(UpdatePathing);
+            Thread pathing = new Thread(adder);
             pathing.IsBackground = true;
             pathing.Start();
             have_been_called = true;
+        }
+        static void adder()
+        {
+            bool addet = false;
+            while (!addet)
+            {
+                if (!threads_lifeline[0])
+                {
+                    Thread pathing = new Thread(UpdatePathing);
+                    pathing.IsBackground = true;
+                    pathing.Start();
+                    addet = true;
+                }
+                Thread.Sleep(1 * 500);
+            }
         }
         static void UpdatePathing()
         {
@@ -34,6 +48,7 @@ namespace HorrorMaze
                 SceneManager.GetGameObjectByName("Enemy").GetComponent<Enemy>().GetPath();
                 Thread.Sleep(10 * 1000);
             }
+            threads_lifeline[0] = false;
         }
         public static void KillÁllThreads()
         {
