@@ -12,13 +12,13 @@ namespace HorrorMaze
     public class PlayerController : Component
     {
 
-        float moveScale = 2.5f;
+        float moveScale = 1.0f;
         float mouseSensetivity = 0.25f;
         float rotateScale = 50;
         float _playerRadius = 0.15f;
-        float _sprintMultiplier = 0.25f;
-        float energy = 10f; // Energy for sprint, in seconds
-        float energyRechargeTime = 20f; // Time to fully recharge energy, in seconds
+        float _sprintMultiplier = 2.25f;
+        float energy = 3f; // Energy for sprint, in seconds
+        float energyRechargeTime = 5f; // Time to fully recharge energy, in seconds
         Stopwatch sprintTimer = new Stopwatch(); // Timer for sprint function
 
         Vector2 oldMousePos;
@@ -73,7 +73,7 @@ namespace HorrorMaze
                 //    movement += (movement - transform.Position3D) * _sprintMultiplier;
 
                 // If LeftShift is pressed and there's enough energy
-                if(keyState.IsKeyDown(Keys.LeftShift) && energy > 0)
+                if(keyState.IsKeyDown(Keys.LeftShift) && energy > 1)
                 {
                     // Start sprint timer if not already running
                     if(!sprintTimer.IsRunning)
@@ -86,13 +86,15 @@ namespace HorrorMaze
                         // move at sprint speed
                         movement += (movement - transform.Position3D) * _sprintMultiplier;
                         // Drain energy
-                        energy -= (float)energyConsumed; 
+                        //energy--;
+                        energy -= energyConsumed; 
                     }
                     else
                     {
                         // Activate heartbeat
                         PlayHeartBeatSound = true;
                         // Reset sprint timer
+                        sprintTimer.Stop();
                         sprintTimer.Reset(); 
                     }
                 }
@@ -100,7 +102,10 @@ namespace HorrorMaze
                 {
                     // Regenerate energy over time when not sprinting
                     if(sprintTimer.IsRunning)
+                    {
+                        sprintTimer.Stop();
                         sprintTimer.Reset();
+                    }
 
                     if(energy < 10)
                     {
@@ -126,6 +131,7 @@ namespace HorrorMaze
                 {
                     //stop timer here
                     TimeSpan endTime = SceneManager._gameTimer.GetElapsedTime();
+                    
                     SceneManager._gameTimer.StopTimer();
                     Debug.WriteLine($"Game ends. The end time is {endTime} milliseconds.");
 

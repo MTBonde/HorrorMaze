@@ -26,6 +26,8 @@ namespace HorrorMaze
                 for(int y = 0; y < testCells.GetLength(1); y++)
                 {
                     testCells[x, y] = new MazeCell();
+                    testCells[x, y].Walls[0] = false;
+                    testCells[x, y].Walls[1] = false;
                 }
             }
             //makes start room
@@ -34,8 +36,10 @@ namespace HorrorMaze
                 for(int y = 0; y < 3; y++)
                 {
                     testCells[x, y].Visited = true;
-                    testCells[x, y].Walls[0] = false;
-                    testCells[x, y].Walls[1] = false;
+                    if(y < testCells.GetLength(1) - 1)
+                        testCells[x, y].Walls[0] = false;
+                    if(x < testCells.GetLength(0) - 1)
+                        testCells[x, y].Walls[1] = false;
                 }
             }
             testCells[0, 2].Walls[0] = true;
@@ -97,6 +101,13 @@ namespace HorrorMaze
             // Add the EnemyAudioController to the enemy object and set its properties:
             EnemyAudioController enemyAudioController = enemy.AddComponent<EnemyAudioController>();
             enemyAudioController.Setup(enemyAudioSource, playerAudioListener, SceneManager.audioManager);
+
+            // Add playerAudioController and Audio Sourcing for the player 
+            AudioSource playerAudioSource = player.AddComponent<AudioSource>();
+            PlayerAudioController playerAudioController = player.AddComponent<PlayerAudioController>();
+            playerAudioController.Setup(playerAudioSource, playerAudioListener, SceneManager.audioManager);
+
+
             // Set the PlayerAudioListener in the AudioManager:
             SceneManager.audioManager.SetPlayerAudioListener(playerAudioListener);
             SceneManager._gameTimer.ResetTimer();
@@ -119,8 +130,7 @@ namespace HorrorMaze
             player.name = "Player";
             player.transform.Position3D = new Vector3(1.5f, 1.5f, 1.6f);
             player.transform.Rotation = new Vector3(0, 0, 0);
-            player.AddComponent<PlayerController>();
-            player.AddComponent<PlayerController>();
+            player.AddComponent<PlayerController>();           
             player.AddComponent<Camera>();
 
             return player;
