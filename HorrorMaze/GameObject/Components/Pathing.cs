@@ -27,7 +27,7 @@ namespace HorrorMaze
         /// <param name="map_height"> The height of the labyrinth </param>
         /// <returns></returns>
 
-        public List<int[]> GetPath(Vector2 player, Vector2 monster)
+        public List<int[]> GetPath(Vector2 player, Vector2 monster) 
         {
             List<int[]> open = new List<int[]>();
             List<int[]> closed = new List<int[]>();

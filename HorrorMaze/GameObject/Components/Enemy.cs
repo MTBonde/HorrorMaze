@@ -14,10 +14,18 @@ namespace HorrorMaze
         public void GetPath()
         {
             Random rnd = new Random();
+            bool chosen = false;
+            int x = 0;
+            int y = 0;
+            while (!chosen)
+            {
+                x = rnd.Next(gameObject.GetComponent<Pathing>().mazeCells.GetLength(0));
+                y = rnd.Next(gameObject.GetComponent<Pathing>().mazeCells.GetLength(1));
+                if (x != transform.Position.X && y != transform.Position.Y)
+                    chosen = true;
+            }
             //get path
-            path = gameObject.GetComponent<Pathing>().GetPath(new Vector2(
-                rnd.Next(gameObject.GetComponent<Pathing>().mazeCells.GetLength(0) - 1),
-                rnd.Next(gameObject.GetComponent<Pathing>().mazeCells.GetLength(1)) - 1), transform.Position);
+            path = gameObject.GetComponent<Pathing>().GetPath(new Vector2(x, y), transform.Position);
             at_pos = false;
         }
         void Update()
