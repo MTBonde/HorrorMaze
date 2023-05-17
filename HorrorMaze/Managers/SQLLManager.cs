@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.SQLite;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Data.SQLite;
+using System.Diagnostics;
 
-namespace HorrorMaze.Managers
+namespace HorrorMaze
 {
     public class SQLManager
     {
@@ -40,6 +36,7 @@ namespace HorrorMaze.Managers
             SQLiteCommand sqlcmd = new SQLiteCommand(cmd, conn);
             sqlcmd.ExecuteNonQuery();
             CloseConn();
+            Debug.WriteLine("done");
         }
 
         public bool AddToTable(string tableName, string[] valueNames, object[] values)
@@ -82,7 +79,7 @@ namespace HorrorMaze.Managers
         public object[] GetSortedAfter(string tableName, string sortCollumName)
         {
             OpenConn();
-            string cmd = "SELECT * from " + tableName + " ORDER BY " + sortCollumName;
+            string cmd = "SELECT * FROM " + tableName + " ORDER BY " + sortCollumName + " Limit 10";
             SQLiteCommand sqlcmd = new SQLiteCommand(cmd, conn);
             SQLiteDataReader reader = sqlcmd.ExecuteReader();
 

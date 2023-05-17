@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace HorrorMaze
+﻿namespace HorrorMaze
 {
     public class HighscoreScene : Scene
     {
@@ -13,6 +7,13 @@ namespace HorrorMaze
 
         public override void SetupScene()
         {
+
+            GameObject highscores = new GameObject();
+            highscores.transform.Position = new Vector2(GameWorld.Instance.GraphicsDevice.Viewport.Width / 2, GameWorld.Instance.GraphicsDevice.Viewport.Height / 2);
+            TextRenderer scoreboardText = highscores.AddComponent<TextRenderer>();
+            scoreboardText.scale = 5;
+            scoreboardText.SetText(HighscoreManager.GetScoreboard());
+            scoreboardText.color = Color.Red;
 
         }
     }

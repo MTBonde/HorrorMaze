@@ -63,6 +63,7 @@ namespace HorrorMaze
         public void OnCollision(GameObject go)
         {
             if (go.name == "Player")
+                //SceneManager.LoadScene(3);
                 SceneManager.LoadScene(6);
         }
     }

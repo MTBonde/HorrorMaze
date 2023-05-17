@@ -1,6 +1,6 @@
-﻿using HorrorMaze.Managers;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,6 +15,7 @@ namespace HorrorMaze
         public static void Setup()
         {
             manager.CreateTable("highscore",new string[2] { "names", "scores" }, new TypeCode[2] { TypeCode.String, TypeCode.Int32 });
+            Debug.WriteLine(GetScoreboard());
         }
 
         public static void AddScore(string name, int score)

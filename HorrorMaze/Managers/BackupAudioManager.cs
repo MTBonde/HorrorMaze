@@ -48,7 +48,6 @@ namespace HorrorMaze
         public static void ApplySpacialSound(SoundEffectInstance soundEffectInstance, AudioEmitter emitter, float maxListenDistance)
         {
             float volume = Vector3.Distance(audioListener.Position, emitter.Position) / maxListenDistance;
-            Debug.WriteLine(volume);
             if (volume > 0 && volume <= 1)
             {
                 if(soundEffectInstance.State == SoundState.Stopped)
