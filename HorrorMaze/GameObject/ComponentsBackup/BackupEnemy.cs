@@ -37,7 +37,14 @@ namespace HorrorMaze
                 player.transform.Position.X < transform.Position.X + 3 &&
                 player.transform.Position.X < transform.Position.Y + 3)
                 if (!CollisionManager.RayCast(transform.Position3D, player.transform.Position3D))
+                {
                     path = gameObject.GetComponent<BackupPathing>().GetPath(transform.Position.ToPoint(), player.transform.Position.ToPoint());
+                    if(path == null)
+                    {
+                        path = new List<Vector2>();
+                        path.Add(player.transform.Position);
+                    }
+                }
             if (path != null && path.Count > 0)
             {
                 Vector2 dir = path[0] - transform.Position;
