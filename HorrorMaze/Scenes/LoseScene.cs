@@ -21,6 +21,7 @@ namespace HorrorMaze
             text.SetText("You Lose!");
             text.color = Color.Red;
             text.transform.Position = new Vector2(GameWorld.Instance.GraphicsDevice.Viewport.Width / 2, 200);
+            loseText.AddComponent<MainMenuTimer>();
 
             GameObject tryAgain = new GameObject();
             tryAgain.transform.Position = new Vector2(GameWorld.Instance.GraphicsDevice.Viewport.Width / 2, GameWorld.Instance.GraphicsDevice.Viewport.Height / 2);

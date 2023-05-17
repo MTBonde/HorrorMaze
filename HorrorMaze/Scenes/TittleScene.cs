@@ -14,12 +14,26 @@ namespace HorrorMaze
 
         public override void SetupScene()
         {
-            GameObject winText = new GameObject();
-            TextRenderer text = winText.AddComponent<TextRenderer>();
-            text.scale = 20;
-            text.SetText("Horror Maze");
-            text.color = Color.Red;
-            text.transform.Position = new Vector2(GameWorld.Instance.GraphicsDevice.Viewport.Width / 2, 200);
+            GameObject tittle = new GameObject();
+            TextRenderer tittleText = tittle.AddComponent<TextRenderer>();
+            tittleText.scale = 20;
+            tittleText.SetText("Horror Maze");
+            tittleText.color = Color.Red;
+            tittleText.transform.Position = new Vector2(GameWorld.Instance.GraphicsDevice.Viewport.Width / 2, 200);
+
+            GameObject madeInMonogame = new GameObject();
+            TextRenderer madeInMonogameText = madeInMonogame.AddComponent<TextRenderer>();
+            madeInMonogameText.scale = 5;
+            madeInMonogameText.SetText("Made in Monogame");
+            madeInMonogameText.color = Color.Red;
+            madeInMonogameText.transform.Position = new Vector2(GameWorld.Instance.GraphicsDevice.Viewport.Width / 2, 350);
+
+            GameObject by = new GameObject();
+            TextRenderer byText = by.AddComponent<TextRenderer>();
+            byText.scale = 5;
+            byText.SetText("By Scare Factory");
+            byText.color = Color.Red;
+            byText.transform.Position = new Vector2(GameWorld.Instance.GraphicsDevice.Viewport.Width / 2, 410);
 
             GameObject play = new GameObject();
             play.transform.Position = new Vector2(GameWorld.Instance.GraphicsDevice.Viewport.Width / 2, GameWorld.Instance.GraphicsDevice.Viewport.Height / 2);
