@@ -58,5 +58,13 @@ namespace HorrorMaze
             else if(soundEffectInstance.State == SoundState.Playing)
                 soundEffectInstance.Stop();
         }
+
+        public static void ResetSound()
+        {
+            for (int i = 0; i < SceneManager.active_scene.gameObjects.Count; i++)
+            {
+                SceneManager.active_scene.gameObjects[i].StopSound();
+            }
+        }
     }
 }

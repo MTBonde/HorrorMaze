@@ -140,6 +140,11 @@ namespace HorrorMaze
             InvokeComponentsMethod("OnCollision", new object[] { go });
         }
 
+        public void StopSound()
+        {
+            InvokeComponentsMethod("StopSound", new object[] {  });
+        }
+
         /// <summary>
         /// invokes a method in all components on tyhe gameobject if the method is implemented
         /// </summary>

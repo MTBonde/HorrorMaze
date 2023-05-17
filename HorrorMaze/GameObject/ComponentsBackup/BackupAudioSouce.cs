@@ -15,6 +15,7 @@ namespace HorrorMaze
         public bool loop = false;
         public bool randomLoopEffects;
         public float volume = 1;
+        bool remove = false;
 
         public void SetSoundEffect(string path)
         {
@@ -28,7 +29,7 @@ namespace HorrorMaze
 
         public void Update()
         {
-            if (running)
+            if (running && !remove)
             {
                 _emitter.Position = transform.Position3D;
                 _soundEffectInstance.Volume = volume;
@@ -72,6 +73,17 @@ namespace HorrorMaze
             {
                 running = false;
                 _soundEffectInstance.Stop();
+            }
+        }
+
+        public void StopSound()
+        {
+            if(_soundEffectInstance != null)
+            {
+                _soundEffectInstance.Stop();
+                _soundEffectInstance.Dispose();
+                _soundEffectInstance = null;
+                remove = true;
             }
         }
     }

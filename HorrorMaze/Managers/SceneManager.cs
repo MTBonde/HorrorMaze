@@ -45,13 +45,17 @@ namespace HorrorMaze
         /// <param name="scene_number">the number of the scene to load</param>
         public static void LoadScene(int scene_number)//maybe make one that uses a string instead and looks it up in a dictionary
         {
+            for (int i = 0; i < active_scene.gameObjects.Count; i++)
+            {
+                active_scene.gameObjects[i].StopSound();
+            }
             active_scene.gameObjects.Clear();
             CollisionManager.colliders.Clear();
             audioManager.StopAllSounds();
             audioManager = new AudioManager();
             active_scene = scenes[scene_number];
-            //ThreadManager.KillÁllThreads();
             GameWorld.Instance.IsMouseVisible = true;
+            //ThreadManager.KillÁllThreads();
             SetupScene();
         }
 
