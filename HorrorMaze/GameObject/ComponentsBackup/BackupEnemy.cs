@@ -11,7 +11,7 @@ namespace HorrorMaze
     {
 
         List<Vector2> path = new List<Vector2>();
-        float _speed = 1f;
+        float _speed = 1.25f;
 
         public void Start()
         {
