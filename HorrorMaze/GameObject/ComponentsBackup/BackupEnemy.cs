@@ -12,19 +12,32 @@ namespace HorrorMaze
 
         List<Vector2> path = new List<Vector2>();
         float _speed = 1.25f;
+        GameObject player;
+
+        public void Awake()
+        {
+            player = SceneManager.GetGameObjectByName("Player");
+        }
 
         public void Start()
         {
-            Random rnd = new Random();
-            path = gameObject.GetComponent<BackupPathing>().GetPath(
-                new Point((int)transform.Position.X, (int)transform.Position.Y), 
-                new Point(
-                    rnd.Next(0, gameObject.GetComponent<BackupPathing>()._mazeCells.GetLength(0)), 
-                    rnd.Next(0, gameObject.GetComponent<BackupPathing>()._mazeCells.GetLength(1))));
+            //Random rnd = new Random();
+            //path = gameObject.GetComponent<BackupPathing>().GetPath(
+            //    new Point((int)transform.Position.X, (int)transform.Position.Y), 
+            //    new Point(
+            //        rnd.Next(0, gameObject.GetComponent<BackupPathing>()._mazeCells.GetLength(0)), 
+            //        rnd.Next(0, gameObject.GetComponent<BackupPathing>()._mazeCells.GetLength(1))));
+            path = gameObject.GetComponent<BackupPathing>().GetPath(new Point((int)transform.Position.X, (int)transform.Position.Y), new Point(4, 4));
         }
 
         public void Update()
         {
+            if(player.transform.Position.X > transform.Position.X - 3 &&
+                player.transform.Position.X > transform.Position.Y - 3 &&
+                player.transform.Position.X < transform.Position.X + 3 &&
+                player.transform.Position.X < transform.Position.Y + 3 &&
+                CollisionManager.CheckCircleCollision(transform.Position3D, player.transform.Position3D, gameObject, 0, 1.7f).collisionPoint == player.transform.Position3D)
+                path = gameObject.GetComponent<BackupPathing>().GetPath(transform.Position.ToPoint(), player.transform.Position.ToPoint());
             if (path != null && path.Count > 0)
             {
                 Vector2 dir = path[0] - transform.Position;
@@ -51,12 +64,12 @@ namespace HorrorMaze
             }
             else
             {
-                Random rnd = new Random();
-                path = gameObject.GetComponent<BackupPathing>().GetPath(
-                    new Point((int)(transform.Position.X - 0.5f), (int)(transform.Position.Y - 0.5f)), 
-                    new Point(
-                        rnd.Next(0, gameObject.GetComponent<BackupPathing>()._mazeCells.GetLength(0)), 
-                        rnd.Next(0, gameObject.GetComponent<BackupPathing>()._mazeCells.GetLength(1))));
+                //Random rnd = new Random();
+                //path = gameObject.GetComponent<BackupPathing>().GetPath(
+                //    new Point((int)(transform.Position.X - 0.5f), (int)(transform.Position.Y - 0.5f)), 
+                //    new Point(
+                //        rnd.Next(0, gameObject.GetComponent<BackupPathing>()._mazeCells.GetLength(0)), 
+                //        rnd.Next(0, gameObject.GetComponent<BackupPathing>()._mazeCells.GetLength(1))));
             }
         }
 
