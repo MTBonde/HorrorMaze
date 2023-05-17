@@ -290,6 +290,12 @@
 /processorParam:TextureFormat=Color
 /build:Pixel.png
 
+#begin SoundFX/breathing.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundFX/breathing.wav
+
 #begin SoundFX/creepy_sound.mp3
 /importer:Mp3Importer
 /processor:SoundEffectProcessor
@@ -307,6 +313,18 @@
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:SoundFX/heartbeat.wav
+
+#begin SoundFX/running.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundFX/running.wav
+
+#begin SoundFX/walking.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundFX/walking.wav
 
 #begin UIFont.spritefont
 /importer:FontDescriptionImporter

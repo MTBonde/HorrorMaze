@@ -8,7 +8,7 @@ namespace HorrorMaze
     /// </summary>
     public class AudioSource : Component
     {       
-        public Dictionary<string, SoundEffect> _SoundeffectsPlaying= new();
+        public Dictionary<string, SoundEffectInstance> _SoundEffectsPlaying = new();
         /// <summary>
         /// Gets the audio emitter associated with the audio source.
         /// </summary>
@@ -56,6 +56,28 @@ namespace HorrorMaze
                 SFXInstance.Stop();
                 SFXInstance.Dispose();
                 SFXInstance=null;
+            }
+        }
+
+        public void PlaySound(string soundName, SoundEffect soundEffect)
+        {
+            if(soundEffect != null && !_SoundEffectsPlaying.ContainsKey(soundName))
+            {
+                SoundEffectInstance instance = soundEffect.CreateInstance();
+                //instance.IsLooped = true;
+                instance.Play();
+
+                _SoundEffectsPlaying.Add(soundName, instance);
+            }
+        }
+
+        public void StopSound(string soundName)
+        {
+            if(_SoundEffectsPlaying.ContainsKey(soundName))
+            {
+                _SoundEffectsPlaying[soundName].Stop();
+                _SoundEffectsPlaying[soundName].Dispose();
+                _SoundEffectsPlaying.Remove(soundName);
             }
         }
     }

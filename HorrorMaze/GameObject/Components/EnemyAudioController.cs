@@ -38,39 +38,42 @@ namespace HorrorMaze
             float distance = Vector3.Distance(_playerAudioListener.Listener.Position, _enemyAudioSource.Emitter.Position);
             float maxDistanceGrudge = 3f; // Maximum distance for the screech sound
             float maxDistanceBreathing = 5f;
-            float maxDistance = 10f; // TODO: Rename to the right sound
+            float maxDistanceHeartbeat = 10f; // TODO: Rename to the right sound
 
             //Debug.WriteLine(distance);
 
-            if(distance <= maxDistanceGrudge && HasLineOfSightToPlayer())                
+            if(distance <= maxDistanceGrudge && HasLineOfSightToPlayer())
             {
-                if(_enemyAudioSource.SFXInstance == null)
+                if(!_enemyAudioSource._SoundEffectsPlaying.ContainsKey("grudge"))
                 {
-                    //StopAllSound();
-                    _enemyAudioSource.PlaySound(_audioManager.GetSoundEffect("grudge"));
+                    _enemyAudioSource.PlaySound("grudge", _audioManager.GetSoundEffect("grudge"));
                 }
                 else
-                CalculateVolumenBasedOnDistance(distance, maxDistanceGrudge);
+                {
+                    CalculateVolumenBasedOnDistance("grudge", distance, maxDistanceGrudge);
+                }
             }
-            //else if(distance <= maxDistanceBreathing && _enemyAudioSource.SFXInstance == null)
-            //{
-            //    _enemyAudioSource.PlaySound(_audioManager.GetSoundEffect("breathing"));
-            //}
-            //else if(distance <= maxDistance && _enemyAudioSource.SFXInstance == null)
-            //{
-            //    _enemyAudioSource.PlaySound(_audioManager.GetSoundEffect("heartbeat"));
-            //    //CalculateVolumeBasedOnDistance(distance, maxDistance);
-            //    //if(_enemyAudioSource.SFXInstance.Volume > 0.1f)
-            //    //    StopAllSound();
-            //}
-            //else if(distance > maxDistance && _enemyAudioSource.SFXInstance != null)
-            //{
-            //   // StopAllSound();
-            //}
-            else
+            else if(_enemyAudioSource._SoundEffectsPlaying.ContainsKey("grudge"))
             {
-                _enemyAudioSource.StopSound();
+                _enemyAudioSource.StopSound("grudge");
             }
+
+            if(distance <= maxDistanceHeartbeat)
+            {
+                if(!_enemyAudioSource._SoundEffectsPlaying.ContainsKey("heartbeat"))
+                {
+                    _enemyAudioSource.PlaySound("heartbeat", _audioManager.GetSoundEffect("heartbeat"));
+                }
+                else
+                {
+                    CalculateVolumenBasedOnDistance("heartbeat", distance, maxDistanceHeartbeat);
+                }
+            }
+            else if(_enemyAudioSource._SoundEffectsPlaying.ContainsKey("heartbeat"))
+            {
+                _enemyAudioSource.StopSound("heartbeat");
+            }
+
         }
 
 
@@ -107,6 +110,21 @@ namespace HorrorMaze
 
             // Apply the volume to the sound effect instance
             _enemyAudioSource.SFXInstance.Volume = volume;
+        }
+
+        private void CalculateVolumenBasedOnDistance(string soundName, float distance, float maxDistance)
+        {
+            // Calculate the volume based on the distance
+            float volume = 1f - (distance / maxDistance);
+
+            // Clamp the volume between 0 and 1
+            volume = MathHelper.Clamp(volume, 0f, 1f);
+
+            // Apply the volume to the sound effect instance
+            if(_enemyAudioSource._SoundEffectsPlaying.ContainsKey(soundName))
+            {
+                _enemyAudioSource._SoundEffectsPlaying[soundName].Volume = volume;
+            }
         }
     }
 }

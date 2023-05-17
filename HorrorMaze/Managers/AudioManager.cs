@@ -63,15 +63,19 @@ namespace HorrorMaze
 
         public void StopAllSounds()
         {
-            _soundEffects = new Dictionary<string, SoundEffect>();
             foreach(AudioSource audioSource in _audioSources)
             {
-                if(audioSource.SFXInstance != null)
+                foreach(var soundEffectPair in audioSource._SoundEffectsPlaying)
                 {
-                    audioSource.SFXInstance.Stop();
-                    audioSource.SFXInstance.Dispose();
-                    audioSource.SFXInstance = null;
+                    var soundEffectInstance = soundEffectPair.Value;
+                    if(soundEffectInstance != null)
+                    {
+                        soundEffectInstance.Stop();
+                        soundEffectInstance.Dispose();
+                    }
                 }
+                // Clear the dictionary after stopping all sounds
+                audioSource._SoundEffectsPlaying.Clear();
             }
         }
     }

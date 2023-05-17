@@ -28,7 +28,7 @@ namespace HorrorMaze
         bool canSprint = true;
         BackupAudioSouce walking, running, lowStamina;
 
-        public bool PlayHeartBeatSound { get; private set; } = false;
+        public bool PlayBreathingSound { get; private set; } = false;
 
         public void Awake()
         {
@@ -87,21 +87,25 @@ namespace HorrorMaze
                 {
                     movement += (movement - transform.Position3D) * _sprintMultiplier;
                     energy -= Globals.DeltaTime;
+                    isSprinting = true;
                 }
                 else
                 {
+                     isSprinting = false;
+                    
                     //rechages enegy
                     if (energy < maxEnergy)
                     {
+                       
                         canSprint = false;
                         energy = Math.Clamp(energy + Globals.DeltaTime / energyRechargeTime * maxEnergy,0,maxEnergy);
-                        PlayHeartBeatSound = true;
+                        PlayBreathingSound = true;
                         if (energy > maxEnergy / 2)
                             canSprint = true;
                     }
                     // Deactivate heartbeat once energy is fully recharged
-                    else if(PlayHeartBeatSound)
-                        PlayHeartBeatSound = false;
+                    else if(PlayBreathingSound)
+                        PlayBreathingSound = false;
                 }
             }
             CollisionInfo colInfor = CollisionManager.CheckCircleCollision(transform.Position3D, movement, gameObject, _playerRadius,1.7f);
