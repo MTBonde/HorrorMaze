@@ -22,14 +22,17 @@ namespace HorrorMaze
 
         public void OnCollision(GameObject go)
         {
-            if(keyEvent != null)
+            if (go != null)
             {
-                keyEvent.Invoke();
+                if (keyEvent != null)
+                {
+                    keyEvent.Invoke();
+                }
+                if(door != null)
+                    door.OpenDoor();
+                CollisionManager.colliders.Remove(gameObject.GetComponent<BoxCollider>());
+                SceneManager.active_scene.gameObjects.Remove(gameObject);
             }
-            if(door != null)
-                door.OpenDoor();
-            CollisionManager.colliders.Remove(gameObject.GetComponent<BoxCollider>());
-            SceneManager.active_scene.gameObjects.Remove(gameObject);
         }
     }
 }

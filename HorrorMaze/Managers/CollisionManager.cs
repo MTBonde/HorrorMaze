@@ -23,5 +23,21 @@ namespace HorrorMaze
             }
             return col;
         }
+
+        public static bool RayCast(Vector3 start, Vector3 end)
+        {
+            Vector3 dir = end - start;
+            dir.Normalize();
+            dir /= 10;
+            Vector3 current = start + dir;
+            while (Vector3.Distance(current, end) > 0.2f)
+            {
+                CollisionInfo colInfo = CheckCircleCollision(start, current, null, 0.1f, 0.1f);
+                if (colInfo.collisionPoint != current && colInfo.collider.gameObject.name != "Enemy")
+                    return true;
+                current += dir;
+            }
+            return false;
+        }
     }
 }

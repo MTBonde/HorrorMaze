@@ -88,7 +88,8 @@ namespace HorrorMaze
                             else
                                 col.collisionPoint = new Vector3(cord2.X + radius, endPoint.Y, endPoint.Z);
                         }
-                        gameObject.OnCollision(go);
+                        if(go != null)
+                            gameObject.OnCollision(go);
                     }
             return col;
         }

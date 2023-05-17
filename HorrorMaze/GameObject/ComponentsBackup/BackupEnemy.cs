@@ -32,12 +32,12 @@ namespace HorrorMaze
 
         public void Update()
         {
-            if(player.transform.Position.X > transform.Position.X - 3 &&
+            if (player.transform.Position.X > transform.Position.X - 3 &&
                 player.transform.Position.X > transform.Position.Y - 3 &&
                 player.transform.Position.X < transform.Position.X + 3 &&
-                player.transform.Position.X < transform.Position.Y + 3 &&
-                CollisionManager.CheckCircleCollision(transform.Position3D, player.transform.Position3D, gameObject, 0, 1.7f).collisionPoint == player.transform.Position3D)
-                path = gameObject.GetComponent<BackupPathing>().GetPath(transform.Position.ToPoint(), player.transform.Position.ToPoint());
+                player.transform.Position.X < transform.Position.Y + 3)
+                if (!CollisionManager.RayCast(transform.Position3D, player.transform.Position3D))
+                    path = gameObject.GetComponent<BackupPathing>().GetPath(transform.Position.ToPoint(), player.transform.Position.ToPoint());
             if (path != null && path.Count > 0)
             {
                 Vector2 dir = path[0] - transform.Position;
@@ -75,9 +75,10 @@ namespace HorrorMaze
 
         public void OnCollision(GameObject go)
         {
-            if (go.name == "Player")
-                //SceneManager.LoadScene(3);
-                SceneManager.LoadScene(6);
+            if(go != null)
+                if (go.name == "Player")
+                    //SceneManager.LoadScene(3);
+                    SceneManager.LoadScene(6);
         }
     }
 }
