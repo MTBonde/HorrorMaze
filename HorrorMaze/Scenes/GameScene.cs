@@ -30,7 +30,6 @@ namespace HorrorMaze
             player.transform.Position3D = new Vector3(-6.5f, -9.5f, 1.6f);
             player.transform.Rotation = new Vector3(0, 0, 0);
             player.AddComponent<PlayerController>();
-            player.AddComponent<PlayerController>();
             player.AddComponent<Camera>();
             player.AddComponent<BackupAudioListner>();
 

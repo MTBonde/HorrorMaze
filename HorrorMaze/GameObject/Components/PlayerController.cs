@@ -26,8 +26,16 @@ namespace HorrorMaze
         Vector2 oldMousePos;
         bool oldSchool = false;
         bool canSprint = true;
+        BackupAudioSouce walking, running, lowStamina;
 
         public bool PlayHeartBeatSound { get; private set; } = false;
+
+        public void Awake()
+        {
+            walking = gameObject.AddComponent<BackupAudioSouce>();
+            running = gameObject.AddComponent<BackupAudioSouce>();
+            lowStamina = gameObject.AddComponent<BackupAudioSouce>();
+        }
 
         //chesks player inputs every frame and moves the player based on the input
         public void Update()
