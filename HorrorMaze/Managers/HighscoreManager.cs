@@ -15,7 +15,7 @@ namespace HorrorMaze
         public static void Setup()
         {
             manager.CreateTable("highscore",new string[2] { "names", "scores" }, new TypeCode[2] { TypeCode.String, TypeCode.Int32 });
-            Debug.WriteLine(GetScoreboard());
+            //Debug.WriteLine(GetScoreboard());
         }
 
         public static void AddScore(string name, int score)

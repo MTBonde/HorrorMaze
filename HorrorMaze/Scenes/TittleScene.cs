@@ -16,10 +16,10 @@ namespace HorrorMaze
         {
             GameObject winText = new GameObject();
             TextRenderer text = winText.AddComponent<TextRenderer>();
-            text.scale = 10;
-            text.SetText("Maze Horror");
+            text.scale = 20;
+            text.SetText("Horror Maze");
             text.color = Color.Red;
-            text.transform.Position = new Vector2(GameWorld.Instance.GraphicsDevice.Viewport.Width / 2, -200);
+            text.transform.Position = new Vector2(GameWorld.Instance.GraphicsDevice.Viewport.Width / 2, 200);
 
             GameObject play = new GameObject();
             play.transform.Position = new Vector2(GameWorld.Instance.GraphicsDevice.Viewport.Width / 2, GameWorld.Instance.GraphicsDevice.Viewport.Height / 2);

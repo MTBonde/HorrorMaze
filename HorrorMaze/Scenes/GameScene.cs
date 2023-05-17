@@ -33,9 +33,9 @@ namespace HorrorMaze
             player.AddComponent<BackupAudioListner>();
 
             //Test maze
-            Maze maze = new Maze(10, 10);
+            Maze maze = new Maze(15, 15);
             //make maze start room
-            MazeCell[,] testCells = new MazeCell[10, 10];
+            MazeCell[,] testCells = new MazeCell[15, 15];
             for(int x = 0; x < testCells.GetLength(0); x++)
             {
                 for(int y = 0; y < testCells.GetLength(1); y++)

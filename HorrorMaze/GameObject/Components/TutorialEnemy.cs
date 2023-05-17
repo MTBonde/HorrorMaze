@@ -49,7 +49,7 @@ namespace HorrorMaze
                     dir.Normalize();
                     Vector3 minLocation = transform.Position3D;
                     Vector3 maxLocation = path[currentPath];
-                    if (transform.Position3D.X > -6.5f && currentPath == 0)
+                    if (transform.Position3D.X > -6.5f && currentPath == 1)
                     {
                         minLocation.X = path[currentPath].X;
                         maxLocation.X = transform.Position3D.X;
