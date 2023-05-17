@@ -50,8 +50,8 @@ namespace HorrorMaze
             float volume = Vector3.Distance(audioListener.Position, emitter.Position) / maxListenDistance;
             if (volume > 0 && volume <= 1)
             {
-                if(soundEffectInstance.State == SoundState.Stopped)
-                    soundEffectInstance.Play();
+                //if (soundEffectInstance.State == SoundState.Stopped)
+                //    soundEffectInstance.Play();
                 soundEffectInstance.Apply3D(audioListener, emitter);
                 soundEffectInstance.Volume = Math.Clamp((1 - volume) * 2,0,1);
             }

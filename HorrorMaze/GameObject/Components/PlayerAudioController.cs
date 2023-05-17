@@ -33,45 +33,45 @@ namespace HorrorMaze
         /// <summary>
         /// Updates the audio behavior of the player
         /// </summary>
-        public void Update()
-        {
-            if(gameObject.GetComponent<PlayerController>().PlayBreathingSound == true)
-            {
-                if(!_playerAudioSource._SoundEffectsPlaying.ContainsKey("breathing"))
-                {
-                    _playerAudioSource.PlaySound("breathing", _audioManager.GetSoundEffect("breathing"));
-                }
-                else
-                {
-                    CalculateVolumenBasedOnEnergy("breathing");
-                }
-            }
-            else if(_playerAudioSource._SoundEffectsPlaying.ContainsKey("breathing"))
-            {
-                _playerAudioSource.StopSound("breathing");
-            }
+        //public void Update()
+        //{
+        //    if(gameObject.GetComponent<PlayerController>().PlayBreathingSound == true)
+        //    {
+        //        if(!_playerAudioSource._SoundEffectsPlaying.ContainsKey("breathing"))
+        //        {
+        //            _playerAudioSource.PlaySound("breathing", _audioManager.GetSoundEffect("breathing"));
+        //        }
+        //        else
+        //        {
+        //            CalculateVolumenBasedOnEnergy("breathing");
+        //        }
+        //    }
+        //    else if(_playerAudioSource._SoundEffectsPlaying.ContainsKey("breathing"))
+        //    {
+        //        _playerAudioSource.StopSound("breathing");
+        //    }
 
-            if(gameObject.GetComponent<PlayerController>().isSprinting == true)
-            {
-                if(!_playerAudioSource._SoundEffectsPlaying.ContainsKey("running"))
-                {
-                    _playerAudioSource.PlaySound("running", _audioManager.GetSoundEffect("running"));
-                }
-                else
-                {
-                    CalculateVolumenBasedOnEnergy("running");
-                }
-            }
-            else if(_playerAudioSource._SoundEffectsPlaying.ContainsKey("running"))
-            {
-                _playerAudioSource.StopSound("running");
-            }
-            else
-            {
-                //TODO: ONLY PLAY WHEN MOVING??!
-                _playerAudioSource.PlaySound("walking", _audioManager.GetSoundEffect("walking"));
-            }
-        }
+        //    if(gameObject.GetComponent<PlayerController>().isSprinting == true)
+        //    {
+        //        if(!_playerAudioSource._SoundEffectsPlaying.ContainsKey("running"))
+        //        {
+        //            _playerAudioSource.PlaySound("running", _audioManager.GetSoundEffect("running"));
+        //        }
+        //        else
+        //        {
+        //            CalculateVolumenBasedOnEnergy("running");
+        //        }
+        //    }
+        //    else if(_playerAudioSource._SoundEffectsPlaying.ContainsKey("running"))
+        //    {
+        //        _playerAudioSource.StopSound("running");
+        //    }
+        //    else
+        //    {
+        //        //TODO: ONLY PLAY WHEN MOVING??!
+        //        _playerAudioSource.PlaySound("walking", _audioManager.GetSoundEffect("walking"));
+        //    }
+        //}
 
 
         /// <summary>

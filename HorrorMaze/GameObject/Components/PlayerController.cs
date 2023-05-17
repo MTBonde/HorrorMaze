@@ -21,20 +21,26 @@ namespace HorrorMaze
         public float energy = 3f; // Energy for sprint, in seconds
         public float maxEnergy = 3f;
         float energyRechargeTime = 5f; // Time to fully recharge energy, in seconds
-        Stopwatch sprintTimer = new Stopwatch(); // Timer for sprint function
 
         Vector2 oldMousePos;
         bool oldSchool = false;
         bool canSprint = true;
+        bool isSprinting;
         BackupAudioSouce walking, running, lowStamina;
 
-        public bool PlayBreathingSound { get; private set; } = false;
+        //public bool PlayBreathingSound { get; private set; } = false;
 
         public void Awake()
         {
             walking = gameObject.AddComponent<BackupAudioSouce>();
+            walking.SetSoundEffect("SoundFX\\walking");
+            walking.loop = true;
             running = gameObject.AddComponent<BackupAudioSouce>();
+            running.SetSoundEffect("SoundFX\\running");
+            running.loop = true;
             lowStamina = gameObject.AddComponent<BackupAudioSouce>();
+            lowStamina.SetSoundEffect("SoundFX\\breathing");
+            lowStamina.loop = true;
         }
 
         //chesks player inputs every frame and moves the player based on the input
@@ -81,31 +87,55 @@ namespace HorrorMaze
                     movement += sideVector * moveScale * elapsed;
                 if (keyState.IsKeyDown(Keys.A))
                     movement -= sideVector * moveScale * elapsed;
-
                 // If LeftShift is pressed and there's enough energy
                 if(keyState.IsKeyDown(Keys.LeftShift) && energy > 0 && canSprint)
                 {
                     movement += (movement - transform.Position3D) * _sprintMultiplier;
                     energy -= Globals.DeltaTime;
-                    isSprinting = true;
+                    if (!isSprinting)
+                    {
+                        isSprinting = true;
+                        walking.Stop();
+                        running.Play();
+                    }
                 }
                 else
                 {
-                     isSprinting = false;
-                    
+                    Debug.WriteLine(movement);
+                    if (isSprinting)
+                    {
+                        isSprinting = false;
+                        walking.Play();
+                        running.Stop();
+                    }
+                    else if (!walking.IsPlaying() && movement - transform.Position3D != Vector3.Zero)
+                        walking.Play();
+                    else if (walking.IsPlaying() && movement - transform.Position3D == Vector3.Zero)
+                        walking.Stop();
+
                     //rechages enegy
                     if (energy < maxEnergy)
                     {
-                       
-                        canSprint = false;
+                       if(canSprint)
+                        {
+                            canSprint = false;
+                            lowStamina.Play();
+                        }
                         energy = Math.Clamp(energy + Globals.DeltaTime / energyRechargeTime * maxEnergy,0,maxEnergy);
-                        PlayBreathingSound = true;
+                        lowStamina.volume = 1 - energy/maxEnergy;
+                        //PlayBreathingSound = true;
                         if (energy > maxEnergy / 2)
+                        {
                             canSprint = true;
+                        }
+                    }
+                    else if (lowStamina.IsPlaying())
+                    {
+                        lowStamina.Stop();
                     }
                     // Deactivate heartbeat once energy is fully recharged
-                    else if(PlayBreathingSound)
-                        PlayBreathingSound = false;
+                    //else if(PlayBreathingSound)
+                    //    PlayBreathingSound = false;
                 }
             }
             CollisionInfo colInfor = CollisionManager.CheckCircleCollision(transform.Position3D, movement, gameObject, _playerRadius,1.7f);

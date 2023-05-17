@@ -112,7 +112,12 @@ namespace HorrorMaze
             enemy.AddComponent<BackupPathing>().SetMaze(cells);
             enemy.AddComponent<BackupEnemy>();
             BackupAudioSouce enemyAudioSouce = enemy.AddComponent<BackupAudioSouce>();
-            enemyAudioSouce.SetSoundEffect("SoundFX\\grudge");
+            enemyAudioSouce.AddSoundEffect("SoundFX\\zombie1");
+            enemyAudioSouce.AddSoundEffect("SoundFX\\zombie2");
+            enemyAudioSouce.AddSoundEffect("SoundFX\\zombie3");
+            enemyAudioSouce.AddSoundEffect("SoundFX\\zombie4");
+            enemyAudioSouce.AddSoundEffect("SoundFX\\zombie5");
+            enemyAudioSouce.randomLoopEffects = true;
             enemyAudioSouce.loop = true;
             enemyAudioSouce.Spacial = true;
             enemyAudioSouce.maxDistance = 3f;
@@ -130,11 +135,10 @@ namespace HorrorMaze
             // test thread
             //ThreadManager.Startup(enemy);
 
-            
+            //Ambience
+            GameObject amb = new GameObject();
+            amb.AddComponent<AmbienceController>();
 
-
-          
-            
             //Goal
             GameObject goal = new GameObject();
             goal.name = "Goal";
@@ -219,7 +223,7 @@ namespace HorrorMaze
 
             // Set up the listener AudioComponent and attach it to the player
             PlayerAudioListener playerAudioListener = player.AddComponent<PlayerAudioListener>();
-            _playerAudioListner = playerAudioListener;
+            //_playerAudioListner = playerAudioListener;
 
             // Add the EnemyAudioController to the enemy object and set its properties:
             //AudioSource enemyAudioSource = enemy.AddComponent<AudioSource>();         
@@ -255,7 +259,12 @@ namespace HorrorMaze
             enemy.AddComponent<TutorialEnemy>();
             enemy.Start();
             BackupAudioSouce enemyAudioSouce = enemy.AddComponent<BackupAudioSouce>();
-            enemyAudioSouce.SetSoundEffect("SoundFX\\grudge");
+            enemyAudioSouce.AddSoundEffect("SoundFX\\zombie1");
+            enemyAudioSouce.AddSoundEffect("SoundFX\\zombie2");
+            enemyAudioSouce.AddSoundEffect("SoundFX\\zombie3");
+            enemyAudioSouce.AddSoundEffect("SoundFX\\zombie4");
+            enemyAudioSouce.AddSoundEffect("SoundFX\\zombie5");
+            enemyAudioSouce.randomLoopEffects = true;
             enemyAudioSouce.loop = true;
             enemyAudioSouce.Spacial = true;
             enemyAudioSouce.maxDistance = 3f;

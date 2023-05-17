@@ -290,6 +290,30 @@
 /processorParam:TextureFormat=Color
 /build:Pixel.png
 
+#begin SoundFX/Ambience/scary1.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundFX/Ambience/scary1.mp3
+
+#begin SoundFX/Ambience/scary2.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundFX/Ambience/scary2.mp3
+
+#begin SoundFX/Ambience/scary3.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundFX/Ambience/scary3.mp3
+
+#begin SoundFX/Ambience/scary4.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundFX/Ambience/scary4.mp3
+
 #begin SoundFX/breathing.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
@@ -325,6 +349,36 @@
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:SoundFX/walking.wav
+
+#begin SoundFX/zombie1.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundFX/zombie1.mp3
+
+#begin SoundFX/zombie2.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundFX/zombie2.mp3
+
+#begin SoundFX/zombie3.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundFX/zombie3.mp3
+
+#begin SoundFX/zombie4.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundFX/zombie4.mp3
+
+#begin SoundFX/zombie5.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundFX/zombie5.mp3
 
 #begin UIFont.spritefont
 /importer:FontDescriptionImporter
