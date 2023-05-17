@@ -106,7 +106,7 @@ namespace HorrorMaze
             //test enemy
             GameObject enemy = new GameObject();
             enemy.name = "Enemy";
-            enemy.AddComponent<BoxCollider>().size = new Vector3(1, 1, 1);            
+            enemy.AddComponent<BoxCollider>().size = new Vector3(0.35f, 0.35f, 1);            
             enemy.AddComponent<MeshRenderer>().SetModel("3DModels\\ghost_rig");
             enemy.transform.Position3D = new Vector3(1.5f, 1.5f, 0);
             enemy.AddComponent<BackupPathing>().SetMaze(cells);
