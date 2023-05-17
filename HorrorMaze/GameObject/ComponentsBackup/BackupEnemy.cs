@@ -21,13 +21,13 @@ namespace HorrorMaze
 
         public void Start()
         {
-            //Random rnd = new Random();
-            //path = gameObject.GetComponent<BackupPathing>().GetPath(
-            //    new Point((int)transform.Position.X, (int)transform.Position.Y), 
-            //    new Point(
-            //        rnd.Next(0, gameObject.GetComponent<BackupPathing>()._mazeCells.GetLength(0)), 
-            //        rnd.Next(0, gameObject.GetComponent<BackupPathing>()._mazeCells.GetLength(1))));
-            path = gameObject.GetComponent<BackupPathing>().GetPath(new Point((int)transform.Position.X, (int)transform.Position.Y), new Point(4, 4));
+            Random rnd = new Random();
+            path = gameObject.GetComponent<BackupPathing>().GetPath(
+                new Point((int)transform.Position.X, (int)transform.Position.Y),
+                new Point(
+                    rnd.Next(0, gameObject.GetComponent<BackupPathing>()._mazeCells.GetLength(0)),
+                    rnd.Next(0, gameObject.GetComponent<BackupPathing>()._mazeCells.GetLength(1))));
+            //path = gameObject.GetComponent<BackupPathing>().GetPath(new Point((int)transform.Position.X, (int)transform.Position.Y), new Point(4, 4));
         }
 
         public void Update()
@@ -64,12 +64,12 @@ namespace HorrorMaze
             }
             else
             {
-                //Random rnd = new Random();
-                //path = gameObject.GetComponent<BackupPathing>().GetPath(
-                //    new Point((int)(transform.Position.X - 0.5f), (int)(transform.Position.Y - 0.5f)), 
-                //    new Point(
-                //        rnd.Next(0, gameObject.GetComponent<BackupPathing>()._mazeCells.GetLength(0)), 
-                //        rnd.Next(0, gameObject.GetComponent<BackupPathing>()._mazeCells.GetLength(1))));
+                Random rnd = new Random();
+                path = gameObject.GetComponent<BackupPathing>().GetPath(
+                    new Point((int)(transform.Position.X - 0.5f), (int)(transform.Position.Y - 0.5f)),
+                    new Point(
+                        rnd.Next(0, gameObject.GetComponent<BackupPathing>()._mazeCells.GetLength(0)),
+                        rnd.Next(0, gameObject.GetComponent<BackupPathing>()._mazeCells.GetLength(1))));
             }
         }
 
