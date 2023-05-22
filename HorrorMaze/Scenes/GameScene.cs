@@ -40,7 +40,7 @@ namespace HorrorMaze
             goal.transform.Position3D = new Vector3(mazeCells.GetLength(0) - 1.5f,mazeCells.GetLength(1) - 0.5f,0);
             goal.AddComponent<Goal>();
 
-            //spawns wverything for the tutorial
+            //spawns everything for the tutorial
             SpawnTutorial();
             #endregion
 
