@@ -6,7 +6,13 @@ using System.Threading.Tasks;
 
 namespace HorrorMaze
 {
+    /// <summary>
+    /// needs to be created
+    /// Used to keep track of inputs
+    /// Niels
+    /// </summary>
     public class InputManager
     {
+
     }
 }

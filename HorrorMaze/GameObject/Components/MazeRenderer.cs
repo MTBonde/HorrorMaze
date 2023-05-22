@@ -11,7 +11,7 @@ namespace HorrorMaze
 {
     /// <summary>
     /// a renderer that renders a maze
-    /// by Niels
+    /// Niels
     /// </summary>
     public class MazeRenderer : Component
     {
@@ -37,6 +37,10 @@ namespace HorrorMaze
             _wallModels[2] = GameWorld.Instance.Content.Load<Model>("3DModels\\wall_2");
             _wallModels[3] = GameWorld.Instance.Content.Load<Model>("3DModels\\wall_3");
             _wallModels[4] = GameWorld.Instance.Content.Load<Model>("3DModels\\wall_4");
+        }
+
+        public void Start()
+        {
             _playerTransform = SceneManager.GetGameObjectByName("Player").transform;
         }
 
@@ -135,6 +139,11 @@ namespace HorrorMaze
             }
         }
 
+        /// <summary>
+        /// draws floor at selected position at given rotation
+        /// </summary>
+        /// <param name="centerPosition">position og the floor</param>
+        /// <param name="rotation">rotation of the floor</param>
         private void DrawFloor(Vector3 centerPosition, Vector3 rotation)
         {
             foreach (ModelMesh mesh in _floor.Meshes)
@@ -152,6 +161,11 @@ namespace HorrorMaze
             }
         }
 
+        /// <summary>
+        /// draws celling at selected position at given rotation
+        /// </summary>
+        /// <param name="centerPosition">position og the celling</param>
+        /// <param name="rotation">rotation of the celling</param>
         private void DrawCelling(Vector3 centerPosition, Vector3 rotation)
         {
             foreach (ModelMesh mesh in _celing.Meshes)
@@ -169,6 +183,11 @@ namespace HorrorMaze
             }
         }
 
+        /// <summary>
+        /// draws Wall at selected position at given rotation
+        /// </summary>
+        /// <param name="centerPosition">position og the Wall</param>
+        /// <param name="rotation">rotation of the Wall</param>
         private void DrawWall(Vector3 wallCorner, Vector3 wallRotation, int modelNumber)
         {
             foreach (ModelMesh mesh in _wallModels[modelNumber].Meshes)

@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace HorrorMaze
 {
+    /// <summary>
+    /// the core for the components
+    /// Niels
+    /// </summary>
     public abstract class Component
     {
         #region Fields & Properties

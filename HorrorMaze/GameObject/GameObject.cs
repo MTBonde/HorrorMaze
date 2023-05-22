@@ -9,6 +9,10 @@ using System.Threading.Tasks;
 
 namespace HorrorMaze
 {
+    /// <summary>
+    /// an object that can hold information and update information using given components
+    /// Niels
+    /// </summary>
     public class GameObject
     {
         #region Variables & Fields

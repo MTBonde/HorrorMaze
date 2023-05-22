@@ -6,6 +6,11 @@ using System.Threading.Tasks;
 
 namespace HorrorMaze
 {
+    /// <summary>
+    /// controls and animates the splash screen
+    /// animation needs implementation
+    /// Niels
+    /// </summary>
     public class SplashScreenController : Component
     {
 

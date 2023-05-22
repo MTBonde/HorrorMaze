@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace HorrorMaze
 {
+    /// <summary>
+    /// an introduction enemy for the tutorial
+    /// Niels
+    /// </summary>
     public class TutorialEnemy : Component
     {
 
@@ -15,12 +19,46 @@ namespace HorrorMaze
         GameObject player;
         float waitTimer;
 
+        /// <summary>
+        /// adds all needed components
+        /// </summary>
+        public void Awake()
+        {
+            gameObject.name = "Enemy";
+            gameObject.AddComponent<BoxCollider>().size = new Vector3(1, 1, 1);
+            gameObject.AddComponent<MeshRenderer>().SetModel("3DModels\\ghost_rig");
+            gameObject.transform.Position3D = new Vector3(-8.5f, -10.5f, 0);
+            BackupAudioSouce enemyAudioSouce = gameObject.AddComponent<BackupAudioSouce>();
+            enemyAudioSouce.AddSoundEffect("SoundFX\\zombie1");
+            enemyAudioSouce.AddSoundEffect("SoundFX\\zombie2");
+            enemyAudioSouce.AddSoundEffect("SoundFX\\zombie3");
+            enemyAudioSouce.AddSoundEffect("SoundFX\\zombie4");
+            enemyAudioSouce.AddSoundEffect("SoundFX\\zombie5");
+            enemyAudioSouce.randomLoopEffects = true;
+            enemyAudioSouce.loop = true;
+            enemyAudioSouce.Spacial = true;
+            enemyAudioSouce.maxDistance = 3f;
+            enemyAudioSouce.Play();
+            BackupAudioSouce enemyAudioSouce1 = gameObject.AddComponent<BackupAudioSouce>();
+            enemyAudioSouce1.SetSoundEffect("SoundFX\\heartBeat");
+            enemyAudioSouce1.loop = true;
+            enemyAudioSouce1.Spacial = true;
+            enemyAudioSouce1.maxDistance = 5f;
+            enemyAudioSouce1.Play();
+        }
+
+        /// <summary>
+        /// sets references
+        /// </summary>
         public void Start()
         {
             path = new Vector3[4] { new Vector3(-8.5f, -9.5f, 0), new Vector3(-6.5f, -6.5f, 0) , new Vector3(-6.5f, -3.5f, 0) , new Vector3(0.5f, -3.5f, 0) };
             player = SceneManager.GetGameObjectByName("Player");
         }
 
+        /// <summary>
+        /// makes the player follow the path
+        /// </summary>
         public void Update()
         {
             if (waitTimer < 2)

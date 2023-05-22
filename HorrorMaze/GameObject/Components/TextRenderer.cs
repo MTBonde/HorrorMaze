@@ -16,6 +16,10 @@ namespace HorrorMaze
         Center
     }
 
+    /// <summary>
+    /// used to render text in ui space
+    /// Niels
+    /// </summary>
     public class TextRenderer : Component
     {
 

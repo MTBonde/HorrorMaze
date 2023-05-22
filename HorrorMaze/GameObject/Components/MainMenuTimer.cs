@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace HorrorMaze
 {
+    /// <summary>
+    /// a timer that goes to the main menu after a given time
+    /// Niels
+    /// </summary>
     public class MainMenuTimer : Component
     {
 

@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace HorrorMaze
 {
+    /// <summary>
+    /// used to check if you are colliding with anything
+    /// Niels
+    /// </summary>
     public static class CollisionManager
     {
 

@@ -1,5 +1,9 @@
 ﻿namespace HorrorMaze
 {
+    /// <summary>
+    /// set up and keeps the camera updated to the owning gameobjects transform
+    /// Niels
+    /// </summary>
     public class Camera : Component
     {
         #region Methods

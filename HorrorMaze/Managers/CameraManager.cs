@@ -1,5 +1,9 @@
 ﻿namespace HorrorMaze
 {
+    /// <summary>
+    /// used to keep track of the camera in 3D space and to help draw in 3D space
+    /// NMiels
+    /// </summary>
     public class CameraManager
     {
 

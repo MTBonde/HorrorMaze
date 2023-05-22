@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace HorrorMaze
 {
+    /// <summary>
+    /// used to render imiges in 2D space
+    /// Niels
+    /// </summary>
     public class SpriteRenderer : Component
     {
 

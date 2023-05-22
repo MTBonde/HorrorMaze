@@ -11,7 +11,10 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace HorrorMaze
 {
-    
+    /// <summary>
+    /// used to keep track of scenes and to update active scene
+    /// Niels
+    /// </summary>
     public static class SceneManager
     {
         #region Fields & Variables

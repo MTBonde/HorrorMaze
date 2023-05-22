@@ -5,135 +5,31 @@ namespace HorrorMaze
     public class GameScene : Scene
     {
 
-        //PlayerAudioListener _playerAudioListner;
+        MazeCell[,] mazeCells;
 
         #region Methods
         public override void SetupScene()
         {
-            SceneManager.audioManager.StopAllSounds();
+            //hides the cursor
             GameWorld.Instance.IsMouseVisible = false;
+            //stops music track and starts ambient track
             BackupAudioManager.StatBackgroundSound();
             //creates worlds center point
             worldMatrix = Matrix.CreateWorld(Vector3.Zero, Vector3.Forward, Vector3.Up);
 
-            //SetupCameraAndLoadSoundEffects();
-
-            //test player
-            //GameObject player = SetupPlayer();
-
-
-
-            //test player
+            #region instatiating of GameObjects
+            //player
             GameObject player = new GameObject();
-            player.name = "Player";
-            player.transform.Position3D = new Vector3(-6.5f, -9.5f, 1.6f);
-            player.transform.Rotation = new Vector3(0, 0, 0);
             player.AddComponent<PlayerController>();
-            player.AddComponent<Camera>();
-            player.AddComponent<BackupAudioListner>();
 
-            //Test maze
-            Maze maze = new Maze(15, 15);
-            //make maze start room
-            MazeCell[,] testCells = new MazeCell[15, 15];
-            for(int x = 0; x < testCells.GetLength(0); x++)
-            {
-                for(int y = 0; y < testCells.GetLength(1); y++)
-                {
-                    testCells[x, y] = new MazeCell();
-                }
-            }
-            //makes start room
-            for(int x = 0; x < 3; x++)
-            {
-                for(int y = 0; y < 3; y++)
-                {
-                    testCells[x, y].Visited = true;
-                    if(y < testCells.GetLength(1) - 1)
-                        testCells[x, y].Walls[0] = false;
-                    if(x < testCells.GetLength(0) - 1)
-                        testCells[x, y].Walls[1] = false;
-                }
-            }
-            testCells[0, 2].Walls[0] = true;
-            testCells[2, 0].Walls[1] = true;
-            testCells[2, 1].Walls[1] = true;
-            testCells[2, 2].Walls[0] = true;
-            testCells[2, 2].Walls[1] = true;
-            //makes end room
-            for(int x = testCells.GetLength(0) - 3; x < testCells.GetLength(0); x++)
-            {
-                for(int y = testCells.GetLength(1) - 3; y < testCells.GetLength(1); y++)
-                {
-                    testCells[x, y].Visited = true;
-                    if(y < testCells.GetLength(1) - 1)
-                        testCells[x, y].Walls[0] = false;
-                    if(x < testCells.GetLength(0) - 1)
-                        testCells[x, y].Walls[1] = false;
-                }
-            }
-            testCells[testCells.GetLength(0) - 2, testCells.GetLength(1) - 4].Walls[0] = false;
+            //sets up and spawns the maze
+            SetupMaze();
 
-            //generates maze around the start room
-            MazeCell[,] cells = maze.GenerateMazeFromMaze(testCells, new Point(1, 2));
-            GameObject mazeObject = new GameObject();
-            mazeObject.AddComponent<MazeRenderer>().SetMaze(cells);
-            mazeObject.AddComponent<MazeCollider>().SetMaze(cells);
-
-            //door
-            GameObject entranceDoor = new GameObject();
-            entranceDoor.transform.Position3D = new Vector3(0.5f, 0, 0); 
-            entranceDoor.AddComponent<MeshRenderer>().SetModel("3DModels\\door");
-            Door door1 = entranceDoor.AddComponent<Door>();
-            //door1.OpenDoor();
-            BoxCollider doorCol = entranceDoor.AddComponent<BoxCollider>();
-            doorCol.size = new Vector3(1, 0.2f, 2.1f);
-            doorCol.offset = new Vector3(0, 0, 1);
-
-            //key
-            GameObject key = new GameObject();
-            key.transform.Position3D = new Vector3(0.5f, -0.5f, 1.25f);
-            key.AddComponent<MeshRenderer>().SetModel("3DModels\\key");
-            key.AddComponent<Key>().keyEvent += door1.OpenDoor;
-            key.AddComponent<BoxCollider>().size = new Vector3(0.25f, 0.25f, 0.25f);
-
-            GameObject closeKey = new GameObject();
-            closeKey.transform.Position3D = new Vector3(0.5f, 0.5f, 1.25f);
-            //closeKey.AddComponent<MeshRenderer>().SetModel("3DModels\\key");
-            closeKey.AddComponent<Key>().keyEvent += door1.CloseDoor;
-            closeKey.AddComponent<BoxCollider>().size = new Vector3(0.25f, 0.25f, 0.25f);
-
-            //test enemy
+            //enemy
             GameObject enemy = new GameObject();
-            enemy.name = "Enemy";
-            enemy.AddComponent<BoxCollider>().size = new Vector3(0.35f, 0.35f, 1);            
-            enemy.AddComponent<MeshRenderer>().SetModel("3DModels\\ghost_rig");
-            enemy.transform.Position3D = new Vector3(cells.GetLength(0) - 1.5f, cells.GetLength(1) - 1.5f, 0);
-            enemy.AddComponent<BackupPathing>().SetMaze(cells);
+            enemy.transform.Position3D = new Vector3(mazeCells.GetLength(0) - 1.5f, mazeCells.GetLength(1) - 1.5f, 0);
+            enemy.AddComponent<BackupPathing>().SetMaze(mazeCells);
             enemy.AddComponent<BackupEnemy>();
-            BackupAudioSouce enemyAudioSouce = enemy.AddComponent<BackupAudioSouce>();
-            enemyAudioSouce.AddSoundEffect("SoundFX\\zombie1");
-            enemyAudioSouce.AddSoundEffect("SoundFX\\zombie2");
-            enemyAudioSouce.AddSoundEffect("SoundFX\\zombie3");
-            enemyAudioSouce.AddSoundEffect("SoundFX\\zombie4");
-            enemyAudioSouce.AddSoundEffect("SoundFX\\zombie5");
-            enemyAudioSouce.randomLoopEffects = true;
-            enemyAudioSouce.loop = true;
-            enemyAudioSouce.Spacial = true;
-            enemyAudioSouce.maxDistance = 3f;
-            enemyAudioSouce.Play();
-            BackupAudioSouce enemyAudioSouce1 = enemy.AddComponent<BackupAudioSouce>();
-            enemyAudioSouce1.SetSoundEffect("SoundFX\\heartBeat");
-            enemyAudioSouce1.loop = true;
-            enemyAudioSouce1.Spacial = true;
-            enemyAudioSouce1.maxDistance = 5f;
-            enemyAudioSouce1.Play();
-            //enemy.AddComponent<Pathing>().mazeCells = cells;
-            //enemy.AddComponent<Enemy>();
-            //AudioSource enemyAudioSource = enemy.AddComponent<AudioSource>();
-
-            // test thread
-            //ThreadManager.Startup(enemy);
 
             //Ambience
             GameObject amb = new GameObject();
@@ -141,172 +37,137 @@ namespace HorrorMaze
 
             //Goal
             GameObject goal = new GameObject();
-            goal.name = "Goal";
-            goal.transform.Position3D = new Vector3(testCells.GetLength(0) - 1.5f,testCells.GetLength(1) - 0.5f,0);
-            goal.AddComponent<MeshRenderer>().SetModel("3DModels\\win_item");
-            goal.AddComponent<BoxCollider>().size = Vector3.One / 10;
+            goal.transform.Position3D = new Vector3(mazeCells.GetLength(0) - 1.5f,mazeCells.GetLength(1) - 0.5f,0);
             goal.AddComponent<Goal>();
 
-            //tutorial entrance
-            MazeCell[,] tutorialCells = new MazeCell[10, 10];
-            for (int x = 0; x < tutorialCells.GetLength(0); x++)
-            {
-                for (int y = 0; y < tutorialCells.GetLength(1); y++)
-                {
-                    tutorialCells[x, y] = new MazeCell();
-                }
-            }
-            for (int x = 9; x < tutorialCells.GetLength(0); x++)
-            {
-                for (int y = 6; y < tutorialCells.GetLength(0); y++)
-                {
-                    tutorialCells[x, y].Walls[0] = false;
-                }
-            }
-            for (int x = 2; x < tutorialCells.GetLength(0) - 1; x++)
-            {
-                for (int y = 6; y < 7; y++)
-                {
-                    tutorialCells[x, y].Walls[1] = false;
-                }
-            }
-            for (int x = 2; x < 3; x++)
-            {
-                for (int y = 0; y < 6; y++)
-                {
-                    tutorialCells[x, y].Walls[0] = false;
-                }
-            }
-            for (int x = 0; x < 5; x++)
-            {
-                for (int y = 0; y < 5; y++)
-                {
-                    tutorialCells[x, y].Visited = true;
-                    if(y != 4)
-                        tutorialCells[x, y].Walls[0] = false;
-                    if(x != 4)
-                        tutorialCells[x, y].Walls[1] = false;
-                }
-            }
-            GameObject tutorialMaze = new GameObject();
-            tutorialMaze.transform.Position = new Vector2(-9, -10);
-            tutorialMaze.AddComponent<MazeRenderer>().SetMaze(tutorialCells);
-            tutorialMaze.AddComponent<MazeCollider>().SetMaze(tutorialCells);
-            
-            //tutorial doors
-            GameObject tutorialMonsterDoor = new GameObject();
-            tutorialMonsterDoor.name = "MonsterDoor";
-            tutorialMonsterDoor.transform.Position3D = new Vector3(-8.5f, -10f, 0);
-            tutorialMonsterDoor.AddComponent<MeshRenderer>().SetModel("3DModels\\door");
-            Door tutorialMonsterDoor1 = tutorialMonsterDoor.AddComponent<Door>();
-            BoxCollider tutorialMonsterDoorCol = tutorialMonsterDoor.AddComponent<BoxCollider>();
-            tutorialMonsterDoorCol.size = new Vector3(1, 0.2f, 2.1f);
-            tutorialMonsterDoorCol.offset = new Vector3(0, 0, 1);
-
-            GameObject tutorialfrontDoor = new GameObject();
-            tutorialfrontDoor.transform.Position3D = new Vector3(-6.5f, -5, 0);
-            tutorialfrontDoor.AddComponent<MeshRenderer>().SetModel("3DModels\\door");
-            Door tutorialfrontDoor1 = tutorialfrontDoor.AddComponent<Door>();
-            BoxCollider tutorialfrontDoorCol = tutorialfrontDoor.AddComponent<BoxCollider>();
-            tutorialfrontDoorCol.size = new Vector3(1, 0.2f, 2.1f);
-            tutorialfrontDoorCol.offset = new Vector3(0, 0, 1);
-
-
-            //tutorial key
-            GameObject tutorialKey = new GameObject();
-            tutorialKey.transform.Position3D = new Vector3(-6.5f, -7.5f, 1.25f);
-            tutorialKey.AddComponent<MeshRenderer>().SetModel("3DModels\\key");
-            tutorialKey.AddComponent<Key>().door = tutorialMonsterDoor1;
-            tutorialKey.GetComponent<Key>().keyEvent += tutorialfrontDoor1.OpenDoor;
-            tutorialKey.GetComponent<Key>().keyEvent += SpawnTutorialGhost;
-            tutorialKey.AddComponent<BoxCollider>().size = new Vector3(0.25f, 0.25f, 0.25f);
-
-            // Set up the listener AudioComponent and attach it to the player
-            PlayerAudioListener playerAudioListener = player.AddComponent<PlayerAudioListener>();
-            //_playerAudioListner = playerAudioListener;
-
-            // Add the EnemyAudioController to the enemy object and set its properties:
-            //AudioSource enemyAudioSource = enemy.AddComponent<AudioSource>();         
-            //EnemyAudioController enemyAudioController = enemy.AddComponent<EnemyAudioController>();
-            //enemyAudioController.Setup(enemyAudioSource, playerAudioListener, SceneManager.audioManager);
-        
-
-
-
-            // Add playerAudioController and Audio Sourcing for the player 
-            //AudioSource playerAudioSource = player.AddComponent<AudioSource>();
-            //PlayerAudioController playerAudioController = player.AddComponent<PlayerAudioController>();
-            //playerAudioController.Setup(playerAudioSource, playerAudioListener, SceneManager.audioManager);
-
-            // Add the AudioComponent to AudioManager
-            //SceneManager.audioManager.AddAudioSource(enemyAudioSource);
-
-            // Set the PlayerAudioListener in the AudioManager:
-            //SceneManager.audioManager.SetPlayerAudioListener(playerAudioListener);
+            //spawns wverything for the tutorial
+            SpawnTutorial();
+            #endregion
 
             // set timers
             SceneManager._gameTimer.ResetTimer();
             SceneManager._gameTimer.StartTimer();
         }
 
-        public void SpawnTutorialGhost()
+        public void SetupMaze()
         {
-            GameObject enemy = new GameObject();
-            enemy.name = "Enemy";
-            enemy.AddComponent<BoxCollider>().size = new Vector3(1, 1, 1);
-            enemy.AddComponent<MeshRenderer>().SetModel("3DModels\\ghost_rig");
-            enemy.transform.Position3D = new Vector3(-8.5f, -10.5f, 0);
-            enemy.AddComponent<TutorialEnemy>();
-            enemy.Start();
-            BackupAudioSouce enemyAudioSouce = enemy.AddComponent<BackupAudioSouce>();
-            enemyAudioSouce.AddSoundEffect("SoundFX\\zombie1");
-            enemyAudioSouce.AddSoundEffect("SoundFX\\zombie2");
-            enemyAudioSouce.AddSoundEffect("SoundFX\\zombie3");
-            enemyAudioSouce.AddSoundEffect("SoundFX\\zombie4");
-            enemyAudioSouce.AddSoundEffect("SoundFX\\zombie5");
-            enemyAudioSouce.randomLoopEffects = true;
-            enemyAudioSouce.loop = true;
-            enemyAudioSouce.Spacial = true;
-            enemyAudioSouce.maxDistance = 3f;
-            enemyAudioSouce.Play();
-            BackupAudioSouce enemyAudioSouce1 = enemy.AddComponent<BackupAudioSouce>();
-            enemyAudioSouce1.SetSoundEffect("SoundFX\\heartBeat");
-            enemyAudioSouce1.loop = true;
-            enemyAudioSouce1.Spacial = true;
-            enemyAudioSouce1.maxDistance = 5f;
-            enemyAudioSouce1.Play();
-            //AudioSource enemyAudioSource = enemy.AddComponent<AudioSource>();
+            Maze maze = new Maze(15, 15);
+            //make maze start room
+            mazeCells = new MazeCell[15, 15];
+            for (int x = 0; x < mazeCells.GetLength(0); x++)
+            {
+                for (int y = 0; y < mazeCells.GetLength(1); y++)
+                {
+                    mazeCells[x, y] = new MazeCell();
+                }
+            }
+            //makes start room
+            for (int x = 0; x < 3; x++)
+            {
+                for (int y = 0; y < 3; y++)
+                {
+                    mazeCells[x, y].Visited = true;
+                    if (y < mazeCells.GetLength(1) - 1)
+                        mazeCells[x, y].Walls[0] = false;
+                    if (x < mazeCells.GetLength(0) - 1)
+                        mazeCells[x, y].Walls[1] = false;
+                }
+            }
+            mazeCells[0, 2].Walls[0] = true;
+            mazeCells[2, 0].Walls[1] = true;
+            mazeCells[2, 1].Walls[1] = true;
+            mazeCells[2, 2].Walls[0] = true;
+            mazeCells[2, 2].Walls[1] = true;
+            //makes end room
+            for (int x = mazeCells.GetLength(0) - 3; x < mazeCells.GetLength(0); x++)
+            {
+                for (int y = mazeCells.GetLength(1) - 3; y < mazeCells.GetLength(1); y++)
+                {
+                    mazeCells[x, y].Visited = true;
+                    if (y < mazeCells.GetLength(1) - 1)
+                        mazeCells[x, y].Walls[0] = false;
+                    if (x < mazeCells.GetLength(0) - 1)
+                        mazeCells[x, y].Walls[1] = false;
+                }
+            }
+            mazeCells[mazeCells.GetLength(0) - 2, mazeCells.GetLength(1) - 4].Walls[0] = false;
 
-            // Add the AudioComponent to AudioManager
-            //SceneManager.audioManager.AddAudioSource(enemyAudioSource);
+            //generates maze around the rooms
+            mazeCells = maze.GenerateMazeFromMaze(mazeCells, new Point(1, 2));
 
-            // Add the EnemyAudioController to the enemy object and set its properties:
-            //EnemyAudioController enemyAudioController = enemy.AddComponent<EnemyAudioController>();
-            //enemyAudioController.Setup(enemyAudioSource, _playerAudioListner, SceneManager.audioManager);
+            //places maze in the world
+            GameObject mazeObject = new GameObject();
+            mazeObject.AddComponent<MazeRenderer>().SetMaze(mazeCells);
+            mazeObject.AddComponent<MazeCollider>().SetMaze(mazeCells);
         }
 
-        private void SetupCameraAndLoadSoundEffects()
+        public void SpawnTutorial()
         {
+            //tutorial ghost
+            new GameObject().AddComponent<TutorialEnemy>();
 
-            // Load sound effects
-            SceneManager.audioManager.LoadSoundEffect("heartbeat");
-            SceneManager.audioManager.LoadSoundEffect("grudge");
-            SceneManager.audioManager.LoadSoundEffect("breathing");
-            SceneManager.audioManager.LoadSoundEffect("running");
-            SceneManager.audioManager.LoadSoundEffect("walking");
+            //tutorial entrance wall defining
+            MazeCell[,] tutorialCells = new MazeCell[10, 10];
+            for (int x = 0; x < tutorialCells.GetLength(0); x++)
+                for (int y = 0; y < tutorialCells.GetLength(1); y++)
+                    tutorialCells[x, y] = new MazeCell();
+            for (int x = 9; x < tutorialCells.GetLength(0); x++)
+                for (int y = 6; y < tutorialCells.GetLength(0); y++)
+                    tutorialCells[x, y].Walls[0] = false;
+            for (int x = 2; x < tutorialCells.GetLength(0) - 1; x++)
+                for (int y = 6; y < 7; y++)
+                    tutorialCells[x, y].Walls[1] = false;
+            for (int x = 2; x < 3; x++)
+                for (int y = 0; y < 6; y++)
+                    tutorialCells[x, y].Walls[0] = false;
+            for (int x = 0; x < 5; x++)
+                for (int y = 0; y < 5; y++)
+                {
+                    tutorialCells[x, y].Visited = true;
+                    if (y != 4)
+                        tutorialCells[x, y].Walls[0] = false;
+                    if (x != 4)
+                        tutorialCells[x, y].Walls[1] = false;
+                }
+
+            //spawn the tutorial area/maze in the world
+            GameObject tutorialMaze = new GameObject();
+            tutorialMaze.transform.Position = new Vector2(-9, -10);
+            tutorialMaze.AddComponent<MazeRenderer>().SetMaze(tutorialCells);
+            tutorialMaze.AddComponent<MazeCollider>().SetMaze(tutorialCells);
+
+            //tutorial monster door
+            GameObject tutorialMonsterDoor = new GameObject();
+            tutorialMonsterDoor.name = "MonsterDoor";
+            tutorialMonsterDoor.transform.Position3D = new Vector3(-8.5f, -10f, 0);
+            Door tutorialMonsterDoor1 = tutorialMonsterDoor.AddComponent<Door>();
+
+            //tutorial front door
+            GameObject tutorialfrontDoor = new GameObject();
+            tutorialfrontDoor.transform.Position3D = new Vector3(-6.5f, -5, 0);
+            Door tutorialfrontDoor1 = tutorialfrontDoor.AddComponent<Door>();
+
+            //tutorial start key
+            GameObject tutorialKey = new GameObject();
+            tutorialKey.transform.Position3D = new Vector3(-6.5f, -7.5f, 1.25f);
+            tutorialKey.AddComponent<Key>().door = tutorialMonsterDoor1;
+            tutorialKey.GetComponent<Key>().keyEvent += tutorialfrontDoor1.OpenDoor;
+
+            //tutorial exit door
+            GameObject entranceDoor = new GameObject();
+            entranceDoor.transform.Position3D = new Vector3(0.5f, 0, 0);
+            Door door1 = entranceDoor.AddComponent<Door>();
+
+            //tutorial exit door key
+            GameObject key = new GameObject();
+            key.transform.Position3D = new Vector3(0.5f, -0.5f, 1.25f);
+            key.AddComponent<Key>().keyEvent += door1.OpenDoor;
+
+            //tutorial exit close key/area
+            GameObject closeKey = new GameObject();
+            closeKey.transform.Position3D = new Vector3(0.5f, 0.5f, 1.25f);
+            closeKey.AddComponent<Key>().keyEvent += door1.CloseDoor;
         }
-        private GameObject SetupPlayer()
-        {
-            GameObject player = new GameObject();
-            player.name = "Player";
-            player.transform.Position3D = new Vector3(1.5f, 1.5f, 1.6f);
-            player.transform.Rotation = new Vector3(0, 0, 0);
-            player.AddComponent<PlayerController>();           
-            player.AddComponent<Camera>();
-
-            return player;
-        }
-
         #endregion
     }
 }

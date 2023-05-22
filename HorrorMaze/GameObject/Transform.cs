@@ -7,6 +7,10 @@ using System.Threading.Tasks;
 
 namespace HorrorMaze
 {
+    /// <summary>
+    /// a transform used by gameobjects to keep track of location an rotation
+    /// Niels
+    /// </summary>
     public class Transform
     {
 

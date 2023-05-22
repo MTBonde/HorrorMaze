@@ -10,6 +10,10 @@ using System.Threading.Tasks;
 
 namespace HorrorMaze
 {
+    /// <summary>
+    /// used by the user to control the player
+    /// Niels
+    /// </summary>
     public class PlayerController : Component
     {
 
@@ -28,10 +32,16 @@ namespace HorrorMaze
         bool isSprinting;
         BackupAudioSouce walking, running, lowStamina;
 
-        //public bool PlayBreathingSound { get; private set; } = false;
-
+        /// <summary>
+        /// sets up needed components
+        /// </summary>
         public void Awake()
         {
+            gameObject.name = "Player";
+            gameObject.transform.Position3D = new Vector3(-6.5f, -9.5f, 1.6f);
+            gameObject.transform.Rotation = new Vector3(0, 90, 0);
+            gameObject.AddComponent<Camera>();
+            gameObject.AddComponent<BackupAudioListner>();
             walking = gameObject.AddComponent<BackupAudioSouce>();
             walking.SetSoundEffect("SoundFX\\walking");
             walking.loop = true;
@@ -43,7 +53,9 @@ namespace HorrorMaze
             lowStamina.loop = true;
         }
 
-        //chesks player inputs every frame and moves the player based on the input
+        /// <summary>
+        /// chesks player inputs every frame and moves the player based on the input
+        /// </summary>
         public void Update()
         {
             //elapsed time of previous frame
@@ -101,7 +113,6 @@ namespace HorrorMaze
                 }
                 else
                 {
-                    Debug.WriteLine(movement);
                     if (isSprinting)
                     {
                         isSprinting = false;
@@ -123,7 +134,6 @@ namespace HorrorMaze
                         }
                         energy = Math.Clamp(energy + Globals.DeltaTime / energyRechargeTime * maxEnergy,0,maxEnergy);
                         lowStamina.volume = 1 - energy/maxEnergy;
-                        //PlayBreathingSound = true;
                         if (energy > maxEnergy / 2)
                         {
                             canSprint = true;
@@ -133,9 +143,6 @@ namespace HorrorMaze
                     {
                         lowStamina.Stop();
                     }
-                    // Deactivate heartbeat once energy is fully recharged
-                    //else if(PlayBreathingSound)
-                    //    PlayBreathingSound = false;
                 }
             }
             CollisionInfo colInfor = CollisionManager.CheckCircleCollision(transform.Position3D, movement, gameObject, _playerRadius,1.7f);

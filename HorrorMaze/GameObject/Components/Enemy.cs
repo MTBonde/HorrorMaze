@@ -8,9 +8,12 @@ namespace HorrorMaze
 {
     public class Enemy : Component
     {
+
         List<int[]> path = new List<int[]>();
         float speed = 1.5f;
         bool at_pos = true;
+
+
         public void GetPath()
         {
             Random rnd = new Random();
@@ -20,6 +23,7 @@ namespace HorrorMaze
                 rnd.Next(gameObject.GetComponent<Pathing>().mazeCells.GetLength(1))), transform.Position);
             at_pos = false;
         }
+
         void Update()
         {
             if (!at_pos)

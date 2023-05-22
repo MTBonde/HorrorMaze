@@ -3,6 +3,10 @@ using System.Diagnostics;
 
 namespace HorrorMaze
 {
+    /// <summary>
+    /// used to talk to the sql database
+    /// Niels
+    /// </summary>
     public class SQLManager
     {
 

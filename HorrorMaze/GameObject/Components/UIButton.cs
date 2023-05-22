@@ -10,6 +10,10 @@ namespace HorrorMaze
    
     public delegate void ClickEvent();
 
+    /// <summary>
+    /// a UI button that can call event by being clicked
+    /// Niels
+    /// </summary>
     public class UIButton : Component
     {
 

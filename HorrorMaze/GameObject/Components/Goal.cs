@@ -7,10 +7,24 @@ using System.Threading.Tasks;
 
 namespace HorrorMaze
 {
+    /// <summary>
+    /// Win consition for the game
+    /// Niels
+    /// </summary>
     public class Goal : Component
     {
 
 
+
+        /// <summary>
+        /// adds all needed components
+        /// </summary>
+        public void Awake()
+        {
+            gameObject.name = "Goal";
+            gameObject.AddComponent<MeshRenderer>().SetModel("3DModels\\win_item");
+            gameObject.AddComponent<BoxCollider>().size = Vector3.One / 10;
+        }
 
         public void OnCollision(GameObject go)
         {

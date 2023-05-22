@@ -6,6 +6,9 @@
         BackupAudioSouce souce;
         float currentTimerTime, timerTime = 10;
 
+        /// <summary>
+        /// sets up needed components
+        /// </summary>
         public void Awake()
         {
             souce = gameObject.AddComponent<BackupAudioSouce>();
@@ -18,6 +21,9 @@
             souce.maxDistance = 3f;
         }
 
+        /// <summary>
+        /// updates play timer and plays sound if timer reach play time
+        /// </summary>
         public void Update()
         {
             if(currentTimerTime < timerTime)

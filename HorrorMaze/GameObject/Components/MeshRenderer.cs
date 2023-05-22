@@ -10,6 +10,10 @@ using System.Threading.Tasks;
 
 namespace HorrorMaze
 {
+    /// <summary>
+    /// renders a model/mesh in 3D space
+    /// Niels
+    /// </summary>
     public class MeshRenderer : Component
     {
         #region Fields & Properties
