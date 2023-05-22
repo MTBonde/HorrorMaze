@@ -55,12 +55,8 @@ namespace HorrorMaze
             //make maze start room
             mazeCells = new MazeCell[15, 15];
             for (int x = 0; x < mazeCells.GetLength(0); x++)
-            {
                 for (int y = 0; y < mazeCells.GetLength(1); y++)
-                {
                     mazeCells[x, y] = new MazeCell();
-                }
-            }
             //makes start room
             for (int x = 0; x < 3; x++)
             {
