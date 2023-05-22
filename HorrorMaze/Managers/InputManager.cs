@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace HorrorMaze
 {
     /// <summary>
-    /// needs to be created
+    /// needs to be implemented
     /// Used to keep track of inputs
     /// Niels
     /// </summary>
