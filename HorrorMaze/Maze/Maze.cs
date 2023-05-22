@@ -83,6 +83,21 @@ namespace HorrorMaze
             KnockDownRandomWalls(50);
             return EvaluateCell(MazeStartPoint);
         }
+        //public MazeCell[,] GenerateMazeFromMaze(MazeCell[,] maze, Point MazeStartPoint)
+        //{
+        //    // Generate the initial maze with DFS
+        //    //MazeCells[0, 0].Visited = true;
+        //    EvaluateCell(MazeStartPoint);
+
+        //    // Add rooms to the maze
+        //    AddRooms();
+
+        //    // Knock down random walls to create additional passages
+        //    KnockDownRandomWalls(50);  
+
+        //    return MazeCells;
+        //}
+
         private void AddRooms()
         {
             // set the number of rooms based on overall maze size
