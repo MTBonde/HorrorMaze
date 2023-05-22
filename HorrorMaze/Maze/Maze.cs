@@ -79,6 +79,7 @@ namespace HorrorMaze
             //    }
             //}
 
+            KnockDownRandomWalls(50);
             return EvaluateCell(MazeStartPoint);
             //AddRooms();
         }
@@ -209,14 +210,25 @@ namespace HorrorMaze
                         }
 
                         // If the neighbor is within the maze, remove the wall
-                        if(
-                            neighbor.X >= 0 && neighbor.X < mazeWidth &&
-                            neighbor.Y >= 0 && neighbor.Y < mazeHeight
-                        )
+                        if(neighbor.X >= 0 && neighbor.X < mazeWidth && neighbor.Y >= 0 && neighbor.Y < mazeHeight)
                         {
-                            MazeCells[x, y].Walls[direction] = false;
-                            MazeCells[neighbor.X, neighbor.Y].Walls[(direction + 2) % 4] = false;
+                            // For the current cell
+                            if(direction == 0 || direction == 1) // Up or Right
+                            {
+                                MazeCells[x, y].Walls[direction] = false;
+                            }
+
+                            // For the neighbor cell
+                            if(direction == 2) // Down: adjust neighbor's Up wall
+                            {
+                                MazeCells[neighbor.X, neighbor.Y].Walls[0] = false;
+                            }
+                            else if(direction == 3) // Left: adjust neighbor's Right wall
+                            {
+                                MazeCells[neighbor.X, neighbor.Y].Walls[1] = false;
+                            }
                         }
+
                     }
                 }
             }
