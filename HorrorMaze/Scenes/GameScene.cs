@@ -108,7 +108,7 @@ namespace HorrorMaze
             enemy.name = "Enemy";
             enemy.AddComponent<BoxCollider>().size = new Vector3(0.35f, 0.35f, 1);            
             enemy.AddComponent<MeshRenderer>().SetModel("3DModels\\ghost_rig");
-            enemy.transform.Position3D = new Vector3(1.5f, 1.5f, 0);
+            enemy.transform.Position3D = new Vector3(cells.GetLength(0) - 1.5f, cells.GetLength(1) - 1.5f, 0);
             enemy.AddComponent<BackupPathing>().SetMaze(cells);
             enemy.AddComponent<BackupEnemy>();
             BackupAudioSouce enemyAudioSouce = enemy.AddComponent<BackupAudioSouce>();
