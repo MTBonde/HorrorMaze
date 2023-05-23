@@ -1,13 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-
-namespace HorrorMaze
+﻿namespace HorrorMaze
 {
     /// <summary>     
     /// This class takes care of generating a maze using DFS algoritm
@@ -44,7 +35,7 @@ namespace HorrorMaze
 
         public MazeCell[,] GenerateMaze(int width, int height)
         {
-            
+
 
 
             //mazeHeight = height;
@@ -122,7 +113,7 @@ namespace HorrorMaze
             neighborCells.Add(1); // Right
             neighborCells.Add(2); // Down
             neighborCells.Add(3); // Left
-            
+
             // While there is still an unvisited neighbor cell do this
             while(neighborCells.Count > 0)
             {
@@ -225,7 +216,7 @@ namespace HorrorMaze
                         }
 
                         // If the neighbor is within the maze, remove the wall
-                        if(neighbor.X >= 0 && neighbor.X < mazeWidth && neighbor.Y >= 0 && neighbor.Y < mazeHeight)
+                        if(neighbor.X >= 0 && neighbor.X < mazeWidth - 1 && neighbor.Y >= 0 && neighbor.Y < mazeHeight - 1)
                         {
                             // For the current cell
                             if(direction == 0 || direction == 1) // Up or Right
