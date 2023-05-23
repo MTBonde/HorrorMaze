@@ -26,35 +26,7 @@
                     MazeCells[i, j] = new MazeCell();
                 }
             }
-
-            //// Start generating the maze from a random cell
-            ///MazeStartPoint = new Point(_random.Next(mazeWidth), _random.Next(mazeHeight))
-            ///MazeCells[MazeStartPoint].Visited = true;
-            //EvaluateCell(MazeStartPoint);
         }
-
-        public MazeCell[,] GenerateMaze(int width, int height)
-        {
-
-
-
-            //mazeHeight = height;
-            //mazeWidth = width;
-            //MazeCells = new MazeCell[mazeWidth, mazeHeight];
-            //for (int x = 0; x < mazeWidth; x++)
-            //{
-            //    for (int y = 0; y < mazeHeight; y++)
-            //    {
-            //        MazeCells[x, y] = new MazeCell();
-            //    }
-            //}
-
-            //// Start generating the maze from a random cell
-            //EvaluateCell(new Point(_random.Next(mazeWidth), _random.Next(mazeHeight)));
-            MazeCells[0, 0].Visited = true;
-            return EvaluateCell(new Point(0, 0));
-        }
-
 
         public MazeCell[,] GenerateMazeFromMaze(MazeCell[,] maze, Point MazeStartPoint)
         {
@@ -70,41 +42,18 @@
             //    }
             //}
 
-            //AddRooms();
+            //AddRooms(10);
             KnockDownRandomWalls(50);
             return EvaluateCell(MazeStartPoint);
         }
-        //public MazeCell[,] GenerateMazeFromMaze(MazeCell[,] maze, Point MazeStartPoint)
-        //{
-        //    // Generate the initial maze with DFS
-        //    //MazeCells[0, 0].Visited = true;
-        //    EvaluateCell(MazeStartPoint);
 
-        //    // Add rooms to the maze
-        //    AddRooms();
-
-        //    // Knock down random walls to create additional passages
-        //    KnockDownRandomWalls(50);  
-
-        //    return MazeCells;
-        //}
-
-        private void AddRooms()
-        {
-            // set the number of rooms based on overall maze size
-            int totalCells = mazeWidth * mazeHeight;
-            // one 1 room per 10 maze cells
-            int numberOfRooms = totalCells / 10;
-
-            // Add open spaces
-            AddOpenSpace(3, 3, numberOfRooms);
-        }
+   
 
         /// <summary>
-        /// Thor 
         /// Evaluate each cell using DFS to create a maze out of the mazecells
+        /// by thor
         /// </summary>
-        /// <param name="cell">is the current cell to evaluate</param>
+        /// <param name="cell">is the starting cell to evaluate</param>
         private MazeCell[,] EvaluateCell(Point cell)
         {
             // create a list of neoghboring cells 
@@ -186,6 +135,10 @@
             return MazeCells;
         }
 
+        /// <summary>
+        /// Remove walls randomly in the maze to create more routes to goal
+        /// </summary>
+        /// <param name="chance">percent change for a wall to be removed</param>
         public void KnockDownRandomWalls(int chance)
         {
             for(int x = 0; x < mazeWidth; x++)
@@ -240,9 +193,30 @@
             }
         }
 
-        public void AddOpenSpace(int width, int height, int numberOfSpaces)
+        /// <summary>
+        /// Calculate rooms by dividing total number of cells with a dividing factor
+        /// </summary>
+        /// <param name="numberUsedForRoomCalculation">1 room pr x openspaces</param>
+        private void AddRooms(int numberUsedForRoomCalculation)
         {
-            for(int i = 0; i < numberOfSpaces; i++)
+            // set the number of rooms based on overall maze size
+            int totalCells = mazeWidth * mazeHeight;
+            // one 1 room per 10 maze cells
+            int numberOfRooms = totalCells / numberUsedForRoomCalculation;
+
+            // Add open spaces
+            AddOpenSpace(3, 3, numberOfRooms);
+        }
+
+        /// <summary>
+        /// add rooms/ open spaces in the maces at random locations
+        /// </summary>
+        /// <param name="width">width of the rooms</param>
+        /// <param name="height">height of the rooms</param>
+        /// <param name="numberOfOpenSpaces">how many open spaces</param>
+        public void AddOpenSpace(int width, int height, int numberOfOpenSpaces)
+        {
+            for(int i = 0; i < numberOfOpenSpaces; i++)
             {
                 int attempt = 0;
                 const int maxAttempts = 10;  // might be to high/low

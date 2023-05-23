@@ -241,6 +241,55 @@
 /processorParam:TextureFormat=Compressed
 /build:3DModels/win_item.fbx
 
+#begin BloodyFonts/BloodFont1.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:BloodyFonts/BloodFont1.spritefont
+
+#begin BloodyFonts/BloodFont2.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:BloodyFonts/BloodFont2.spritefont
+
+#begin BloodyFonts/BloodFont3.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:BloodyFonts/BloodFont3.spritefont
+
+#begin BloodyFonts/BloodFont4.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:BloodyFonts/BloodFont4.spritefont
+
+#begin BloodyFonts/BloodFont5.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:BloodyFonts/BloodFont5.spritefont
+
+#begin BloodyFonts/BloodFont6.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:BloodyFonts/BloodFont6.spritefont
+
+#begin BloodyFonts/BloodFont7.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:BloodyFonts/BloodFont7.spritefont
+
 #begin button.png
 /importer:TextureImporter
 /processor:TextureProcessor

@@ -16,6 +16,7 @@ namespace HorrorMaze
         {
             GameObject tittle = new GameObject();
             TextRenderer tittleText = tittle.AddComponent<TextRenderer>();
+            //BloodTextRenderer tittleText = tittle.AddComponent<BloodTextRenderer>();
             tittleText.scale = 20;
             tittleText.SetText("Horror Maze");
             tittleText.color = Color.Red;

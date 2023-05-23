@@ -34,7 +34,7 @@
             {
                 currentTimerTime = 0;
                 timerTime = Globals.Rnd.Next(10,20);
-                transform.Position = new Vector2(Globals.Rnd.Next(0, 2), Globals.Rnd.Next(0, 2)) + SceneManager.GetGameObjectByName("Player").transform.Position;
+                transform.Position = new Vector2(Globals.Rnd.Next(-2, 2), Globals.Rnd.Next(-2, 2)) + SceneManager.GetGameObjectByName("Player").transform.Position;
                 souce.Play();
             }
         }
