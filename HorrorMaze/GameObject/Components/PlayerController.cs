@@ -38,7 +38,7 @@ namespace HorrorMaze
         public void Awake()
         {
             gameObject.name = "Player";
-            gameObject.transform.Position3D = new Vector3(-6.5f, -9.5f, 1.6f);
+            gameObject.transform.Position3D = new Vector3(0.5f, 0.5f, 1.6f);
             gameObject.transform.Rotation = new Vector3(0, 90, 0);
             gameObject.AddComponent<Camera>();
             gameObject.AddComponent<BackupAudioListner>();

@@ -24,7 +24,7 @@ namespace HorrorMaze
         /// </summary>
         public void Awake()
         {
-            gameObject.name = "Enemy";
+            gameObject.name = "Tutorisl_Enemy";
             gameObject.AddComponent<BoxCollider>().size = new Vector3(1, 1, 1);
             gameObject.AddComponent<MeshRenderer>().SetModel("3DModels\\ghost_rig");
             gameObject.transform.Position3D = new Vector3(-8.5f, -10.5f, 0);

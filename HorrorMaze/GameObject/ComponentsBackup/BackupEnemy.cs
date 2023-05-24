@@ -29,23 +29,23 @@ namespace HorrorMaze
             gameObject.name = "Enemy";
             gameObject.AddComponent<BoxCollider>().size = new Vector3(0.35f, 0.35f, 1);
             gameObject.AddComponent<MeshRenderer>().SetModel("3DModels\\ghost_rig");
-            BackupAudioSouce enemyAudioSouce = gameObject.AddComponent<BackupAudioSouce>();
-            enemyAudioSouce.AddSoundEffect("SoundFX\\zombie1");
-            enemyAudioSouce.AddSoundEffect("SoundFX\\zombie2");
-            enemyAudioSouce.AddSoundEffect("SoundFX\\zombie3");
-            enemyAudioSouce.AddSoundEffect("SoundFX\\zombie4");
-            enemyAudioSouce.AddSoundEffect("SoundFX\\zombie5");
-            enemyAudioSouce.randomLoopEffects = true;
-            enemyAudioSouce.loop = true;
-            enemyAudioSouce.Spacial = true;
-            enemyAudioSouce.maxDistance = 3f;
-            enemyAudioSouce.Play();
-            BackupAudioSouce enemyAudioSouce1 = gameObject.AddComponent<BackupAudioSouce>();
-            enemyAudioSouce1.SetSoundEffect("SoundFX\\heartBeat");
-            enemyAudioSouce1.loop = true;
-            enemyAudioSouce1.Spacial = true;
-            enemyAudioSouce1.maxDistance = 5f;
-            enemyAudioSouce1.Play();
+            BackupAudioSouce GrudgeAudioSouce = gameObject.AddComponent<BackupAudioSouce>();
+            GrudgeAudioSouce.AddSoundEffect("SoundFX\\zombie1");
+            GrudgeAudioSouce.AddSoundEffect("SoundFX\\zombie2");
+            GrudgeAudioSouce.AddSoundEffect("SoundFX\\zombie3");
+            GrudgeAudioSouce.AddSoundEffect("SoundFX\\zombie4");
+            GrudgeAudioSouce.AddSoundEffect("SoundFX\\zombie5");
+            GrudgeAudioSouce.randomLoopEffects = true;
+            GrudgeAudioSouce.loop = true;
+            GrudgeAudioSouce.Spacial = true;
+            GrudgeAudioSouce.maxDistance = 3f;
+            GrudgeAudioSouce.Play();
+            BackupAudioSouce HeartBeatAudioSouce = gameObject.AddComponent<BackupAudioSouce>();
+            HeartBeatAudioSouce.SetSoundEffect("SoundFX\\heartBeat");
+            HeartBeatAudioSouce.loop = true;
+            HeartBeatAudioSouce.Spacial = true;
+            HeartBeatAudioSouce.maxDistance = 5f;
+            HeartBeatAudioSouce.Play();
         }
 
         /// <summary>

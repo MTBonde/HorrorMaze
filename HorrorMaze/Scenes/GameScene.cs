@@ -6,6 +6,7 @@ namespace HorrorMaze
     {
 
         MazeCell[,] mazeCells;
+        public DebugManager debugManager = new DebugManager();
 
         #region Methods
         public override void SetupScene()
@@ -42,6 +43,8 @@ namespace HorrorMaze
 
             //spawns everything for the tutorial
             SpawnTutorial();
+
+            SpawnDebugCamera();
             #endregion
 
             // set timers
@@ -93,6 +96,7 @@ namespace HorrorMaze
 
             //places maze in the world
             GameObject mazeObject = new GameObject();
+            mazeObject.name = "Maze";
             mazeObject.AddComponent<MazeRenderer>().SetMaze(mazeCells);
             mazeObject.AddComponent<MazeCollider>().SetMaze(mazeCells);
         }
@@ -163,6 +167,15 @@ namespace HorrorMaze
             GameObject closeKey = new GameObject();
             closeKey.transform.Position3D = new Vector3(0.5f, 0.5f, 1.25f);
             closeKey.AddComponent<Key>().keyEvent += door1.CloseDoor;
+        }
+
+        public void SpawnDebugCamera()
+        {
+            GameObject debugCam = new GameObject();
+            debugCam.transform.Position3D = new Vector3(0, 0, 10);
+            debugCam.transform.Rotation = new Vector3(0, 10, 0);
+            debugCam.AddComponent<Camera>().enabled = false;
+            debugCam.name = "DebugCam";
         }
         #endregion
     }

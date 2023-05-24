@@ -43,11 +43,85 @@
             //}
 
             //AddRooms(10);
-            KnockDownRandomWalls(50);
+            KnockDownRandomWalls(2);
+            AddRoomBeforeMaze(new Point(5, 5), 3, 3, 4);
+            AddRoomBeforeMaze(new Point(9, 5), 3, 3, 4);
             return EvaluateCell(MazeStartPoint);
         }
 
    
+
+        //    return MazeCells;
+        //}
+
+        private void AddRooms()
+        {
+            // set the number of rooms based on overall maze size
+            int totalCells = mazeWidth * mazeHeight;
+            // one 1 room per 10 maze cells
+            int numberOfRooms = totalCells / 10;
+
+            // Add open spaces
+            AddOpenSpace(3, 3, numberOfRooms);
+        }
+
+        public void AddRoomBeforeMaze(Point buttomLeftCornerOffRoom, int width, int height, int entances)
+        {
+            for (int x = buttomLeftCornerOffRoom.X; x < buttomLeftCornerOffRoom.X + width; x++)
+            {
+                for (int y = buttomLeftCornerOffRoom.Y; y < buttomLeftCornerOffRoom.Y + height; y++)
+                {
+                    if(y != buttomLeftCornerOffRoom.Y + height - 1)
+                        MazeCells[x, y].Walls[0] = false;
+                    if(x != buttomLeftCornerOffRoom.X + width - 1)
+                        MazeCells[x, y].Walls[1] = false;
+                    MazeCells[x, y].Visited = true;
+                }
+            }
+            while(entances > 0)
+            {
+                int side = Globals.Rnd.Next(0,2);
+                int x = 0;
+                int y = 0;
+                if (side == 0)
+                {
+                    side = Globals.Rnd.Next(0, 2);
+                    x = Globals.Rnd.Next(buttomLeftCornerOffRoom.X,buttomLeftCornerOffRoom.X + width);
+                    if(buttomLeftCornerOffRoom.Y > 0 && side == 0)
+                        y = buttomLeftCornerOffRoom.Y - 1;
+                    else if(side == 1)
+                        y = buttomLeftCornerOffRoom.Y + height - 1;
+                    else
+                        continue;
+                    if (MazeCells[x, y].Walls[0])
+                    {
+                        MazeCells[x, y].Walls[0] = false;
+                        entances--;
+                    }
+                }
+                else if (side == 1)
+                {
+                    side = Globals.Rnd.Next(0, 2);
+                    y = Globals.Rnd.Next(buttomLeftCornerOffRoom.Y,buttomLeftCornerOffRoom.Y + height);
+                    if (buttomLeftCornerOffRoom.X > 0 && side == 0)
+                        x = buttomLeftCornerOffRoom.X - 1;
+                    else if (side == 1)
+                        x = buttomLeftCornerOffRoom.X + width - 1;
+                    else
+                        continue;
+                    if(MazeCells[x, y].Walls[1])
+                    {
+                        MazeCells[x, y].Walls[1] = false;
+                        entances--;
+                    }
+                }
+            }
+        }
+
+        public void AddRoomAfterMaze(Point buttomLeftCornerOffRoom, int width, int height)
+        {
+
+        }
 
         /// <summary>
         /// Evaluate each cell using DFS to create a maze out of the mazecells

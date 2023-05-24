@@ -20,13 +20,13 @@
 
         public static void ApplyWorldShading(BasicEffect effect)
         {
-            effect.LightingEnabled = true;
+            effect.LightingEnabled = !Globals.DebugModeToggled;
             effect.AmbientLightColor = lightColor;
             //effect.DirectionalLight0.Direction = lightDirection;
             //effect.DirectionalLight0.DiffuseColor = Vector3.One;
             //effect.DirectionalLight0.Enabled = true;
 
-            effect.FogEnabled = true;
+            effect.FogEnabled = !Globals.DebugModeToggled;
             effect.FogColor = Color.Black.ToVector3();
             effect.FogStart = 0f;
             effect.FogEnd = 3f;

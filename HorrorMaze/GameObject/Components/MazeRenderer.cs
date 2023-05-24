@@ -19,7 +19,7 @@ namespace HorrorMaze
         MazeCell[,] _mazeCells = new MazeCell[5,5];
         Model[] _wallModels;
         Model _wall, _floor, _celing;
-        int _renderDist = 5;
+        public int _renderDist = 5;
         Transform _playerTransform;
 
         /// <summary>

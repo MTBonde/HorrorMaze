@@ -39,6 +39,7 @@ namespace HorrorMaze
             new WinScene(),
             new LoseScene()
         };
+        static bool inGame = false;
         #endregion
 
         #region Methods
@@ -48,6 +49,10 @@ namespace HorrorMaze
         /// <param name="scene_number">the number of the scene to load</param>
         public static void LoadScene(int scene_number)//maybe make one that uses a string instead and looks it up in a dictionary
         {
+            if(scene_number == 2)
+                inGame = true;
+            else
+                inGame = false;
             for (int i = 0; i < active_scene.gameObjects.Count; i++)
             {
                 active_scene.gameObjects[i].StopSound();
@@ -85,13 +90,15 @@ namespace HorrorMaze
             Globals.Update(gameTime);
 
             //Manager Update
-            audioManager.Update();
+            //audioManager.Update();
             //if(_gameTimer != null)
             //    _gameTimer.UpdateTimer();
 
-            
+
 
             //Scene Update
+            if (inGame)
+                ((GameScene)active_scene).debugManager.Update(gameTime);
             for (int i = 0; i < active_scene.gameObjects.Count; i++)
             {
                 active_scene.gameObjects[i].Update(gameTime);
