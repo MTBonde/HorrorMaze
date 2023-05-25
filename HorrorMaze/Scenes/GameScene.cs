@@ -104,7 +104,8 @@ namespace HorrorMaze
         public void SpawnTutorial()
         {
             //tutorial ghost
-            new GameObject().AddComponent<TutorialEnemy>();
+            //new GameObject().AddComponent<TutorialEnemy>();
+            GameObject boulder = new GameObject();
 
             //tutorial entrance wall defining
             MazeCell[,] tutorialCells = new MazeCell[10, 10];
@@ -173,8 +174,9 @@ namespace HorrorMaze
         {
             GameObject debugCam = new GameObject();
             debugCam.transform.Position3D = new Vector3(0, 0, 10);
-            debugCam.transform.Rotation = new Vector3(0, 10, 0);
+            debugCam.transform.Rotation = new Vector3(0, 10, 270);
             debugCam.AddComponent<Camera>().enabled = false;
+            debugCam.AddComponent<DebugCameraController>().enabled = false;
             debugCam.name = "DebugCam";
         }
         #endregion

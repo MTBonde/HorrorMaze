@@ -71,6 +71,7 @@
             for(int x = 0; x < mazeCells.GetLength(0); x++)
                 for(int y = 0; y < mazeCells.GetLength(1); y++)
                     mazeCells[x, y] = new MazeCell();
+            maze.AddRoomBeforeMaze(new Point(0, 0), 3, 3, 0, mazeCells);
 
 
             //Camera
@@ -79,29 +80,16 @@
             camera.transform.Rotation = new Vector3(0, 90, 0);            
             camera.AddComponent<Camera>();
             camera.name = "Player";
+            camera.AddComponent<TitleScreenCamera>();
+
+            //gate
+            GameObject gate = new GameObject();
+            gate.AddComponent<MeshRenderer>().SetModel("3DModels\\door");
+            gate.transform.Position = new Vector2(0.5f,0);
 
             //places maze in the world
             GameObject TitleScreenMaze = new GameObject();
             TitleScreenMaze.AddComponent<MazeRenderer>().SetMaze(mazeCells);
-            maze.AddRoomBeforeMaze(new Point(0, 0), 3, 3, 0);
-
-        
-            
-
-
         }
-
-        //public void Update()
-        //{         
-        //    float elapsed = Globals.DeltaTime;
-        //    float rotateScale = 50;
-
-        //    int turn = Globals.Rnd.Next(2);
-        //    camera.transform.Rotation += turn == 0
-        //        ?
-        //        new Vector3(0, 0, rotateScale * elapsed / 3)
-        //        :
-        //        new Vector3(0, 0, -(rotateScale * elapsed) / 3);
-        //}
     }
 }

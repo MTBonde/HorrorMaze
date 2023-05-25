@@ -44,8 +44,8 @@
 
             //AddRooms(10);
             KnockDownRandomWalls(2);
-            AddRoomBeforeMaze(new Point(5, 5), 3, 3, 4);
-            AddRoomBeforeMaze(new Point(9, 5), 3, 3, 4);
+            MazeCells = AddRoomBeforeMaze(new Point(5, 5), 3, 3, 4, MazeCells);
+            MazeCells = AddRoomBeforeMaze(new Point(9, 5), 3, 3, 4, MazeCells);
             return EvaluateCell(MazeStartPoint);
         }
 
@@ -65,17 +65,17 @@
             AddOpenSpace(3, 3, numberOfRooms);
         }
 
-        public void AddRoomBeforeMaze(Point buttomLeftCornerOffRoom, int width, int height, int entances)
+        public MazeCell[,] AddRoomBeforeMaze(Point buttomLeftCornerOffRoom, int width, int height, int entances, MazeCell[,] mazeToEdit)
         {
             for (int x = buttomLeftCornerOffRoom.X; x < buttomLeftCornerOffRoom.X + width; x++)
             {
                 for (int y = buttomLeftCornerOffRoom.Y; y < buttomLeftCornerOffRoom.Y + height; y++)
                 {
                     if(y != buttomLeftCornerOffRoom.Y + height - 1)
-                        MazeCells[x, y].Walls[0] = false;
+                        mazeToEdit[x, y].Walls[0] = false;
                     if(x != buttomLeftCornerOffRoom.X + width - 1)
-                        MazeCells[x, y].Walls[1] = false;
-                    MazeCells[x, y].Visited = true;
+                        mazeToEdit[x, y].Walls[1] = false;
+                    mazeToEdit[x, y].Visited = true;
                 }
             }
             while(entances > 0)
@@ -93,9 +93,9 @@
                         y = buttomLeftCornerOffRoom.Y + height - 1;
                     else
                         continue;
-                    if (MazeCells[x, y].Walls[0])
+                    if (mazeToEdit[x, y].Walls[0])
                     {
-                        MazeCells[x, y].Walls[0] = false;
+                        mazeToEdit[x, y].Walls[0] = false;
                         entances--;
                     }
                 }
@@ -109,13 +109,14 @@
                         x = buttomLeftCornerOffRoom.X + width - 1;
                     else
                         continue;
-                    if(MazeCells[x, y].Walls[1])
+                    if(mazeToEdit[x, y].Walls[1])
                     {
-                        MazeCells[x, y].Walls[1] = false;
+                        mazeToEdit[x, y].Walls[1] = false;
                         entances--;
                     }
                 }
             }
+            return mazeToEdit;
         }
 
         public void AddRoomAfterMaze(Point buttomLeftCornerOffRoom, int width, int height)
