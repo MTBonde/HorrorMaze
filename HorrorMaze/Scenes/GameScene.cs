@@ -103,6 +103,7 @@ namespace HorrorMaze
             GameObject escapeDoorKey = new GameObject();
             escapeDoorKey.AddComponent<Key>().door = escapeDoor.GetComponent<Door>();
             escapeDoorKey.transform.Position3D = new Vector3(Globals.Rnd.Next(3, mazeCells.GetLength(0) - 3) - 0.5f, Globals.Rnd.Next(3, mazeCells.GetLength(0) - 3) - 0.5f, 1);
+            escapeDoorKey.AddComponent<MeshRenderer>().SetModel("3DModels\\key");
 
             //generates maze around the rooms
             mazeCells = maze.GenerateMazeFromMaze(mazeCells, new Point(1, 2));
@@ -166,6 +167,7 @@ namespace HorrorMaze
             tutorialKey.transform.Position3D = new Vector3(-6.5f, -7.5f, 1.25f);
             tutorialKey.AddComponent<Key>().door = tutorialMonsterDoor1;
             tutorialKey.GetComponent<Key>().keyEvent += tutorialfrontDoor1.OpenDoor;
+            tutorialKey.AddComponent<MeshRenderer>().SetModel("3DModels\\key");
 
             //tutorial exit door
             GameObject entranceDoor = new GameObject();
@@ -176,11 +178,23 @@ namespace HorrorMaze
             GameObject key = new GameObject();
             key.transform.Position3D = new Vector3(0.5f, -0.5f, 1.25f);
             key.AddComponent<Key>().keyEvent += door1.OpenDoor;
+            key.AddComponent<MeshRenderer>().SetModel("3DModels\\key");
 
             //tutorial exit close key/area
             GameObject closeKey = new GameObject();
             closeKey.transform.Position3D = new Vector3(0.5f, 0.5f, 1.25f);
             closeKey.AddComponent<Key>().keyEvent += door1.CloseDoor;
+
+            //boulder spawn event
+            GameObject boulderSpawn = new GameObject();
+            boulderSpawn.transform.Position3D = new Vector3(-5.5f, -3.5f, 0);
+            boulderSpawn.AddComponent<Key>().keyEvent += SpawnBoulder;
+        }
+
+        public void SpawnBoulder()
+        {
+            GameObject boulder = new GameObject();
+            boulder.AddComponent<TutorialEnemy>();
         }
 
         public void SpawnDebugCamera()

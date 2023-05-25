@@ -13,6 +13,25 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin 3DModels/boulder.fbx
+/importer:FbxImporter
+/processor:ModelProcessor
+/processorParam:ColorKeyColor=0,0,0,0
+/processorParam:ColorKeyEnabled=True
+/processorParam:DefaultEffect=BasicEffect
+/processorParam:GenerateMipmaps=True
+/processorParam:GenerateTangentFrames=False
+/processorParam:PremultiplyTextureAlpha=True
+/processorParam:PremultiplyVertexColors=True
+/processorParam:ResizeTexturesToPowerOfTwo=False
+/processorParam:RotationX=0
+/processorParam:RotationY=0
+/processorParam:RotationZ=0
+/processorParam:Scale=1
+/processorParam:SwapWindingOrder=False
+/processorParam:TextureFormat=Compressed
+/build:3DModels/boulder.fbx
+
 #begin 3DModels/celling.fbx
 /importer:FbxImporter
 /processor:ModelProcessor
@@ -389,6 +408,12 @@
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:SoundFX/Ambience/scary4.mp3
+
+#begin SoundFX/boulder_spawn.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundFX/boulder_spawn.mp3
 
 #begin SoundFX/breathing.wav
 /importer:WavImporter

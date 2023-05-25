@@ -22,7 +22,6 @@ namespace HorrorMaze
         //adds needed components and sets their variables
         public void Awake()
         {
-            gameObject.AddComponent<MeshRenderer>().SetModel("3DModels\\key");
             gameObject.AddComponent<BoxCollider>().size = new Vector3(0.25f, 0.25f, 0.25f);
         }
 
