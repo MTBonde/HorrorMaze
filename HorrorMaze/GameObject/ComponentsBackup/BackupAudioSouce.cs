@@ -72,11 +72,8 @@ namespace HorrorMaze
                 if(Spacial)
                     BackupAudioManager.ApplySpacialSound(_soundEffectInstance,_emitter,maxDistance);
                 //sets running to false if loop is off and soundÍnstance has stopped playing
-                else if (!loop)
-                {
-                    if(_soundEffectInstance.State == SoundState.Stopped)
-                        running = false;
-                }
+                if (!loop && _soundEffectInstance.State == SoundState.Stopped)
+                    running = false;
                 //loops using a random sound from soundEffects list if ranLoopEffects is turned on and the audio has stopped plaing
                 if (loop && randomLoopEffects && _soundEffectInstance.State == SoundState.Stopped)
                 {

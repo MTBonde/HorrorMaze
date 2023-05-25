@@ -24,12 +24,13 @@ namespace HorrorMaze
         /// </summary>
         public void Awake()
         {
-            gameObject.name = "Tutorisl_Enemy";
+            gameObject.name = "boulder";
             gameObject.AddComponent<BoxCollider>().size = new Vector3(1, 1, 1);
             gameObject.AddComponent<MeshRenderer>().SetModel("3DModels\\boulder");
             gameObject.transform.Position3D = new Vector3(-7.5f, -3.5f, 0.75f);
             BackupAudioSouce spawnSound = gameObject.AddComponent<BackupAudioSouce>();
             spawnSound.SetSoundEffect("SoundFX\\boulder_spawn");
+            spawnSound.Spacial = true;
             spawnSound.Play();
             //BackupAudioSouce enemyAudioSouce = gameObject.AddComponent<BackupAudioSouce>();
             //enemyAudioSouce.AddSoundEffect("SoundFX\\zombie1");

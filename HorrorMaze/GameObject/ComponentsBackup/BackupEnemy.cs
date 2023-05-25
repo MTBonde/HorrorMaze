@@ -20,6 +20,7 @@ namespace HorrorMaze
         float _speed = 1.25f;
         //the player object
         GameObject player;
+        BackupAudioSouce scream;
 
         /// <summary>
         /// adds all components needed for the enemy
@@ -46,6 +47,10 @@ namespace HorrorMaze
             HeartBeatAudioSouce.Spacial = true;
             HeartBeatAudioSouce.maxDistance = 5f;
             HeartBeatAudioSouce.Play();
+            scream = gameObject.AddComponent<BackupAudioSouce>();
+            scream.SetSoundEffect("SoundFX\\chasing_scream_1");
+            scream.Spacial = true;
+            scream.maxDistance = 5;
         }
 
         /// <summary>
@@ -57,6 +62,7 @@ namespace HorrorMaze
             player = SceneManager.GetGameObjectByName("Player");
         }
 
+        bool encounter = false;
         public void Update()
         {
             //checks if the player is within range of the monster
@@ -64,8 +70,13 @@ namespace HorrorMaze
                 player.transform.Position.Y > transform.Position.Y - 3 &&
                 player.transform.Position.X < transform.Position.X + 3 &&
                 player.transform.Position.Y < transform.Position.Y + 3 &&
-                !CollisionManager.RayCast(transform.Position3D, player.transform.Position3D))
+                !CollisionManager.RayCast(transform.Position3D + new Vector3(0,0,1.6f), player.transform.Position3D))
             {
+                if (!scream.IsPlaying() && !encounter)
+                {
+                    encounter = true;
+                    scream.Play();
+                }
                 //sets it to go to the player
                 path = gameObject.GetComponent<BackupPathing>().GetPath(transform.Position.ToPoint(), player.transform.Position.ToPoint());
                 //the path is null if the player is on the same tile as the monster and this makes the monster go to the players exact point then
@@ -74,6 +85,12 @@ namespace HorrorMaze
                     path = new List<Vector2>() { player.transform.Position };
                 }
             }
+            else if (encounter == true)
+                if (Vector3.Distance(transform.Position3D,player.transform.Position3D) > scream.maxDistance || !scream.IsPlaying())
+                {
+                    scream.Stop();
+                    encounter = false;
+                }
             //checks if theres is a path for the enemy to walk along
             if (path != null && path.Count > 0)
             {

@@ -37,8 +37,9 @@ namespace HorrorMaze
             while (Vector3.Distance(current, end) > 0.2f)
             {
                 CollisionInfo colInfo = CheckCircleCollision(start, current, null, 0.1f, 0.1f);
-                if (colInfo.collisionPoint != current && colInfo.collider.gameObject.name != "Enemy")
-                    return true;
+                if (colInfo.collider == null || colInfo.collider.gameObject.name != "Enemy")
+                    if (colInfo.collisionPoint != current)
+                        return true;
                 current += dir;
             }
             return false;

@@ -70,14 +70,14 @@ namespace HorrorMaze
         public override CollisionInfo CheckCylinderCollision(Vector3 startPoint, Vector3 endPoint, GameObject go, float radius, float height)
         {
             CollisionInfo col = new CollisionInfo();
-            col.collider = this;
             col.collisionPoint = endPoint;
             cord1 = -(size / 2) + offset + transform.Position3D;
             cord2 = (size / 2) + offset + transform.Position3D;
-            if(endPoint.Z >= cord1.Z &&  endPoint.Z < cord2.Z + height)
+            if(endPoint.Z > cord1.Z &&  endPoint.Z < cord2.Z + height)
                 if (endPoint.X > cord1.X - radius && endPoint.X < cord2.X + radius)
                     if (endPoint.Y > cord1.Y - radius && endPoint.Y < cord2.Y + radius)
                     {
+                        col.collider = this;
                         if (startPoint.X > cord1.X - radius && startPoint.X < cord2.X + radius)
                         {
                             if (startPoint.Y < transform.Position.Y - radius)
@@ -117,7 +117,7 @@ namespace HorrorMaze
             int currentX = (int)(startPoint.X - transform.Position.X);
             int currentY = (int)(startPoint.Y - transform.Position.Y);
             Vector3 newEndPoint = endPoint;
-            if(transform.Position3D.Z + height > startPoint.Z && transform.Position3D.Z <= startPoint.Z)
+            if(transform.Position3D.Z + 2 > startPoint.Z && transform.Position3D.Z - height <= startPoint.Z)
                 if (0 <= currentX && _cells.GetLength(0) > currentX)
                     if (0 <= currentY && _cells.GetLength(1) > currentY)
                     {
