@@ -189,6 +189,11 @@ namespace HorrorMaze
             GameObject boulderSpawn = new GameObject();
             boulderSpawn.transform.Position3D = new Vector3(-5.5f, -3.5f, 0);
             boulderSpawn.AddComponent<Key>().keyEvent += SpawnBoulder;
+
+            //Run Text
+            GameObject runText = new GameObject();
+            runText.AddComponent<MeshRenderer>().SetModel("3DModels\\run_text");
+            runText.transform.Position3D = new Vector3(-6.5f, -3.101f, 1.5f);
         }
 
         public void SpawnBoulder()
