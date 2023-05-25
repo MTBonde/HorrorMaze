@@ -1,5 +1,7 @@
 ﻿
 
+using System.Security.Cryptography.X509Certificates;
+
 namespace HorrorMaze
 {
     public class GameScene : Scene
@@ -90,6 +92,17 @@ namespace HorrorMaze
                 }
             }
             mazeCells[mazeCells.GetLength(0) - 2, mazeCells.GetLength(1) - 4].Walls[0] = false;
+            
+            //escape door
+            GameObject escapeDoor = new GameObject();
+            escapeDoor.name = "EscapeDoor";
+            escapeDoor.AddComponent<Door>();
+            escapeDoor.transform.Position = new Vector2(mazeCells.GetLength(0) - 1.5f, mazeCells.GetLength(1) - 3);
+
+            //escape door key
+            GameObject escapeDoorKey = new GameObject();
+            escapeDoorKey.AddComponent<Key>().door = escapeDoor.GetComponent<Door>();
+            escapeDoorKey.transform.Position3D = new Vector3(Globals.Rnd.Next(3, mazeCells.GetLength(0) - 3) - 0.5f, Globals.Rnd.Next(3, mazeCells.GetLength(0) - 3) - 0.5f, 1);
 
             //generates maze around the rooms
             mazeCells = maze.GenerateMazeFromMaze(mazeCells, new Point(1, 2));
