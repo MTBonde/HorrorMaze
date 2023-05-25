@@ -30,29 +30,42 @@
 
         public MazeCell[,] GenerateMazeFromMaze(MazeCell[,] maze, Point MazeStartPoint)
         {
-            _random.Next(1, 10);
+            //maze loading
+            Globals.Rnd.Next(1, 10);
             MazeCells = maze;
             mazeWidth = maze.GetLength(0);
             mazeHeight = maze.GetLength(1);
-            //for (int x = 0; x < mazeWidth; x++)
-            //{
-            //    for (int y = 0; y < mazeHeight; y++)
-            //    {
-            //        MazeCells[x, y] = new MazeCell();
-            //    }
-            //}
 
-            //AddRooms(10);
+            //remove random walls
             KnockDownRandomWalls(2);
-            MazeCells = AddRoomBeforeMaze(new Point(5, 5), 3, 3, 4, MazeCells);
-            MazeCells = AddRoomBeforeMaze(new Point(9, 5), 3, 3, 4, MazeCells);
+
+            //add rooms
+            int xRoomMax = (maze.GetLength(0) - (maze.GetLength(0) % 5)) / 5, 
+                yRoomMax = (maze.GetLength(1) - (maze.GetLength(1) % 5)) / 5;
+            int spawnRoomAmount = 4;
+            List<Point> filledChuncks = new List<Point>() { new Point(0,0), new Point(xRoomMax - 1, yRoomMax - 1) };
+            if(xRoomMax * yRoomMax - 4 < spawnRoomAmount)
+                spawnRoomAmount = xRoomMax * yRoomMax - 4;
+            while(spawnRoomAmount > 0)
+            {
+                int xSpawn = Globals.Rnd.Next(0, xRoomMax);
+                int ySpawn = Globals.Rnd.Next(0, yRoomMax);
+                int xOffset = Globals.Rnd.Next(3), yOffset = Globals.Rnd.Next(3);
+                if (filledChuncks.Contains(new Point(xSpawn, ySpawn)))
+                    continue;
+                filledChuncks.Add(new Point(xSpawn, ySpawn));
+                AddRoomBeforeMaze(new Point(xSpawn * 5 + xOffset, ySpawn * 5 + yOffset), 3, 3, 3, maze);
+                GameObject statue = new GameObject();
+                statue.AddComponent<MeshRenderer>().SetModel("3DModels\\statue_" + spawnRoomAmount);
+                statue.transform.Position = new Vector2(xSpawn * 5 + xOffset + 1.5f, ySpawn * 5 + yOffset + 1.5f);
+                statue.AddComponent<BoxCollider>().size = new Vector3(1, 1, 2);
+                statue.GetComponent<BoxCollider>().offset = new Vector3(0, 0, 1);
+                spawnRoomAmount--;
+            }
+
+            //create maze
             return EvaluateCell(MazeStartPoint);
         }
-
-   
-
-        //    return MazeCells;
-        //}
 
         private void AddRooms()
         {
@@ -89,7 +102,7 @@
                     x = Globals.Rnd.Next(buttomLeftCornerOffRoom.X,buttomLeftCornerOffRoom.X + width);
                     if(buttomLeftCornerOffRoom.Y > 0 && side == 0)
                         y = buttomLeftCornerOffRoom.Y - 1;
-                    else if(side == 1)
+                    else if(side == 1 && buttomLeftCornerOffRoom.Y + height != mazeToEdit.GetLength(1))
                         y = buttomLeftCornerOffRoom.Y + height - 1;
                     else
                         continue;
@@ -105,7 +118,7 @@
                     y = Globals.Rnd.Next(buttomLeftCornerOffRoom.Y,buttomLeftCornerOffRoom.Y + height);
                     if (buttomLeftCornerOffRoom.X > 0 && side == 0)
                         x = buttomLeftCornerOffRoom.X - 1;
-                    else if (side == 1)
+                    else if (side == 1 && buttomLeftCornerOffRoom.X + width != mazeToEdit.GetLength(0))
                         x = buttomLeftCornerOffRoom.X + width - 1;
                     else
                         continue;
