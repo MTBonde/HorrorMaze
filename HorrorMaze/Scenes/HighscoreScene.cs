@@ -22,7 +22,7 @@ namespace HorrorMaze
             string add = "";
             for (int i = 0; i < scores.Count; i++)
             {
-                add += "nr " + scores[i][0] + " called " + scores[i][1] + ", Got a time of: " + scores[i][2] + "\n";
+                add += "nr " + scores[i][0] + " called " + scores[i][1] + ", Got a time of: " + scores[i][2] + " seconds\n";
             }
             text.SetText(add);
             text.color = Color.Red;
@@ -74,7 +74,7 @@ namespace HorrorMaze
             string add = "";
             for (int i = 0; i < scores.Count; i++)
             {
-                add += "nr " + scores[i][0] + " called " + scores[i][1] + ", Got a time of: " + scores[i][2] + "\n";
+                add += "nr " + scores[i][0] + " called " + scores[i][1] + ", Got a time of: " + scores[i][2] + " seconds\n";
             }
             HighscoreText.GetComponent<TextRenderer>().SetText(add);
         }
