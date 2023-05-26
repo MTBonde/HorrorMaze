@@ -32,6 +32,11 @@ namespace HorrorMaze
         bool isSprinting;
         BackupAudioSouce walking, running, lowStamina;
 
+        public void RefillSprint()
+        {
+            energy = maxEnergy;
+        }
+
         /// <summary>
         /// sets up needed components
         /// </summary>

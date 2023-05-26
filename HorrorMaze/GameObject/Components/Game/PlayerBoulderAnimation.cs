@@ -36,6 +36,7 @@ namespace HorrorMaze
             else
             {
                 gameObject.GetComponent<PlayerController>().enabled = true;
+                gameObject.GetComponent<PlayerController>().RefillSprint();
                 SceneManager.GetGameObjectByName("Boulder").GetComponent<TutorialEnemy>().wait = false;
                 enabled = false;
             }
