@@ -489,6 +489,12 @@
 /processorParam:Quality=Best
 /build:SoundFX/heartbeat.wav
 
+#begin SoundFX/key_pickup.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundFX/key_pickup.mp3
+
 #begin SoundFX/running.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor

@@ -18,11 +18,14 @@ namespace HorrorMaze
         public Door door;
         int _rotationSpeed = 100;
         public event KeyEvent keyEvent;
+        public BackupAudioSouce pickupSound;
 
         //adds needed components and sets their variables
         public void Awake()
         {
             gameObject.AddComponent<BoxCollider>().size = new Vector3(0.25f, 0.25f, 0.25f);
+            pickupSound = gameObject.AddComponent<BackupAudioSouce>();
+            pickupSound.SetSoundEffect("SoundFX\\key_pickup");
         }
 
         //rotates the key around its z axis (camera up axis)
@@ -42,7 +45,10 @@ namespace HorrorMaze
                     keyEvent.Invoke();
                 //open an attached door(should be replaced with key event)
                 if(door != null)
+                {
+                    pickupSound.Play();
                     door.OpenDoor();
+                }
                 //removes the key from the world
                 CollisionManager.colliders.Remove(gameObject.GetComponent<BoxCollider>());
                 SceneManager.active_scene.gameObjects.Remove(gameObject);
