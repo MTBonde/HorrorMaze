@@ -183,7 +183,7 @@ namespace HorrorMaze
             //tutorial exit door key
             GameObject key = new GameObject();
             key.transform.Position3D = new Vector3(0.5f, -0.5f, 1.25f);
-            key.AddComponent<Key>().keyEvent += door1.OpenDoor;
+            key.AddComponent<Key>().door = door1;
             key.AddComponent<MeshRenderer>().SetModel("3DModels\\key");
 
             //tutorial exit close key/area
