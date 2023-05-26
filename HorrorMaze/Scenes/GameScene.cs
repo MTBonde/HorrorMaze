@@ -193,7 +193,7 @@ namespace HorrorMaze
 
             //boulder spawn event
             GameObject boulderSpawn = new GameObject();
-            boulderSpawn.transform.Position3D = new Vector3(-5.5f, -3.5f, 0);
+            boulderSpawn.transform.Position3D = new Vector3(-4.5f, -3.5f, 0);
             boulderSpawn.AddComponent<Key>().keyEvent += SpawnBoulder;
 
             //Run Text
@@ -204,6 +204,8 @@ namespace HorrorMaze
 
         public void SpawnBoulder()
         {
+            SceneManager.GetGameObjectByName("Player").AddComponent<PlayerBoulderAnimation>();
+            SceneManager.GetGameObjectByName("Player").GetComponent<PlayerController>().enabled = false;
             GameObject boulder = new GameObject();
             boulder.AddComponent<TutorialEnemy>();
         }
