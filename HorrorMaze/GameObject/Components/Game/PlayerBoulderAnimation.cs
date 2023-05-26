@@ -12,6 +12,7 @@ namespace HorrorMaze
         float time = 0, timer = 1f, timer2 = 2f, timer3 = 3f;
         float turnAmount;
         bool spawned = false;
+        BackupAudioSouce breakingSound;
 
         public void Update()
         {
@@ -19,6 +20,12 @@ namespace HorrorMaze
             if (time < timer)
             {
                 transform.Rotation += new Vector3(0,0,180 * Globals.DeltaTime);
+                if(breakingSound == null) 
+                {
+                    breakingSound = gameObject.AddComponent<BackupAudioSouce>();
+                    breakingSound.SetSoundEffect("SoundFX\\break");
+                    breakingSound.Play();
+                }
             }
             else if (time < timer2)
             {
