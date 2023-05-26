@@ -29,7 +29,7 @@ namespace HorrorMaze
             TextRenderer CreditTextLine2 = CreditTextLine2Go.AddComponent<TextRenderer>();
             CreditTextLine2.scale = 5 * textSize;
             CreditTextLine2.color = Color.Red;
-            CreditTextLine2.transform.Position = new Vector2(Globals.ScreenCenterWidth.X, screenHeightSpace*2);
+            CreditTextLine2.transform.Position = new Vector2(Globals.ScreenCenterWidth.X, CreditTextLine1.transform.Position.Y * 2.25f);
             CreditTextLine2.SetText("was made by");
 
 
@@ -37,7 +37,7 @@ namespace HorrorMaze
             TextRenderer CreditTextLine3 = CreditTextLine3Go.AddComponent<TextRenderer>();
             CreditTextLine3.scale = 10 * textSize;
             CreditTextLine3.color = Color.Red;
-            CreditTextLine3.transform.Position = new Vector2(Globals.ScreenCenterWidth.X, screenHeightSpace*2.5f);
+            CreditTextLine3.transform.Position = new Vector2(Globals.ScreenCenterWidth.X, CreditTextLine1.transform.Position.Y * 3);
             CreditTextLine3.SetText("ScareFactory");
 
 
@@ -53,7 +53,7 @@ namespace HorrorMaze
             TextRenderer CreditTextLine5 = CreditTextLine5Go.AddComponent<TextRenderer>();
             CreditTextLine5.scale = 5 * textSize;
             CreditTextLine5.color = Color.Red;
-            CreditTextLine5.transform.Position = new Vector2(Globals.ScreenCenterWidth.X, screenHeightSpace*6);
+            CreditTextLine5.transform.Position = new Vector2(Globals.ScreenCenterWidth.X, CreditTextLine4.transform.Position.Y * 1.1f);
             CreditTextLine5.SetText("3d-Models by N.N.Andersen");
 
 
@@ -61,7 +61,7 @@ namespace HorrorMaze
             TextRenderer CreditTextLine6 = CreditTextLine6Go.AddComponent<TextRenderer>();
             CreditTextLine6.scale = 5 * textSize;
             CreditTextLine6.color = Color.Red;
-            CreditTextLine6.transform.Position = new Vector2(Globals.ScreenCenterWidth.X, screenHeightSpace*7);
+            CreditTextLine6.transform.Position = new Vector2(Globals.ScreenCenterWidth.X, CreditTextLine4.transform.Position.Y * 1.2f);
             CreditTextLine6.SetText("Music by Lofi-Lou. Subscribe on youtube");
 
 
