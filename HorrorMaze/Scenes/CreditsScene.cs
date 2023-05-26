@@ -18,7 +18,7 @@ namespace HorrorMaze
             
             GameObject CreditTextLine1Go = new GameObject();
             TextRenderer CreditTextLine1 = CreditTextLine1Go.AddComponent<TextRenderer>();
-            CreditTextLine1.scale = 20;
+            CreditTextLine1.scale = screenHeightSpace / 8;
             CreditTextLine1.color = Color.Red;
             CreditTextLine1.transform.Position = new Vector2(Globals.ScreenCenterWidth.X, screenHeightSpace);
             CreditTextLine1.SetText("Horror Maze");
@@ -26,7 +26,7 @@ namespace HorrorMaze
 
             GameObject CreditTextLine2Go = new GameObject();
             TextRenderer CreditTextLine2 = CreditTextLine2Go.AddComponent<TextRenderer>();
-            CreditTextLine2.scale = 5;
+            CreditTextLine2.scale = screenHeightSpace / 32;
             CreditTextLine2.color = Color.Red;
             CreditTextLine2.transform.Position = new Vector2(Globals.ScreenCenterWidth.X, screenHeightSpace*2);
             CreditTextLine2.SetText("was made by");
@@ -34,7 +34,7 @@ namespace HorrorMaze
 
             GameObject CreditTextLine3Go = new GameObject();
             TextRenderer CreditTextLine3 = CreditTextLine3Go.AddComponent<TextRenderer>();
-            CreditTextLine3.scale = 10;
+            CreditTextLine3.scale = screenHeightSpace / 16;
             CreditTextLine3.color = Color.Red;
             CreditTextLine3.transform.Position = new Vector2(Globals.ScreenCenterWidth.X, screenHeightSpace*2.5f);
             CreditTextLine3.SetText("ScareFactory");
