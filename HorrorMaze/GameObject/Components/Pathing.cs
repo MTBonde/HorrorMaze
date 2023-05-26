@@ -32,14 +32,16 @@ namespace HorrorMaze
             List<int[]> open = new List<int[]>();
             List<int[]> closed = new List<int[]>();
 
-
             int map_width = mazeCells.GetLength(0);
             int map_height = mazeCells.GetLength(1);
 
             List<int[]> path = new List<int[]>();
-            if (player.X == monster.X && player.Y == monster.Y)
+            if ((int)player.X == (int)monster.X && (int)player.Y == (int)monster.Y)
+            {
+                int[] u = new int[2] { (int)player.X , (int)player.Y };
+                path.Add(u);
                 return path;
-
+            }
             bool path_found = false;
             bool add_ = false;
             int index_found = 0;

@@ -51,7 +51,6 @@ namespace HorrorMaze
             // TODO: use this.Content to load your game content here
             CameraManager.Setup();
             BackupAudioManager.LoadMusic();
-            HighscoreManager.Setup();
             SceneManager.SetupScene();
         }
 

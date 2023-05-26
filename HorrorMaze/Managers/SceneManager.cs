@@ -25,7 +25,7 @@ namespace HorrorMaze
         /// <summary>
         /// the cunrently active scene
         /// </summary>
-        public static Scene active_scene = new CreditsScene();
+        public static Scene active_scene = new SplashScene();
         /// <summary>
         /// list of all scenes
         /// </summary>
@@ -49,6 +49,7 @@ namespace HorrorMaze
         /// <param name="scene_number">the number of the scene to load</param>
         public static void LoadScene(int scene_number)//maybe make one that uses a string instead and looks it up in a dictionary
         {
+            HighscoreManager.starter();
             if(scene_number == 2)
                 inGame = true;
             else
@@ -63,7 +64,7 @@ namespace HorrorMaze
             audioManager = new AudioManager();
             active_scene = scenes[scene_number];
             GameWorld.Instance.IsMouseVisible = true;
-            //ThreadManager.KillÁllThreads();
+            ThreadManager.KillÁllThreads();
             SetupScene();
         }
 
