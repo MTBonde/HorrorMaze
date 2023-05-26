@@ -115,6 +115,9 @@ namespace HorrorMaze
             // test thread
             ThreadManager.Startup(enemy);
 
+            // higscore start
+            HighscoreManager.starter();
+            
             // Add the AudioComponent to AudioManager
             SceneManager.audioManager.AddAudioSource(enemyAudioSource);
 

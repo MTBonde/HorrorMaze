@@ -37,6 +37,9 @@ namespace HorrorMaze
             int map_height = mazeCells.GetLength(1);
 
             List<int[]> path = new List<int[]>();
+            if (player.X == monster.X && player.Y == monster.Y)
+                return path;
+
             bool path_found = false;
             bool add_ = false;
             int index_found = 0;
@@ -44,10 +47,11 @@ namespace HorrorMaze
             int key_found = 0;
             int key_set = 0;
 
-            int[] current_one = new int[5] { (int)monster.X, (int)monster.Y, 1000, 0, 0 };
+            int[] current_one = new int[5] { (int)(monster.X), (int)(monster.Y), 1000, 0, 0 };
             int key_id = 1;
             while (!path_found)
             {
+
                 #region assign new info
                 // check around player poss
                 for (int i = 0; i < 4; i++)
@@ -70,7 +74,7 @@ namespace HorrorMaze
                         {
                             int index = (current_one[1] + direction[1]) * map_width + current_one[0] + direction[0];
                             //add f, g, h and direction
-                            if (current_one[0] + direction[0] == player.X && current_one[1] + direction[1] == player.Y)
+                            if (current_one[0] + direction[0] == (int)player.X && current_one[1] + direction[1] == (int)player.Y)
                             {
                                 key_found = current_one[3];
                                 path_found = true;
@@ -127,6 +131,7 @@ namespace HorrorMaze
             }
             #region assign path to list
             bool path_added = false;
+            bool last_add = true;
             while (!path_added)
             {
                 for (int i = 0; i < closed.Count; i++)
@@ -138,11 +143,18 @@ namespace HorrorMaze
                     }
                 }
                 int[] cell = new int[2] { closed[index_found][0], closed[index_found][1] };
+                if (last_add == true)
+                {
+                    last_add = false;
+                    int[] cell_ = new int[2] { (int)player.X, (int)player.Y };
+                    path.Add(cell_);
+                }
 
-                path.Add(cell);
                 key_found = closed[index_found][4];
-                if ((int)monster.X == closed[index_found][0] && (int)monster.Y == closed[index_found][1])
+                if ((int)(monster.X) == closed[index_found][0] && (int)(monster.Y) == closed[index_found][1])
                     path_added = true;
+                else
+                    path.Add(cell);
             }
             #endregion
 

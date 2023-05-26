@@ -9,45 +9,92 @@ namespace HorrorMaze
     public class Enemy : Component
     {
         List<int[]> path = new List<int[]>();
-        float speed = 1.5f;
+        float speed = 0.5f;
         bool at_pos = true;
+        bool hunting = false;
         public void GetPath()
         {
             Random rnd = new Random();
             bool chosen = false;
-            int x = 0;
-            int y = 0;
-            while (!chosen)
+            bool if_add = true;
+            float x = 0;
+            float y = 0;
+            if (hunting)
             {
-                x = rnd.Next(gameObject.GetComponent<Pathing>().mazeCells.GetLength(0));
-                y = rnd.Next(gameObject.GetComponent<Pathing>().mazeCells.GetLength(1));
-                if (x != transform.Position.X && y != transform.Position.Y)
-                    chosen = true;
+                Vector3 playerPos = SceneManager.GetGameObjectByName("Player").transform.Position3D;
+                if ((int)playerPos.X != (int)(transform.Position.Y) || (int)playerPos.Y != (int)(transform.Position.Y))
+                {
+                    x = (int)playerPos.X;
+                    y = (int)playerPos.Y;
+                }
+                else
+                    if_add = false;
+            }
+            else
+            {
+                while (!chosen)
+                {
+                    x = rnd.Next(gameObject.GetComponent<Pathing>().mazeCells.GetLength(0));
+                    y = rnd.Next(gameObject.GetComponent<Pathing>().mazeCells.GetLength(1));
+                    if (x != (int)(transform.Position.X) && y != (int)(transform.Position.Y))
+                        chosen = true;
+                }
             }
             //get path
-            path = gameObject.GetComponent<Pathing>().GetPath(new Vector2(x, y), transform.Position);
+            if (if_add)
+                path = gameObject.GetComponent<Pathing>().GetPath(new Vector2(x, y), transform.Position);
             at_pos = false;
+        }
+        public bool Hunting()
+        {
+            return hunting;
         }
         void Update()
         {
+            Vector3 playerPos = SceneManager.GetGameObjectByName("Player").transform.Position3D;
+            if (playerPos.X < transform.Position.X + 1.5
+             && playerPos.X + 1.5 > transform.Position.X
+             && playerPos.Y < transform.Position.Y + 1.5
+             && playerPos.Y + 1.5 > transform.Position.Y)
+            {
+                hunting = true;
+            }
+            else
+                if (hunting)
+                    if (!(playerPos.X < transform.Position.X + 5
+                       && playerPos.X + 5 > transform.Position.X
+                       && playerPos.Y < transform.Position.Y + 5
+                       && playerPos.Y + 5 > transform.Position.Y))
+                        hunting = false;
             if (!at_pos)
             {
-                // checks if at next position in path, if so remove it from list.
-                if (transform.Position.X - 0.5 >= path[path.Count - 1][0] - 0.005
-                 && transform.Position.X - 0.5 <= path[path.Count - 1][0] + 0.005)
-                    if (transform.Position.Y - 0.5 >= path[path.Count - 1][1] - 0.005
-                     && transform.Position.Y - 0.5 <= path[path.Count - 1][1] + 0.005)
-                    {
-                        path.RemoveAt(path.Count - 1);
-                        // if at the end of path
-                        if (path.Count == 0)
+                if (path.Count > 0)
+                {
+                    // checks if at next position in path, if so remove it from list.
+                    if (transform.Position.X - 0.5 >= path[path.Count - 1][0] - 0.05
+                     && transform.Position.X - 0.5 <= path[path.Count - 1][0] + 0.05)
+                        if (transform.Position.Y - 0.5 >= path[path.Count - 1][1] - 0.05
+                         && transform.Position.Y - 0.5 <= path[path.Count - 1][1] + 0.05)
                         {
-                            at_pos = true;
-                            return;
+                            path.RemoveAt(path.Count - 1);
+                            // if at the end of path
+                            if (path.Count == 0)
+                            {
+                                at_pos = true;
+                                return;
+                            }
                         }
-                    }
-                //move
-                transform.Position += getDirection(transform.Position);
+                    //move
+                    Vector2 dir = getDirection(transform.Position);
+                    transform.Position += dir;
+                    transform.Rotation = new Vector3(0, 0, MathHelper.ToDegrees(MathF.Atan2(-dir.X, dir.Y)));
+                }
+                else
+                {
+                    Vector2 dir = getDirectionEnd(transform.Position);
+                    transform.Position += dir;
+                    transform.Rotation = new Vector3(0, 0, MathHelper.ToDegrees(MathF.Atan2(-dir.X, dir.Y)));
+                }
             }
         }
         /// <summary>
@@ -62,7 +109,7 @@ namespace HorrorMaze
             {
                 case int[] n when n[0] < monster.X - 0.5:
                     if ((monster.X - 0.5) - n[0] < speed * Globals.DeltaTime)
-                        direction.X -= (float)(n[0] - (monster.X - 0.5));
+                        direction.X -= (float)((monster.X - 0.5) - n[0]);
                     else
                         direction.X -= speed * Globals.DeltaTime;
                     break;
@@ -76,9 +123,10 @@ namespace HorrorMaze
             switch (path[path.Count - 1])
             {
                 case int[] n when n[1] < monster.Y - 0.5:
-                    if ((monster.Y - 0.5) - n[1]< speed * Globals.DeltaTime)
-                        direction.Y -= (float)(n[1] - (monster.Y - 0.5));
+                    if ((monster.Y - 0.5) - n[1] < speed * Globals.DeltaTime)
+                        direction.Y -= (float)((monster.Y - 0.5) - n[1]);
                     else
+
                         direction.Y -= speed * Globals.DeltaTime;
                     break;
                 case int[] n when n[1] > monster.Y - 0.5:
@@ -88,29 +136,56 @@ namespace HorrorMaze
                         direction.Y += speed * Globals.DeltaTime;
                     break;
             }
-            //Random rnd = new Random();
-            //switch (rnd.Next(10))
-            //{
-            //    case 0:
-            //        direction.X = -speed;
-            //        break;
-            //    case 1:
-            //        direction.X = speed;
-            //        break;
-            //    case 2:
-            //        direction.Y = -speed;
-            //        break;
-            //    case 3:
-            //        direction.Y = speed;
-            //        break;
-            //}
             return direction;
         }
+        Vector2 getDirectionEnd(Vector2 monster)
+        {
+            Vector3 playerPos = SceneManager.GetGameObjectByName("Player").transform.Position3D;
+            Vector2 direction = new Vector2(0, 0);
+            switch (playerPos.X)
+            {
+                case float n when n < monster.X:
+                    if (monster.X - n < speed * Globals.DeltaTime)
+                        direction.X -= (float)(monster.X - n);
+                    else
+                        direction.X -= speed * Globals.DeltaTime;
+                    //direction.Y = Math.Clamp(direction.X, n[0], monster.X);
+                    break;
+                case float n when n > monster.X:
+                    if (n - monster.X < speed * Globals.DeltaTime)
+                        direction.X += (float)(n - monster.X);
+                    else
+                        direction.X += speed * Globals.DeltaTime;
+                    //direction.Y = Math.Clamp(direction.X, monster.X, n[0]);
+                    break;
+            }
+            switch (playerPos.Y)
+            {
+                case float n when n < monster.Y:
+                    if (monster.Y - n < speed * Globals.DeltaTime)
+                        direction.Y -= (float)(monster.Y - n);
+                    else
 
+                        direction.Y -= speed * Globals.DeltaTime;
+                    //direction.Y = Math.Clamp(direction.Y, n[1], monster.Y);
+                    break;
+                case float n when n > monster.Y:
+                    if (n - monster.Y < speed * Globals.DeltaTime)
+                        direction.Y += (float)(n - monster.Y);
+                    else
+                        direction.Y += speed * Globals.DeltaTime;
+                    //direction.Y = Math.Clamp(direction.Y, monster.Y, n[1]);
+                    break;
+            }
+
+            return direction;
+        }
         public void OnCollision(GameObject go)
         {
             if(go.name == "Player")
+            {
                 SceneManager.LoadScene(6);
+            }
         }
     }
 }
