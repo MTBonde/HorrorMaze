@@ -45,7 +45,7 @@ namespace HorrorMaze
                     {
                         SceneManager.GetGameObjectByName("Player").GetComponent<PlayerController>().enabled = false;
                         SceneManager.GetGameObjectByName("Player").GetComponent<Camera>().enabled = false;
-                        SceneManager.GetGameObjectByName("Enemy").GetComponent<BackupEnemy>().enabled = false;
+                        //SceneManager.GetGameObjectByName("Enemy").GetComponent<Enemy>().enabled = false;
                         SceneManager.GetGameObjectByName("Maze").GetComponent<MazeRenderer>()._renderDist = 25;
                         SceneManager.GetGameObjectByName("DebugCam").GetComponent<Camera>().enabled = true;
                         SceneManager.GetGameObjectByName("DebugCam").GetComponent<DebugCameraController>().enabled = true;
@@ -59,7 +59,7 @@ namespace HorrorMaze
                     {
                         SceneManager.GetGameObjectByName("Player").GetComponent<PlayerController>().enabled = true;
                         SceneManager.GetGameObjectByName("Player").GetComponent<Camera>().enabled = true;
-                        SceneManager.GetGameObjectByName("Enemy").GetComponent<BackupEnemy>().enabled = true;
+                        SceneManager.GetGameObjectByName("Enemy").GetComponent<Enemy>().enabled = true;
                         SceneManager.GetGameObjectByName("Maze").GetComponent<MazeRenderer>()._renderDist = 5;
                         SceneManager.GetGameObjectByName("DebugCam").GetComponent<Camera>().enabled = false;
                         SceneManager.GetGameObjectByName("DebugCam").GetComponent<DebugCameraController>().enabled = false;

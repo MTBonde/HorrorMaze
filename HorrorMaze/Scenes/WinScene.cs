@@ -47,7 +47,7 @@ namespace HorrorMaze
 
         public void MainMenu()
         {
-            SceneManager.LoadScene(1);
+            SceneManager.LoadScene(4);
         }
     }
 }
