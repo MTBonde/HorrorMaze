@@ -22,8 +22,9 @@ namespace HorrorMaze
         public void Awake()
         {
             gameObject.name = "Goal";
-            gameObject.AddComponent<MeshRenderer>().SetModel("3DModels\\win_item");
-            gameObject.AddComponent<BoxCollider>().size = Vector3.One / 10;
+            gameObject.AddComponent<MeshRenderer>().SetModel("3DModels\\out");
+            gameObject.AddComponent<BoxCollider>().size = Vector3.One + Vector3.Up;
+            gameObject.GetComponent<BoxCollider>().offset = Vector3.Up;
         }
 
         public void OnCollision(GameObject go)

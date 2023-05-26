@@ -40,7 +40,7 @@ namespace HorrorMaze
 
             //Goal
             GameObject goal = new GameObject();
-            goal.transform.Position3D = new Vector3(mazeCells.GetLength(0) - 1.5f,mazeCells.GetLength(1) - 0.5f,0);
+            goal.transform.Position3D = new Vector3(mazeCells.GetLength(0) - 1.5f,mazeCells.GetLength(1) + 0.39f,0);
             goal.AddComponent<Goal>();
 
             //spawns everything for the tutorial
@@ -92,6 +92,7 @@ namespace HorrorMaze
                 }
             }
             mazeCells[mazeCells.GetLength(0) - 2, mazeCells.GetLength(1) - 4].Walls[0] = false;
+            mazeCells[mazeCells.GetLength(0) - 2, mazeCells.GetLength(1) - 1].Walls[0] = false;
             
             //escape door
             GameObject escapeDoor = new GameObject();
@@ -165,8 +166,8 @@ namespace HorrorMaze
             //tutorial start key
             GameObject tutorialKey = new GameObject();
             tutorialKey.transform.Position3D = new Vector3(-6.5f, -7.5f, 1.25f);
-            tutorialKey.AddComponent<Key>().door = tutorialMonsterDoor1;
-            tutorialKey.GetComponent<Key>().keyEvent += tutorialfrontDoor1.OpenDoor;
+            tutorialKey.AddComponent<Key>().door = tutorialfrontDoor1; //tutorialMonsterDoor1;
+            //tutorialKey.GetComponent<Key>().keyEvent += tutorialfrontDoor1.OpenDoor;
             tutorialKey.AddComponent<MeshRenderer>().SetModel("3DModels\\key");
 
             //tutorial exit door
