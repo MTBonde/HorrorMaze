@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,13 +20,14 @@ namespace HorrorMaze
             time += Globals.DeltaTime;
             if (time < timer)
             {
-                transform.Rotation += new Vector3(0,0,180 * Globals.DeltaTime);
                 if(breakingSound == null) 
                 {
+                    turnAmount = -(transform.Rotation.Z%360);
                     breakingSound = gameObject.AddComponent<BackupAudioSouce>();
                     breakingSound.SetSoundEffect("SoundFX\\break");
                     breakingSound.Play();
                 }
+                transform.Rotation += new Vector3(0,0,turnAmount * Globals.DeltaTime);
             }
             else if (time < timer2)
             {
