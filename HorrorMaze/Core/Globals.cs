@@ -23,12 +23,14 @@ namespace HorrorMaze
 
         public static Random Rnd = new Random();
 
-        public static Vector2 ScreenCenter = new Vector2(GameWorld.Instance.GraphicsDevice.Viewport.Width / 2,
-                                                         GameWorld.Instance.GraphicsDevice.Viewport.Height / 2);
         public static Vector2 ScreenSize = new Vector2(GameWorld.Instance.Graphics.PreferredBackBufferWidth,
                                                        GameWorld.Instance.Graphics.PreferredBackBufferHeight);
+        public static Vector2 ScreenCenter = new Vector2(GameWorld.Instance.GraphicsDevice.Viewport.Width / 2,
+                                                         GameWorld.Instance.GraphicsDevice.Viewport.Height / 2);
+        public static Vector2 ScreenCenterWidth = new Vector2(GameWorld.Instance.GraphicsDevice.Viewport.Width / 2);
+        public static Vector2 ScreenCenterHeight = new Vector2(GameWorld.Instance.GraphicsDevice.Viewport.Height / 2);
 
-   
+
         #endregion Fields
 
         // PROPERTIES
