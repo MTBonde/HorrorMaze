@@ -59,7 +59,7 @@ namespace HorrorMaze
 
             // TODO: Add your update logic here
             SceneManager.Update(gameTime);
-            
+
             base.Update(gameTime);
         }
 
