@@ -206,8 +206,6 @@ namespace HorrorMaze
         {
             SceneManager.GetGameObjectByName("Player").AddComponent<PlayerBoulderAnimation>();
             SceneManager.GetGameObjectByName("Player").GetComponent<PlayerController>().enabled = false;
-            GameObject boulder = new GameObject();
-            boulder.AddComponent<TutorialEnemy>();
         }
 
         public void SpawnDebugCamera()

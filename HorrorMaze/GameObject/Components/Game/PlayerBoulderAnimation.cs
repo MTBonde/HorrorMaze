@@ -9,14 +9,29 @@ namespace HorrorMaze
     public class PlayerBoulderAnimation : Component
     {
 
-        float time = 0, timer = 1.75f;
+        float time = 0, timer = 1f, timer2 = 2f, timer3 = 3f;
+        float turnAmount;
+        bool spawned = false;
 
         public void Update()
         {
-            if(time < timer)
+            time += Globals.DeltaTime;
+            if (time < timer)
             {
-                time += Globals.DeltaTime;
-                transform.Rotation += new Vector3(0,0,(360 / timer) * Globals.DeltaTime);
+                transform.Rotation += new Vector3(0,0,180 * Globals.DeltaTime);
+            }
+            else if (time < timer2)
+            {
+                if (!spawned)
+                {
+                    spawned = true;
+                    GameObject boulder = new GameObject();
+                    boulder.AddComponent<TutorialEnemy>();
+                }
+            }
+            else if (time < timer3)
+            {
+                transform.Rotation += new Vector3(0, 0, 180 * Globals.DeltaTime);
             }
             else
             {
