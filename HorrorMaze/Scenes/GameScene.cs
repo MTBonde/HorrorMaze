@@ -31,8 +31,13 @@ namespace HorrorMaze
             //enemy
             GameObject enemy = new GameObject();
             enemy.transform.Position3D = new Vector3(mazeCells.GetLength(0) - 1.5f, mazeCells.GetLength(1) - 1.5f, 0);
-            enemy.AddComponent<BackupPathing>().SetMaze(mazeCells);
-            enemy.AddComponent<BackupEnemy>();
+            enemy.name = "Enemy";
+            enemy.AddComponent<Pathing>().mazeCells = mazeCells;
+            enemy.AddComponent<Enemy>();
+
+            ThreadManager.Startup(enemy);
+            //enemy.AddComponent<BackupPathing>().SetMaze(mazeCells);
+            //enemy.AddComponent<BackupEnemy>();
 
             //Ambience
             GameObject amb = new GameObject();
