@@ -25,7 +25,7 @@ namespace HorrorMaze
         /// <summary>
         /// the cunrently active scene
         /// </summary>
-        public static Scene active_scene = new CreditsScene();
+        public static Scene active_scene = new SplashScene();
         /// <summary>
         /// list of all scenes
         /// </summary>
