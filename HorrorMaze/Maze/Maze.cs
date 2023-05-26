@@ -37,7 +37,7 @@
             mazeHeight = maze.GetLength(1);
 
             //remove random walls
-            KnockDownRandomWalls(2);
+            //KnockDownRandomWalls(2);
 
             //add rooms
             int xRoomMax = (maze.GetLength(0) - (maze.GetLength(0) % 5)) / 5, 
@@ -257,7 +257,7 @@
                         }
 
                         // If the neighbor is within the maze, remove the wall
-                        if(neighbor.X >= 0 && neighbor.X < mazeWidth - 1 && neighbor.Y >= 0 && neighbor.Y < mazeHeight - 1)
+                        if(neighbor.X >= 0 && neighbor.X < mazeWidth - 2 && neighbor.Y >= 0 && neighbor.Y < mazeHeight - 2)
                         {
                             // For the current cell
                             if(direction == 0 || direction == 1) // Up or Right

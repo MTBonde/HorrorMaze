@@ -8,13 +8,13 @@
             worldMatrix = Matrix.CreateWorld(Vector3.Zero, Vector3.Forward, Vector3.Up);
 
 
-            GameObject tittle = new GameObject();
-            TextRenderer tittleText = tittle.AddComponent<TextRenderer>();
+            GameObject title = new GameObject();
+            TextRenderer titleText = title.AddComponent<TextRenderer>();
             //BloodTextRenderer tittleText = tittle.AddComponent<BloodTextRenderer>();
-            tittleText.scale = 20;
-            tittleText.SetText("Horror Maze");
-            tittleText.color = Color.Red;
-            tittleText.transform.Position = new Vector2(GameWorld.Instance.GraphicsDevice.Viewport.Width / 2, 200);
+            titleText.scale = 20;
+            titleText.SetText("Horror Maze");
+            titleText.color = Color.Red;
+            titleText.transform.Position = new Vector2(GameWorld.Instance.GraphicsDevice.Viewport.Width / 2, 200);
 
             GameObject madeInMonogame = new GameObject();
             TextRenderer madeInMonogameText = madeInMonogame.AddComponent<TextRenderer>();
