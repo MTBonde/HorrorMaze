@@ -9,7 +9,7 @@ namespace HorrorMaze
     public class HighscoreScene : Scene
     {
 
-        GameObject HighscoreText = new GameObject();
+        GameObject HighscoreText = new GameObject(), highscoreAdd;
 
         public override void SetupScene()
         {
@@ -22,7 +22,7 @@ namespace HorrorMaze
             string add = "";
             for (int i = 0; i < scores.Count; i++)
             {
-                add += "nr " + scores[i][0] + " called " + scores[i][1] + ", Got a time of: " + scores[i][2] + " seconds\n";
+                add += "nr. " + scores[i][0] + ": " + scores[i][1] + " time: " + (int)(int.Parse(scores[i][2]) / 60) + "minutes, " + (int.Parse(scores[i][2]) % 60) + " seconds\n";
             }
             text.SetText(add);
             text.color = Color.Red;
@@ -44,7 +44,7 @@ namespace HorrorMaze
             btnText1.scale = 3.5f;
             btnText1.SetText("Main Menu");
 
-            GameObject highscoreAdd = new GameObject();
+            highscoreAdd = new GameObject();
             highscoreAdd.transform.Position = new Vector2(GameWorld.Instance.GraphicsDevice.Viewport.Width / 2 - 300, GameWorld.Instance.GraphicsDevice.Viewport.Height / 2);
             UIButton btn2 = highscoreAdd.AddComponent<UIButton>();
             btn2.OnClick += HighscoreAdd;
@@ -64,9 +64,11 @@ namespace HorrorMaze
         public void HighscoreAdd()
         {
             TimeSpan endTime = SceneManager._gameTimer.GetElapsedTime();
-            int x = endTime.Seconds;
-            ReloadHigh();
+            int x = endTime.Seconds + endTime.Minutes * 60 + endTime.Hours * 360;
             HighscoreManager.New_Score("john", x);
+            ReloadHigh();
+            highscoreAdd.GetComponent<UIButton>().enabled = false;
+
         }
         void ReloadHigh()
         {
@@ -74,7 +76,7 @@ namespace HorrorMaze
             string add = "";
             for (int i = 0; i < scores.Count; i++)
             {
-                add += "nr " + scores[i][0] + " called " + scores[i][1] + ", Got a time of: " + scores[i][2] + " seconds\n";
+                add += "nr. " + scores[i][0] + ": " + scores[i][1] + " time: " + (int)(int.Parse(scores[i][2])/60) + "minutes, " + (int.Parse(scores[i][2]) % 60) + " seconds\n";
             }
             HighscoreText.GetComponent<TextRenderer>().SetText(add);
         }
