@@ -14,8 +14,8 @@ namespace HorrorMaze
     {
         public override void SetupScene()
         {
-            int screenHeightSpace = GameWorld.Instance.GraphicsDevice.Viewport.Height / 10;
-            int textSize = GameWorld.Instance.GraphicsDevice.Viewport.Height / 1080;
+            float screenHeightSpace = GameWorld.Instance.GraphicsDevice.Viewport.Height / 10f;
+            float textSize = GameWorld.Instance.GraphicsDevice.Viewport.Height / 1080f;
 
             GameObject CreditTextLine1Go = new GameObject();
             TextRenderer CreditTextLine1 = CreditTextLine1Go.AddComponent<TextRenderer>();
