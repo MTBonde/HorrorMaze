@@ -12,6 +12,8 @@ namespace HorrorMaze
         float speed = 1.25f;
         bool at_pos = true;
         bool hunting = false;
+        BackupAudioSouce scream;
+        GameObject player;
 
         public void Awake()
         {
@@ -34,6 +36,11 @@ namespace HorrorMaze
             HeartBeatAudioSouce.Spacial = true;
             HeartBeatAudioSouce.maxDistance = 5f;
             HeartBeatAudioSouce.Play();
+            scream = gameObject.AddComponent<BackupAudioSouce>();
+            scream.SetSoundEffect("SoundFX\\chasing_scream_1");
+            scream.Spacial = true;
+            scream.maxDistance = 5;
+            player = SceneManager.GetGameObjectByName("Player");
         }
         bool check_hunt_start = false;
         public void GetPath()
@@ -51,7 +58,7 @@ namespace HorrorMaze
                 float y = 0;
                 if (hunting)
                 {
-                    Vector3 playerPos = SceneManager.GetGameObjectByName("Player").transform.Position3D;
+                    Vector3 playerPos = player.transform.Position3D;
                     if ((int)playerPos.X != (int)(transform.Position.Y) || (int)playerPos.Y != (int)(transform.Position.Y))
                     {
                         x = (int)playerPos.X;
@@ -80,6 +87,9 @@ namespace HorrorMaze
         {
             return hunting;
         }
+
+
+        bool encounter = false;
         void Update()
         {
             Vector3 playerPos = SceneManager.GetGameObjectByName("Player").transform.Position3D;
@@ -89,12 +99,23 @@ namespace HorrorMaze
                 playerPos.Y < transform.Position.Y + 3 &&
                 !CollisionManager.RayCast(transform.Position3D + new Vector3(0, 0, 1.6f), playerPos))
             {
+                if (!scream.IsPlaying() && !encounter)
+                {
+                    encounter = true;
+                    scream.Play();
+                }
                 hunting = true;
             }
             else if (hunting)
             {
                 hunting = false;
             }
+            else if (encounter == true)
+                if (Vector3.Distance(transform.Position3D, player.transform.Position3D) > scream.maxDistance || !scream.IsPlaying())
+                {
+                    scream.Stop();
+                    encounter = false;
+                }
             if (!at_pos)
             {
                 if (path.Count > 0)
