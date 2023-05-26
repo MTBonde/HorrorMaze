@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
 
 namespace HorrorMaze
 {
@@ -12,6 +13,8 @@ namespace HorrorMaze
 
         public string input = "";
         private Keys[] lastPressedKeys;
+        int dots;
+        float time, timer = 0.5f;
 
         public void Update()
         {
@@ -43,6 +46,30 @@ namespace HorrorMaze
             lastPressedKeys = pressedKeys;
             if (!string.IsNullOrWhiteSpace(input))
                 gameObject.GetComponent<TextRenderer>().SetText(input);
+            else
+            {
+                time += Globals.DeltaTime;
+                if (time > timer)
+                {
+                    time = 0;
+                    if (dots == 3)
+                    {
+                        gameObject.GetComponent<TextRenderer>().SetText("Enter name...");
+                        dots = 0;
+                        return;
+                    }
+                    else
+                    {
+                        string theDots = "";
+                        for (int i = 0; i < dots; i++)
+                        {
+                            theDots += ".";
+                        }
+                        gameObject.GetComponent<TextRenderer>().SetText("Enter name" + theDots);
+                    }
+                    dots++;
+                }
+            }
         }
 
         private static string KeyToStringChar(Keys key) => key switch // A C#9 logical pattern

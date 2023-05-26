@@ -24,7 +24,7 @@ namespace HorrorMaze
             TextRenderer bestWithHeadsetText = bestWithHeadset.AddComponent<TextRenderer>();
             bestWithHeadset.transform.Position = new Vector2(GameWorld.Instance.GraphicsDevice.Viewport.Width / 2, GameWorld.Instance.GraphicsDevice.Viewport.Height / 2 + 300);
             bestWithHeadsetText.scale = 5f;
-            bestWithHeadsetText.SetText("Use headset or souround system for best experience");
+            bestWithHeadsetText.SetText("Use headset or soround system for best experience");
             bestWithHeadsetText.color = Color.White;
         }
     }

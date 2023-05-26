@@ -37,7 +37,7 @@ namespace HorrorMaze
             btn1.OnClick += MainMenu;
             TextRenderer btnText1 = mainMenu.AddComponent<TextRenderer>();
             btnText1.scale = 3.5f;
-            btnText1.SetText("MainMenu");
+            btnText1.SetText("Main Menu");
 
             GameObject highscoreMenu = new GameObject();
             highscoreMenu.transform.Position = new Vector2(GameWorld.Instance.GraphicsDevice.Viewport.Width / 2 + 300, GameWorld.Instance.GraphicsDevice.Viewport.Height / 2);

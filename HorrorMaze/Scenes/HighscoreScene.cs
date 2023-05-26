@@ -56,7 +56,7 @@ namespace HorrorMaze
             nameInputField.transform.Position = new Vector2(GameWorld.Instance.GraphicsDevice.Viewport.Width / 2 - 600, GameWorld.Instance.GraphicsDevice.Viewport.Height / 2);
             nameInputField.AddComponent<TextRenderer>();
             nameInputField.GetComponent<TextRenderer>().scale = 5;
-            nameInputField.GetComponent<TextRenderer>().SetText("enter name...");
+            nameInputField.GetComponent<TextRenderer>().SetText("Enter name...");
             nameInputField.GetComponent<TextRenderer>().color = Color.White;
             nameInputField.AddComponent<InputField>();
         }
@@ -79,7 +79,6 @@ namespace HorrorMaze
                 ReloadHigh();
                 highscoreAdd.GetComponent<UIButton>().enabled = false;
             }
-
         }
         void ReloadHigh()
         {
@@ -87,7 +86,7 @@ namespace HorrorMaze
             string add = "";
             for (int i = 0; i < scores.Count; i++)
             {
-                add += "nr. " + scores[i][0] + ": " + scores[i][1] + " time: " + (int)(int.Parse(scores[i][2])/60) + "minutes, " + (int.Parse(scores[i][2]) % 60) + " seconds\n";
+                add += "NR. " + scores[i][0] + ": " + scores[i][1] + " Time: " + (int)(int.Parse(scores[i][2])/60) + "Minutes, " + (int.Parse(scores[i][2]) % 60) + " Seconds\n";
             }
             HighscoreText.GetComponent<TextRenderer>().SetText(add);
         }
