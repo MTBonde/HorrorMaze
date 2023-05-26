@@ -38,36 +38,39 @@ namespace HorrorMaze
 
         public void GetPath()
         {
-            Random rnd = new Random();
-            bool chosen = false;
-            bool if_add = true;
-            float x = 0;
-            float y = 0;
-            if (hunting)
+            if (path.Count == 0)
             {
-                Vector3 playerPos = SceneManager.GetGameObjectByName("Player").transform.Position3D;
-                if ((int)playerPos.X != (int)(transform.Position.Y) || (int)playerPos.Y != (int)(transform.Position.Y))
+                Random rnd = new Random();
+                bool chosen = false;
+                bool if_add = true;
+                float x = 0;
+                float y = 0;
+                if (hunting)
                 {
-                    x = (int)playerPos.X;
-                    y = (int)playerPos.Y;
+                    Vector3 playerPos = SceneManager.GetGameObjectByName("Player").transform.Position3D;
+                    if ((int)playerPos.X != (int)(transform.Position.Y) || (int)playerPos.Y != (int)(transform.Position.Y))
+                    {
+                        x = (int)playerPos.X;
+                        y = (int)playerPos.Y;
+                    }
+                    else
+                        if_add = false;
                 }
                 else
-                    if_add = false;
-            }
-            else
-            {
-                while (!chosen)
                 {
-                    x = rnd.Next(gameObject.GetComponent<Pathing>().mazeCells.GetLength(0));
-                    y = rnd.Next(gameObject.GetComponent<Pathing>().mazeCells.GetLength(1));
-                    if (x != (int)(transform.Position.X) && y != (int)(transform.Position.Y))
-                        chosen = true;
+                    while (!chosen)
+                    {
+                        x = rnd.Next(gameObject.GetComponent<Pathing>().mazeCells.GetLength(0));
+                        y = rnd.Next(gameObject.GetComponent<Pathing>().mazeCells.GetLength(1));
+                        if (x != (int)(transform.Position.X) && y != (int)(transform.Position.Y))
+                            chosen = true;
+                    }
                 }
+                //get path
+                if (if_add)
+                    path = gameObject.GetComponent<Pathing>().GetPath(new Vector2(x, y), transform.Position);
+                at_pos = false;
             }
-            //get path
-            if (if_add)
-                path = gameObject.GetComponent<Pathing>().GetPath(new Vector2(x, y), transform.Position);
-            at_pos = false;
         }
         public bool Hunting()
         {
