@@ -9,7 +9,7 @@ namespace HorrorMaze
     public class Enemy : Component
     {
         List<int[]> path = new List<int[]>();
-        float speed = 1f;
+        float speed = 1.25f;
         bool at_pos = true;
         bool hunting = false;
 
@@ -35,9 +35,13 @@ namespace HorrorMaze
             HeartBeatAudioSouce.maxDistance = 5f;
             HeartBeatAudioSouce.Play();
         }
-
+        bool check_hunt_start = false;
         public void GetPath()
         {
+            if (hunting)
+            {
+                path.Clear();
+            }
             if (path.Count == 0)
             {
                 Random rnd = new Random();
