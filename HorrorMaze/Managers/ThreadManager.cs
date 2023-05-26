@@ -11,7 +11,6 @@ namespace HorrorMaze
 {
     public class ThreadManager
     {
-        static bool kill_thread = false;
         static List<GameObject> enemies = new List<GameObject>();
         static bool threads_lifeline = false;
         static bool have_been_called = false;
@@ -20,6 +19,7 @@ namespace HorrorMaze
             threads_lifeline = false;
             if (have_been_called == true)
             {
+
             }
             else
             {
@@ -42,7 +42,7 @@ namespace HorrorMaze
                     pathing.Start();
                     addet = true;
                 }
-                Thread.Sleep(1 * 500);
+                Thread.Sleep(1 * 100);
             }
         }
         static void UpdatePathing()
