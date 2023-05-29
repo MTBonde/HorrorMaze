@@ -49,7 +49,7 @@ namespace HorrorMaze
         /// <param name="scene_number">the number of the scene to load</param>
         public static void LoadScene(int scene_number)//maybe make one that uses a string instead and looks it up in a dictionary
         {
-            HighscoreManager.starter();
+            HighscoreManager.Starter();
             if(scene_number == 2)
                 inGame = true;
             else

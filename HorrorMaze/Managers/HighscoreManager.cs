@@ -10,7 +10,7 @@ namespace HorrorMaze
     public class HighscoreManager
     {
         // readonly IDbConnection nnection;
-        public static void starter()
+        public static void Starter()
         {
             //DropTable();
             Create_standarTable();
