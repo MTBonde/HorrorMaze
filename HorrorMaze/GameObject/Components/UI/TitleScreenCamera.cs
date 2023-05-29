@@ -8,7 +8,7 @@
     {
 
         private float _rotateSpeed = 50;
-        private int _DirectionToTurn;
+        private int _directionToTurn;
         private float _time = 0, _maxTime = 3;
 
         /// <summary>
@@ -21,10 +21,10 @@
             // tick up timer using delta time
             _time += elapsed;
 
-            // Rotate the transform depending on the _DirectionToTurn variable.
-            // If _DirectionToTurn is 0, rotate to the right; otherwise, rotate to the left.
+            // Rotate the transform depending on the _directionToTurn variable.
+            // If _directionToTurn is 0, rotate to the right; otherwise, rotate to the left.
             // ternary conditional operator = condition ? consequence : alternative
-            transform.Rotation += _DirectionToTurn == 0 
+            transform.Rotation += _directionToTurn == 0 
                 ? new Vector3(0, 0, _rotateSpeed * elapsed / 3) 
                 : new Vector3(0, 0, -(_rotateSpeed * elapsed) / 3);
 
@@ -40,8 +40,8 @@
         {
             // Reset the timer
             _time = 0;
-            // Randomly determine the next _DirectionToTurn direction
-            _DirectionToTurn = Globals.Rnd.Next(2);
+            // Randomly determine the next _directionToTurn direction
+            _directionToTurn = Globals.Rnd.Next(2);
             // Randomly determine the maximum time until the next direction change
             _maxTime = Globals.Rnd.Next(3, 6);
         }
