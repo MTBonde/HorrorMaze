@@ -15,6 +15,7 @@ namespace HorrorMaze
 {
     /// <summary>    ///
     /// Contains a collection of global accesibel fields, properties and methods.
+    /// thor
     /// </summary>
     public static class Globals
     {

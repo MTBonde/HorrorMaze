@@ -1,7 +1,5 @@
 ﻿
 
-using System.Security.Cryptography.X509Certificates;
-
 namespace HorrorMaze
 {
     public class GameScene : Scene
