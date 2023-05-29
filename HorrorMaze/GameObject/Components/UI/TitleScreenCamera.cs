@@ -7,35 +7,43 @@
     public class TitleScreenCamera : Component
     {
 
-        float _rotateScale = 50;
-        int turn;
-        float time = 0, maxTime = 3;
+        private float _rotateSpeed = 50;
+        private int _DirectionToTurn;
+        private float _time = 0, _maxTime = 3;
 
         /// <summary>
         /// Update turns the camera, and randomly changes direction when the time is up
         /// </summary>
         public void Update()
         {
+            // Get the time elapsed since the last frame
             float elapsed = Globals.DeltaTime;
-            time+= elapsed;
-            
-            transform.Rotation += turn == 0
-                ?
-                new Vector3(0, 0, _rotateScale * elapsed / 3)
-                :
-                new Vector3(0, 0, -(_rotateScale * elapsed) / 3);
-            if (time > maxTime)
+            // tick up timer using delta time
+            _time += elapsed;
+
+            // Rotate the transform depending on the _DirectionToTurn variable.
+            // If _DirectionToTurn is 0, rotate to the right; otherwise, rotate to the left.
+            // ternary conditional operator = condition ? consequence : alternative
+            transform.Rotation += _DirectionToTurn == 0 
+                ? new Vector3(0, 0, _rotateSpeed * elapsed / 3) 
+                : new Vector3(0, 0, -(_rotateSpeed * elapsed) / 3);
+
+            // If time is bigger then maxTime, call TimesUp 
+            if(_time > _maxTime)
                 TimesUp();
         }
 
         /// <summary>
-        /// timer used for camra direction change
+        /// timer used for camera direction change
         /// </summary>
-        public void TimesUp()
+        private void TimesUp()
         {
-            time = 0;
-            turn = Globals.Rnd.Next(2);
-            maxTime = Globals.Rnd.Next(3,6);
+            // Reset the timer
+            _time = 0;
+            // Randomly determine the next _DirectionToTurn direction
+            _DirectionToTurn = Globals.Rnd.Next(2);
+            // Randomly determine the maximum time until the next direction change
+            _maxTime = Globals.Rnd.Next(3, 6);
         }
     }
 }
