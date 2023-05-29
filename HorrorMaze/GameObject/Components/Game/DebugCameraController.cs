@@ -7,6 +7,10 @@ using System.Threading.Tasks;
 
 namespace HorrorMaze
 {
+    /// <summary>
+    /// The class contains only an update method so the debug camera can be moved by keyboard input
+    /// niels
+    /// </summary>
     public class DebugCameraController : Component
     {
 

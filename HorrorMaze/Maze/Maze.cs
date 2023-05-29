@@ -52,7 +52,25 @@
         #region Methods
         // Maze Generation
         #region MAZEGENERATION
-
+        /// <summary>
+        /// Generate the maze, by making a multi array of mazecells, 
+        /// setting all 4 walls to true and all mazecells to unvisited, 
+        /// except the starting cell
+        /// </summary>
+        public void GenerateMaze()
+        {
+            for(int x = 0; x < _mazeWidth; x++)
+                for(int z = 0; z < _mazeHeight; z++)
+                {
+                    MazeCells[x, z].Walls[0] = true;
+                    MazeCells[x, z].Walls[1] = true;
+                    MazeCells[x, z].Walls[2] = true;
+                    MazeCells[x, z].Walls[3] = true;
+                    MazeCells[x, z].Visited = false;
+                }
+            MazeCells[0, 0].Visited = true;
+            EvaluateCell(new Point(0, 0));
+        }
         /// <summary>
         /// Generates a maze by inputing a mazecell array and returning a generated maze using DFS.
         /// </summary>
