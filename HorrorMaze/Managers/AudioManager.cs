@@ -43,10 +43,10 @@ namespace HorrorMaze
             _soundEffects[_creepySoundPath] = GameWorld.Instance.Content.Load<SoundEffect>(_creepySoundPath);
         }
 
-        public void AddSong(string songName)
-        {
-            _songs.Add(GameWorld.Instance.Content.Load<Song>(songName));
-        }
+        //public void AddSong(string songName)
+        //{
+        //    _songs.Add(GameWorld.Instance.Content.Load<Song>(songName));
+        //}
 
         public void SetPlayerAudioListener(PlayerAudioListener playerAudioListener)
         {
