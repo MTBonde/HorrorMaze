@@ -3,8 +3,8 @@ namespace HorrorMaze
 {
     public class AudioManager
     {
-        private const string CreepyMusicPath = "creepy_music";
-        private const string CreepySoundPath = "SoundFX\\creepy_sound";
+        private const string _creepyMusicPath = "creepy_music";
+        private const string _creepySoundPath = "SoundFX\\creepy_sound";
 
         private Dictionary<string, SoundEffect> _soundEffects;
         private PlayerAudioListener _playerAudioListener;
@@ -39,8 +39,8 @@ namespace HorrorMaze
 
         private void LoadDefaultSounds()
         {
-            _soundEffects[CreepyMusicPath] = GameWorld.Instance.Content.Load<SoundEffect>(CreepyMusicPath);
-            _soundEffects[CreepySoundPath] = GameWorld.Instance.Content.Load<SoundEffect>(CreepySoundPath);
+            _soundEffects[_creepyMusicPath] = GameWorld.Instance.Content.Load<SoundEffect>(_creepyMusicPath);
+            _soundEffects[_creepySoundPath] = GameWorld.Instance.Content.Load<SoundEffect>(_creepySoundPath);
         }
 
         public void AddSong(string songName)
@@ -70,12 +70,12 @@ namespace HorrorMaze
 
         public void StartBackgroundMusic()
         {
-            SwitchBackgroundSound(_soundEffects[CreepyMusicPath], 0.1f);
+            SwitchBackgroundSound(_soundEffects[_creepyMusicPath], 0.1f);
         }
 
         public void StartBackgroundSound()
         {
-            SwitchBackgroundSound(_soundEffects[CreepySoundPath], 0.05f);
+            SwitchBackgroundSound(_soundEffects[_creepySoundPath], 0.05f);
         }
 
         private void SwitchBackgroundSound(SoundEffect soundEffect, float volume)
