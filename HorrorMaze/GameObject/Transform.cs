@@ -23,7 +23,6 @@ namespace HorrorMaze
         /// the rotation of the transform
         /// </summary>
         private Vector3 _rotation = new Vector3(0, 0, 0);
-
         /// <summary>
         /// the transforms position in 2D
         /// </summary>

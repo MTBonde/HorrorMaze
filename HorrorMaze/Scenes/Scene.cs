@@ -7,6 +7,10 @@ using System.Threading.Tasks;
 
 namespace HorrorMaze
 {
+    /// <summary>
+    /// the basic infomation needed to set up and run a scene
+    /// Niels
+    /// </summary>
     public abstract class Scene
     {
         #region Properties & Fields
