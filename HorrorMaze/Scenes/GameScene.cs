@@ -1,7 +1,5 @@
 ﻿
 
-using System.Security.Cryptography.X509Certificates;
-
 namespace HorrorMaze
 {
     public class GameScene : Scene
@@ -183,7 +181,7 @@ namespace HorrorMaze
             //tutorial exit door key
             GameObject key = new GameObject();
             key.transform.Position3D = new Vector3(0.5f, -0.5f, 1.25f);
-            key.AddComponent<Key>().keyEvent += door1.OpenDoor;
+            key.AddComponent<Key>().door = door1;
             key.AddComponent<MeshRenderer>().SetModel("3DModels\\key");
 
             //tutorial exit close key/area
@@ -193,7 +191,7 @@ namespace HorrorMaze
 
             //boulder spawn event
             GameObject boulderSpawn = new GameObject();
-            boulderSpawn.transform.Position3D = new Vector3(-5.5f, -3.5f, 0);
+            boulderSpawn.transform.Position3D = new Vector3(-4.5f, -3.5f, 0);
             boulderSpawn.AddComponent<Key>().keyEvent += SpawnBoulder;
 
             //Run Text
@@ -204,8 +202,8 @@ namespace HorrorMaze
 
         public void SpawnBoulder()
         {
-            GameObject boulder = new GameObject();
-            boulder.AddComponent<TutorialEnemy>();
+            SceneManager.GetGameObjectByName("Player").AddComponent<PlayerBoulderAnimation>();
+            SceneManager.GetGameObjectByName("Player").GetComponent<PlayerController>().enabled = false;
         }
 
         public void SpawnDebugCamera()

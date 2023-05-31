@@ -9,7 +9,7 @@ namespace HorrorMaze
     public class HighscoreScene : Scene
     {
 
-        GameObject HighscoreText = new GameObject(), highscoreAdd;
+        GameObject HighscoreText = new GameObject(), highscoreAdd, nameInputField;
 
         public override void SetupScene()
         {
@@ -51,6 +51,14 @@ namespace HorrorMaze
             TextRenderer btnText2 = highscoreAdd.AddComponent<TextRenderer>();
             btnText2.scale = 4;
             btnText2.SetText("Add Score");
+
+            nameInputField = new GameObject();
+            nameInputField.transform.Position = new Vector2(GameWorld.Instance.GraphicsDevice.Viewport.Width / 2 - 600, GameWorld.Instance.GraphicsDevice.Viewport.Height / 2);
+            nameInputField.AddComponent<TextRenderer>();
+            nameInputField.GetComponent<TextRenderer>().scale = 5;
+            nameInputField.GetComponent<TextRenderer>().SetText("Enter name...");
+            nameInputField.GetComponent<TextRenderer>().color = Color.White;
+            nameInputField.AddComponent<InputField>();
         }
         public void TryAgain()
         {
@@ -63,12 +71,14 @@ namespace HorrorMaze
         }
         public void HighscoreAdd()
         {
-            TimeSpan endTime = SceneManager._gameTimer.GetElapsedTime();
-            int x = endTime.Seconds + endTime.Minutes * 60 + endTime.Hours * 360;
-            HighscoreManager.New_Score("john", x);
-            ReloadHigh();
-            highscoreAdd.GetComponent<UIButton>().enabled = false;
-
+            if (nameInputField.GetComponent<InputField>().input != "") 
+            {
+                TimeSpan endTime = SceneManager._gameTimer.GetElapsedTime();
+                int x = endTime.Seconds + endTime.Minutes * 60 + endTime.Hours * 360;
+                HighscoreManager.New_Score(nameInputField.GetComponent<InputField>().input, x);
+                ReloadHigh();
+                highscoreAdd.GetComponent<UIButton>().enabled = false;
+            }
         }
         void ReloadHigh()
         {
@@ -76,7 +86,7 @@ namespace HorrorMaze
             string add = "";
             for (int i = 0; i < scores.Count; i++)
             {
-                add += "nr. " + scores[i][0] + ": " + scores[i][1] + " time: " + (int)(int.Parse(scores[i][2])/60) + "minutes, " + (int.Parse(scores[i][2]) % 60) + " seconds\n";
+                add += "NR. " + scores[i][0] + ": " + scores[i][1] + " Time: " + (int)(int.Parse(scores[i][2])/60) + "Minutes, " + (int.Parse(scores[i][2]) % 60) + " Seconds\n";
             }
             HighscoreText.GetComponent<TextRenderer>().SetText(add);
         }

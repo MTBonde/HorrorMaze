@@ -8,11 +8,15 @@ namespace HorrorMaze
 {
     /// <summary>
     /// DebugManager, can be accessed by pressing F3
+    /// Thor
     /// </summary>
     public class DebugManager
     {
-        double _frameRate = 0;                  // Keeps track of the current frame rate of the game
-        bool _canPressF3 = true;                // Checks whether or not the F3 button can be pressed again
+        private int _inDebugModeRenderDistance = 25;
+        private int _inGameModeRenderDistance = 5;
+
+        private double _frameRate = 0;                  // Keeps track of the current frame rate of the game
+        private bool _canPressF3 = true;                // Checks whether or not the F3 button can be pressed again
         private string _framerateText;          // The Framerate text rounded
 
         /// <summary>
@@ -20,68 +24,103 @@ namespace HorrorMaze
         /// </summary>
         public DebugManager()
         {
-            // Turn of debug mode
+            // Turn of debug mode from beginning
             Globals.DebugModeToggled = false;
         }
 
+        // METHODS
+        #region METHODS
         /// <summary>
-        /// Updates the debug manager, is called in gamemanager's update
+        /// Updates the debug manager, is called in scenemanager's update
+        /// thor/niels
         /// </summary>
-        /// <param name="gameTime"></param>
+        /// <param name="gameTime"></param>        
         public void Update(GameTime gameTime)
         {
-            // Get the keyboard state to check inputs
+            // Obtain the current keyboard state to handle inputs
             KeyboardState _keyboardState = Keyboard.GetState();
 
-            // Check for debug input (F3) and if it's allowed to be pressed again
-            if(_keyboardState.IsKeyDown(Keys.F3) && _canPressF3 == true)
+            // If F3 key is pressed and allowed to be, ToggleDebugMode function is called
+            if(_keyboardState.IsKeyDown(Keys.F3) && _canPressF3)
             {
-                //Toggles the debug mode
-                if(Globals.DebugModeToggled == false)
-                {
-                    Globals.DebugModeToggled = true;
-                    //if game scene swap to debug cam/controls
-                    if(SceneManager.GetGameObjectByName("Player") != null)
-                    {
-                        SceneManager.GetGameObjectByName("Player").GetComponent<PlayerController>().enabled = false;
-                        SceneManager.GetGameObjectByName("Player").GetComponent<Camera>().enabled = false;
-                        //SceneManager.GetGameObjectByName("Enemy").GetComponent<Enemy>().enabled = false;
-                        SceneManager.GetGameObjectByName("Maze").GetComponent<MazeRenderer>()._renderDist = 25;
-                        SceneManager.GetGameObjectByName("DebugCam").GetComponent<Camera>().enabled = true;
-                        SceneManager.GetGameObjectByName("DebugCam").GetComponent<DebugCameraController>().enabled = true;
-                    }
-                }
-                else
-                {
-                    Globals.DebugModeToggled = false;
-                    //if game scene swap to player cam/controls
-                    if (SceneManager.GetGameObjectByName("Player") != null)
-                    {
-                        SceneManager.GetGameObjectByName("Player").GetComponent<PlayerController>().enabled = true;
-                        SceneManager.GetGameObjectByName("Player").GetComponent<Camera>().enabled = true;
-                        SceneManager.GetGameObjectByName("Enemy").GetComponent<Enemy>().enabled = true;
-                        SceneManager.GetGameObjectByName("Maze").GetComponent<MazeRenderer>()._renderDist = 5;
-                        SceneManager.GetGameObjectByName("DebugCam").GetComponent<Camera>().enabled = false;
-                        SceneManager.GetGameObjectByName("DebugCam").GetComponent<DebugCameraController>().enabled = false;
-                    }
-                }
+                // Toggles the debug mode (between debug and game mode)
+                ToggleDebugMode();
 
-                // F3 can't be pressed until the button is released
+                // Prevents the debug mode from being toggled again until F3 is released
                 _canPressF3 = false;
             }
-            else if(_keyboardState.IsKeyUp(Keys.F3))       // F3 is released
+            // If F3 is released, allow it to be pressed again to toggle debug mode
+            else if(_keyboardState.IsKeyUp(Keys.F3))
             {
-                // F3 can now be pressed again
                 _canPressF3 = true;
             }
 
-            // Update the frame rate tracker
+            // Calculate framerate based on deltatime
             _frameRate = (1 / Globals.DeltaTime);
-            //_framerateText = _frameRate.ToString("N2");
+        }
+
+        /// <summary>
+        /// Toggles between the debug and game mode camera
+        /// thor/niels
+        /// </summary>
+        private void ToggleDebugMode()
+        {
+            // Switch the global DebugModeToggled flag to its opposite value
+            Globals.DebugModeToggled = !Globals.DebugModeToggled;
+
+            // If debug mode has been toggled on
+            if(Globals.DebugModeToggled)
+            {
+                // If a player exists, is not null.
+                if(SceneManager.GetGameObjectByName("Player") != null)
+                {
+                    // Disable player control
+                    SceneManager.GetGameObjectByName("Player").GetComponent<PlayerController>().enabled = false;
+
+                    // Disable player camera
+                    SceneManager.GetGameObjectByName("Player").GetComponent<Camera>().enabled = false;
+
+                    // Change render distance to debug mode render distance
+                    SceneManager.GetGameObjectByName("Maze").GetComponent<MazeRenderer>()._renderDist = _inDebugModeRenderDistance;
+
+                    // Enable debug camera
+                    SceneManager.GetGameObjectByName("DebugCam").GetComponent<Camera>().enabled = true;
+
+                    // Enable debug camera controller
+                    SceneManager.GetGameObjectByName("DebugCam").GetComponent<DebugCameraController>().enabled = true;
+                }
+            }
+            // If debug mode has been toggled off
+            else
+            {
+                // If a player exists
+                if(SceneManager.GetGameObjectByName("Player") != null)
+                {
+                    // Enable player control
+                    SceneManager.GetGameObjectByName("Player").GetComponent<PlayerController>().enabled = true;
+
+                    // Enable player camera
+                    SceneManager.GetGameObjectByName("Player").GetComponent<Camera>().enabled = true;
+
+                    // Enable enemy
+                    SceneManager.GetGameObjectByName("Enemy").GetComponent<Enemy>().enabled = true;
+
+                    // Change render distance to game mode render distance
+                    SceneManager.GetGameObjectByName("Maze").GetComponent<MazeRenderer>()._renderDist = _inGameModeRenderDistance;
+
+                    // Disable debug camera
+                    SceneManager.GetGameObjectByName("DebugCam").GetComponent<Camera>().enabled = false;
+
+                    // Disable debug camera controller
+                    SceneManager.GetGameObjectByName("DebugCam").GetComponent<DebugCameraController>().enabled = false;
+                }
+            }
         }
 
         /// <summary>
         /// Debug manager draw method, is called in gamemanager's draw event
+        /// not in use
+        /// thor
         /// </summary>
         public void Draw(SpriteBatch spriteBatch)
         {
@@ -93,5 +132,6 @@ namespace HorrorMaze
                 //spriteBatch.DrawString(Globals.DebugFont, $"{GameScreen.Instance.NumberOfObjects} objects on screen", new Vector2(10, 50), Color.Black);
             }
         }
+        #endregion METHODS
     }
 }

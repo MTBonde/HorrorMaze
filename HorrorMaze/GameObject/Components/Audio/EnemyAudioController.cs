@@ -11,7 +11,7 @@ namespace HorrorMaze
     {
         private AudioSource _enemyAudioSource;
         private PlayerAudioListener _playerAudioListener;
-        private AudioManager _audioManager;
+        private AudioManagerold _audioManager;
 
         public EnemyAudioController()
         {
@@ -23,7 +23,7 @@ namespace HorrorMaze
         /// <param name="enemyAudioSource">The audio source for the enemy.</param>
         /// <param name="playerAudioListener">The audio listener for the player.</param>
         /// <param name="audioManager">The audio manager instance.</param>
-        public void Setup(AudioSource enemyAudioSource, PlayerAudioListener playerAudioListener, AudioManager audioManager)
+        public void Setup(AudioSource enemyAudioSource, PlayerAudioListener playerAudioListener, AudioManagerold audioManager)
         {
             this._enemyAudioSource = enemyAudioSource;
             this._playerAudioListener = playerAudioListener;
@@ -37,43 +37,29 @@ namespace HorrorMaze
         {
             float distance = Vector3.Distance(_playerAudioListener.Listener.Position, _enemyAudioSource.Emitter.Position);
             float maxDistanceGrudge = 3f; // Maximum distance for the screech sound
-            float maxDistanceBreathing = 5f;
-            float maxDistanceHeartbeat = 10f; // TODO: Rename to the right sound
+            float maxDistanceHeartbeat = 10f; 
 
             //Debug.WriteLine(distance);
 
             if(distance <= maxDistanceGrudge && HasLineOfSightToPlayer())
             {
-                if(!_enemyAudioSource._SoundEffectsPlaying.ContainsKey("grudge"))
-                {
-                    _enemyAudioSource.PlaySound("grudge", _audioManager.GetSoundEffect("grudge"));
-                }
-                else
-                {
-                    CalculateVolumenBasedOnDistance("grudge", distance, maxDistanceGrudge);
-                }
+                if(!_enemyAudioSource._SoundEffectsPlaying.ContainsKey("grudge"))                
+                    _enemyAudioSource.PlaySound("grudge", _audioManager.GetSoundEffect("grudge"));                
+                else                
+                    CalculateVolumenBasedOnDistance("grudge", distance, maxDistanceGrudge);                
             }
-            else if(_enemyAudioSource._SoundEffectsPlaying.ContainsKey("grudge"))
-            {
-                _enemyAudioSource.StopSound("grudge");
-            }
+            else if(_enemyAudioSource._SoundEffectsPlaying.ContainsKey("grudge"))            
+                _enemyAudioSource.StopSound("grudge");            
 
             if(distance <= maxDistanceHeartbeat)
             {
-                if(!_enemyAudioSource._SoundEffectsPlaying.ContainsKey("heartbeat"))
-                {
-                    _enemyAudioSource.PlaySound("heartbeat", _audioManager.GetSoundEffect("heartbeat"));
-                }
-                else
-                {
-                    CalculateVolumenBasedOnDistance("heartbeat", distance, maxDistanceHeartbeat);
-                }
+                if(!_enemyAudioSource._SoundEffectsPlaying.ContainsKey("heartbeat"))                
+                    _enemyAudioSource.PlaySound("heartbeat", _audioManager.GetSoundEffect("heartbeat"));                
+                else                
+                    CalculateVolumenBasedOnDistance("heartbeat", distance, maxDistanceHeartbeat);                
             }
-            else if(_enemyAudioSource._SoundEffectsPlaying.ContainsKey("heartbeat"))
-            {
-                _enemyAudioSource.StopSound("heartbeat");
-            }
-
+            else if(_enemyAudioSource._SoundEffectsPlaying.ContainsKey("heartbeat"))            
+                _enemyAudioSource.StopSound("heartbeat");            
         }
 
 

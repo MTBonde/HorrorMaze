@@ -19,6 +19,13 @@ namespace HorrorMaze
 
             go = new GameObject();
             go.AddComponent<SplashScreenController>();
+
+            GameObject bestWithHeadset = new GameObject();
+            TextRenderer bestWithHeadsetText = bestWithHeadset.AddComponent<TextRenderer>();
+            bestWithHeadset.transform.Position = new Vector2(GameWorld.Instance.GraphicsDevice.Viewport.Width / 2, GameWorld.Instance.GraphicsDevice.Viewport.Height / 2 + 300);
+            bestWithHeadsetText.scale = 5f;
+            bestWithHeadsetText.SetText("Use headset or surround system for best experience");
+            bestWithHeadsetText.color = Color.White;
         }
     }
 }

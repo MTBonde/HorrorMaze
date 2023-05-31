@@ -11,7 +11,7 @@ namespace HorrorMaze
     {
         private AudioSource _playerAudioSource;
         private PlayerAudioListener _playerAudioListener;
-        private AudioManager _audioManager;
+        private AudioManagerold _audioManager;
 
         public PlayerAudioController()
         {
@@ -23,7 +23,7 @@ namespace HorrorMaze
         /// <param name="_playerAudioSource">The audio source for the player.</param>
         /// <param name="playerAudioListener">The audio listener for the player.</param>
         /// <param name="audioManager">The audio manager instance.</param>
-        public void Setup(AudioSource playerAudioSource, PlayerAudioListener playerAudioListener, AudioManager audioManager)
+        public void Setup(AudioSource playerAudioSource, PlayerAudioListener playerAudioListener, AudioManagerold audioManager)
         {
             this._playerAudioSource = playerAudioSource;
             this._playerAudioListener = playerAudioListener;
