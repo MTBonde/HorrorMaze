@@ -1,12 +1,4 @@
-﻿using SharpDX.Direct2D1.Effects;
-using SharpDX.DirectWrite;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Net.Mime.MediaTypeNames;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
+﻿
 
 namespace HorrorMaze
 {
@@ -29,17 +21,17 @@ namespace HorrorMaze
         public Color color = Color.Black;
         public float scale = 1;
         Vector2 origin;
+        
+        TextRenderer()
+        {
+            SetFont("UIFont");
+        }
 
         public void SetText(string text)
         {
             this.text = text;
             origin = font.MeasureString(text) / 2;
-        }
-
-        TextRenderer()
-        {
-            SetFont("UIFont");
-        }
+        }        
 
         public void SetFont(string fontName)
         {

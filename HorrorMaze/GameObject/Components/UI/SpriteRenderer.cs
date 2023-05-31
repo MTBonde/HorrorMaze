@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
 
 namespace HorrorMaze
 {
@@ -14,9 +10,9 @@ namespace HorrorMaze
     {
 
         private Texture2D sprite;
-        public Vector2 Origin { get; set; }
         public float layer;
         public float scale = 0.25f;
+        public Vector2 Origin { get; set; }
 
         public void SetSprite(string spriteName)
         {
