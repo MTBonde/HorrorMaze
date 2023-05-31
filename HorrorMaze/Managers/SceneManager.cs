@@ -133,6 +133,11 @@ namespace HorrorMaze
             spriteBatch.End();
         }
 
+        /// <summary>
+        /// get a gameobject that has a specific name
+        /// </summary>
+        /// <param name="name">the gameobjects name that u are looking for</param>
+        /// <returns>the gameobject if it exists else returns null</returns>
         public static GameObject GetGameObjectByName(string name)
         {
             for (int i = 0; i < active_scene.gameObjects.Count; i++)
