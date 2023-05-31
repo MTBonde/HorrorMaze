@@ -7,8 +7,7 @@
     public class Maze
     {
         // FIELDS
-        #region Fields
-        private Random _random = new Random();
+        #region Fields        
         public MazeCell[,] MazeCells;
         private int _mazeWidth;
         private int _mazeHeight;
@@ -24,7 +23,7 @@
         public Maze(int width, int height)
         {
             // Generates a random number between 1 and 100.
-            _random.Next(1, 100);
+            Globals.Rnd.Next(1, 100);
 
             // Set the width of the maze.
             _mazeWidth = width;
@@ -173,7 +172,7 @@
             while(possibleDirectionsForUnvisitedCells.Count > 0)
             {
                 // Randomly pick a direction from the list and set is as selected, and remove the selected from the list
-                int pick = _random.Next(0, possibleDirectionsForUnvisitedCells.Count);
+                int pick = Globals.Rnd.Next(0, possibleDirectionsForUnvisitedCells.Count);
                 int selectedDirection = possibleDirectionsForUnvisitedCells[pick];
                 possibleDirectionsForUnvisitedCells.RemoveAt(pick);
 
@@ -367,8 +366,8 @@
                 const int maxAttempts = 10;  // might be to high/low
                 while(attempt < maxAttempts)
                 {
-                    int startX = _random.Next(0, _mazeWidth - width);
-                    int startY = _random.Next(0, _mazeHeight - height);
+                    int startX = Globals.Rnd.Next(0, _mazeWidth - width);
+                    int startY = Globals.Rnd.Next(0, _mazeHeight - height);
 
                     // Check if the open space area is unvisited aka has a room
                     bool canPlace = true;
@@ -422,10 +421,10 @@
                 for(int y = 0; y < _mazeHeight; y++)
                 {
                     // Randomly decide if we should create an extra path at this startingCell
-                    if(_random.Next(100) < chance)
+                    if(Globals.Rnd.Next(100) < chance)
                     {
                         // Randomly pick a direction
-                        int direction = _random.Next(4);
+                        int direction = Globals.Rnd.Next(4);
 
                         Point neighbor = new Point(x, y);
                         switch(direction)
