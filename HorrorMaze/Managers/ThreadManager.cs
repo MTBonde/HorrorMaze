@@ -37,9 +37,9 @@ namespace HorrorMaze
                 {
                     SceneManager.GetGameObjectByName("Enemy").GetComponent<Enemy>().GetPath();
                     if (SceneManager.GetGameObjectByName("Enemy").GetComponent<Enemy>().Hunting())
-                        Thread.Sleep(1 * 200);
+                        Thread.Sleep(1 * 100);
                     else
-                        Thread.Sleep(3 * 1000);
+                        Thread.Sleep(1 * 500);
                 }
                 Thread.Sleep(50);
             }
