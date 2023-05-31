@@ -1,13 +1,4 @@
-﻿using Microsoft.Xna.Framework;
-using SharpDX.Direct2D1.Effects;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Security.Cryptography.Xml;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace HorrorMaze
 {
     /// <summary>

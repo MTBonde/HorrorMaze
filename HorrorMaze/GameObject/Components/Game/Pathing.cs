@@ -1,15 +1,7 @@
-﻿using Microsoft.VisualBasic.ApplicationServices;
-using SharpDX.Direct3D9;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace HorrorMaze
 {
-    internal class Pathing : Component
+    public class Pathing : Component
     {
 
         public MazeCell[,] mazeCells;

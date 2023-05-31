@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace HorrorMaze
 {
     /// <summary>
@@ -16,8 +11,9 @@ namespace HorrorMaze
         Vector3[] path;
         int currentPath;
         float _speed = 2;
-        GameObject player;
+        GameObject _player;
         public bool wait = false;
+        bool firstFrame = true;
 
         /// <summary>
         /// adds all needed components
@@ -40,10 +36,9 @@ namespace HorrorMaze
         public void Start()
         {
             path = new Vector3[2] { new Vector3(-6.5f, -3.5f, 0.75f) , new Vector3(0.5f, -3.5f, 0.75f) };
-            player = SceneManager.GetGameObjectByName("Player");
+            _player = SceneManager.GetGameObjectByName("Player");
         }
 
-        bool firstFrame = true;
 
         /// <summary>
         /// makes the player follow the path

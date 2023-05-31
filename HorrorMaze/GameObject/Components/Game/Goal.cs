@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace HorrorMaze
 {
     /// <summary>
@@ -13,9 +7,6 @@ namespace HorrorMaze
     /// </summary>
     public class Goal : Component
     {
-
-
-
         /// <summary>
         /// adds all needed components
         /// </summary>
