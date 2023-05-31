@@ -232,12 +232,12 @@
                             MazeCells[SelectedNeighborCell.X, SelectedNeighborCell.Y].Walls[1] = false;
                         }
 
-                        // Recursively evaluate the neighboring startingCell untill all cells are marked as visited
+                        // Do again all cells has been marked as visited
                         EvaluateCell(SelectedNeighborCell);
                     }
                 }
             }
-            //if no more 
+            //if no more return the created maze
             return MazeCells;
         }
         #endregion MAZEGENERATION
