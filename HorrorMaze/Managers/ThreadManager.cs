@@ -23,6 +23,9 @@ namespace HorrorMaze
                 Thread pathing = new Thread(UpdatePathing);
                 pathing.IsBackground = true;
                 pathing.Start();
+                Thread update = new Thread(UpdateEnemy);
+                update.IsBackground = true;
+                update.Start();
                 have_been_called = true;
             }
         }
@@ -37,6 +40,18 @@ namespace HorrorMaze
                         Thread.Sleep(1 * 200);
                     else
                         Thread.Sleep(3 * 1000);
+                }
+            }
+        }
+        static void UpdateEnemy()
+        {
+            while (true)
+            {
+                while (!threads_lifeline)
+                {
+                    Thread.Sleep(16);
+                    if (!threads_lifeline)
+                        SceneManager.GetGameObjectByName("Enemy").GetComponent<Enemy>().Update_();
                 }
             }
         }

@@ -9,7 +9,7 @@ namespace HorrorMaze
     public class Enemy : Component
     {
         List<int[]> path = new List<int[]>();
-        float speed = 1.25f;
+        float speed = 3f;
         bool at_pos = true;
         bool hunting = false;
         BackupAudioSouce scream;
@@ -90,13 +90,13 @@ namespace HorrorMaze
 
 
         bool encounter = false;
-        void Update()
+        public void Update_()
         {
             Vector3 playerPos = SceneManager.GetGameObjectByName("Player").transform.Position3D;
-            if (playerPos.X > transform.Position.X - 3 &&
-                playerPos.Y > transform.Position.Y - 3 &&
-                playerPos.X < transform.Position.X + 3 &&
-                playerPos.Y < transform.Position.Y + 3 &&
+            if (playerPos.X > transform.Position.X - 4 &&
+                playerPos.Y > transform.Position.Y - 4 &&
+                playerPos.X < transform.Position.X + 4 &&
+                playerPos.Y < transform.Position.Y + 4 &&
                 !CollisionManager.RayCast(transform.Position3D + new Vector3(0, 0, 1.6f), playerPos))
             {
                 if (!scream.IsPlaying() && !encounter)
