@@ -41,6 +41,7 @@ namespace HorrorMaze
                     else
                         Thread.Sleep(3 * 1000);
                 }
+                Thread.Sleep(50);
             }
         }
         static void UpdateEnemy()
@@ -53,6 +54,7 @@ namespace HorrorMaze
                     if (!threads_lifeline)
                         SceneManager.GetGameObjectByName("Enemy").GetComponent<Enemy>().Update_();
                 }
+                Thread.Sleep(50);
             }
         }
         public static void StopThreads()
