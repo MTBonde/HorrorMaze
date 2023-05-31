@@ -57,7 +57,7 @@ namespace HorrorMaze
             SceneManager._gameTimer.StartTimer();
         }
 
-        public void SetupMaze()
+        private void SetupMaze()
         {
             Maze maze = new Maze(15, 15);
             //make maze start room
@@ -119,7 +119,7 @@ namespace HorrorMaze
             mazeObject.AddComponent<MazeCollider>().SetMaze(mazeCells);
         }
 
-        public void SpawnTutorial()
+        private void SpawnTutorial()
         {
             //tutorial ghost
             //new GameObject().AddComponent<TutorialEnemy>();
@@ -200,13 +200,13 @@ namespace HorrorMaze
             runText.transform.Position3D = new Vector3(-6.5f, -3.101f, 1.5f);
         }
 
-        public void SpawnBoulder()
+        private void SpawnBoulder()
         {
             SceneManager.GetGameObjectByName("Player").AddComponent<PlayerBoulderAnimation>();
             SceneManager.GetGameObjectByName("Player").GetComponent<PlayerController>().enabled = false;
         }
 
-        public void SpawnDebugCamera()
+        private void SpawnDebugCamera()
         {
             GameObject debugCam = new GameObject();
             debugCam.transform.Position3D = new Vector3(0, 0, 10);

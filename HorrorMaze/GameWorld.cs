@@ -8,7 +8,6 @@ namespace HorrorMaze
     {
         private SpriteBatch _spriteBatch;
 
-
         // PROPERTIES
         public GraphicsDeviceManager Graphics { get; private set; }
 
