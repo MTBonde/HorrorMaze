@@ -22,6 +22,7 @@ namespace HorrorMaze
             //player
             GameObject player = new GameObject();
             player.AddComponent<PlayerController>();
+            player.name = "Player";
 
             //sets up and spawns the maze
             SetupMaze();
