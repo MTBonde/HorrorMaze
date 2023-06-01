@@ -13,13 +13,13 @@ namespace HorrorMaze
         public Door door;
         int _rotationSpeed = 100;
         public event KeyEvent keyEvent;
-        public BackupAudioSouce pickupSound;
+        public AudioSouce pickupSound;
 
         //adds needed components and sets their variables
         public void Awake()
         {
             gameObject.AddComponent<BoxCollider>().size = new Vector3(0.25f, 0.25f, 0.25f);
-            pickupSound = gameObject.AddComponent<BackupAudioSouce>();
+            pickupSound = gameObject.AddComponent<AudioSouce>();
             pickupSound.SetSoundEffect("SoundFX\\key_pickup");
         }
 

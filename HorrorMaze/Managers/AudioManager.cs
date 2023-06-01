@@ -1,134 +1,94 @@
-﻿
+﻿using System.Diagnostics;
+
 namespace HorrorMaze
 {
-    public class AudioManager
+    /// <summary>
+    /// an audio manager used by audio componets for spacial sound and manegment
+    /// Niels/Thor
+    /// </summary>
+    public static class AudioManager
     {
-        private const string _creepyMusicPath = "creepy_music";
-        private const string _creepySoundPath = "SoundFX\\creepy_sound";
 
-        private Dictionary<string, SoundEffect> _soundEffects;
-        private PlayerAudioListener _playerAudioListener;
-        private List<AudioSource> _audioSources;
-        private List<Song> _songs;
-        private SoundEffectInstance _musicSource;
+        public static AudioListener audioListener = new AudioListener();
+        public static SoundEffect music, ingame;
+        private static SoundEffectInstance musicSource;
 
-        public AudioManager()
+        /// <summary>
+        /// loads all background music and sound
+        /// </summary>
+        public static void LoadMusic()
         {
-            _soundEffects = new Dictionary<string, SoundEffect>();
-            _audioSources = new List<AudioSource>();
-            _songs = new List<Song>();
-            LoadDefaultSounds();
+            music = GameWorld.Instance.Content.Load<SoundEffect>("creepy_music");
+            ingame = GameWorld.Instance.Content.Load<SoundEffect>("SoundFX\\creepy_sound");
         }
 
-        //public static void ApplySpacialSound(SoundEffectInstance soundEffectInstance, AudioEmitter emitter, float maxListenDistance)
-        //{
-        //    //sets volume based on max distance
-        //    float volume = Vector3.Distance(audioListener.Position, emitter.Position) / maxListenDistance;
-        //    //apply spacial if volume is higher than 0
-        //    if(volume > 0 && volume <= 1)
-        //    {
-        //        //if (soundEffectInstance.State == SoundState.Stopped)
-        //        //    soundEffectInstance.Play();
-        //        soundEffectInstance.Apply3D(audioListener, emitter);
-        //        soundEffectInstance.Volume = Math.Clamp((1 - volume) * 2, 0, 1);
-        //    }
-        //    //stops the sound while sound is equal to 0
-        //    else if(soundEffectInstance.State == SoundState.Playing)
-        //        soundEffectInstance.Stop();
-        //}
-
-        private void LoadDefaultSounds()
+        /// <summary>
+        /// stas the background music and stops background sound
+        /// </summary>
+        public static void StartBackgroundMusic()
         {
-            _soundEffects[_creepyMusicPath] = GameWorld.Instance.Content.Load<SoundEffect>(_creepyMusicPath);
-            _soundEffects[_creepySoundPath] = GameWorld.Instance.Content.Load<SoundEffect>(_creepySoundPath);
-        }
-
-        //public void AddSong(string songName)
-        //{
-        //    _songs.Add(GameWorld.Instance.Content.Load<Song>(songName));
-        //}
-
-        public void SetPlayerAudioListener(PlayerAudioListener playerAudioListener)
-        {
-            this._playerAudioListener = playerAudioListener;
-        }
-
-        public void LoadSoundEffect(string soundEffectName)
-        {
-            _soundEffects[soundEffectName] = GameWorld.Instance.Content.Load<SoundEffect>($"SoundFX\\{soundEffectName}");
-        }
-
-        public SoundEffect GetSoundEffect(string soundEffectName)
-        {
-            return _soundEffects.ContainsKey(soundEffectName) ? _soundEffects[soundEffectName] : null;
-        }
-
-        public void AddAudioSource(AudioSource audioSource)
-        {
-            _audioSources.Add(audioSource);
-        }
-
-        public void StartBackgroundMusic()
-        {
-            SwitchBackgroundSound(_soundEffects[_creepyMusicPath], 0.1f);
-        }
-
-        public void StartBackgroundSound()
-        {
-            SwitchBackgroundSound(_soundEffects[_creepySoundPath], 0.05f);
-        }
-
-        private void SwitchBackgroundSound(SoundEffect soundEffect, float volume)
-        {
-            if(_musicSource != null)
+            if (musicSource == null)
+                musicSource = music.CreateInstance();
+            else
             {
-                _musicSource.Stop();
-                _musicSource.Dispose();
+                musicSource.Stop();
+                musicSource.Dispose();
+                musicSource = null;
+                musicSource = ingame.CreateInstance();
             }
-
-            _musicSource = soundEffect.CreateInstance();
-            _musicSource.Volume = volume;
-            _musicSource.Play();
+            musicSource.Volume = 0.1f;
+            musicSource.Play();
         }
 
-        public void Update()
+        /// <summary>
+        /// starts background sound and stops background music
+        /// </summary>
+        public static void StatBackgroundSound()
         {
-            if(_playerAudioListener != null)
+            if (musicSource == null)
+                musicSource = ingame.CreateInstance();
+            else
             {
-                _playerAudioListener.Update();
-                foreach(AudioSource audioSource in _audioSources)
-                {
-                    audioSource.Update();
-                    if(audioSource.SFXInstance != null)
-                    {
-                        audioSource.SFXInstance.Apply3D(_playerAudioListener.Listener, audioSource.Emitter);
-                    }
-                }
+                musicSource.Stop();
+                musicSource.Dispose();
+                musicSource = null;
+                musicSource = ingame.CreateInstance();
             }
+            musicSource.Volume = 0.05f;
+            musicSource.Play();
         }
 
-        public void StopAllSounds()
+        /// <summary>
+        /// applys spacial sound to given sfx instance
+        /// </summary>
+        /// <param name="soundEffectInstance">sound effect instance to apply spacial on</param>
+        /// <param name="emitter">the emitter thats emmiting the sound</param>
+        /// <param name="maxListenDistance">the maximum distance that the sound can be heard awai from the center point</param>
+        public static void ApplySpacialSound(SoundEffectInstance soundEffectInstance, AudioEmitter emitter, float maxListenDistance)
         {
-            foreach(AudioSource audioSource in _audioSources)
+            //sets volume based on max distance
+            float volume = Vector3.Distance(audioListener.Position, emitter.Position) / maxListenDistance;
+            //apply spacial if volume is higher than 0
+            if (volume > 0 && volume <= 1)
             {
-                foreach(var soundEffectPair in audioSource._SoundEffectsPlaying)
-                {
-                    var soundEffectInstance = soundEffectPair.Value;
-                    if(soundEffectInstance != null)
-                    {
-                        soundEffectInstance.Stop();
-                        soundEffectInstance.Dispose();
-                    }
-                }
-
-                audioSource._SoundEffectsPlaying.Clear();
+                //if (soundEffectInstance.State == SoundState.Stopped)
+                //    soundEffectInstance.Play();
+                soundEffectInstance.Apply3D(audioListener, emitter);
+                soundEffectInstance.Volume = Math.Clamp((1 - volume) * 2,0,1);
             }
+            //stops the sound while sound is equal to 0
+            else if(soundEffectInstance.State == SoundState.Playing)
+                soundEffectInstance.Stop();
+        }
 
-            if(_musicSource != null)
+        /// <summary>
+        /// stops and disposed all sound in the active scene
+        /// </summary>
+        public static void ResetSound()
+        {
+            for (int i = 0; i < SceneManager.active_scene.gameObjects.Count; i++)
             {
-                _musicSource.Stop();
-                _musicSource.Dispose();
-                _musicSource = null;
+                SceneManager.active_scene.gameObjects[i].StopSound();
             }
         }
     }

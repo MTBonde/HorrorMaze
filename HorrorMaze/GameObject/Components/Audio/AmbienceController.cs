@@ -3,7 +3,7 @@
     public class AmbienceController : Component
     {
 
-        BackupAudioSouce souce;
+        AudioSouce souce;
         float currentTimerTime, timerTime = 10;
 
         /// <summary>
@@ -11,7 +11,7 @@
         /// </summary>
         public void Awake()
         {
-            souce = gameObject.AddComponent<BackupAudioSouce>();
+            souce = gameObject.AddComponent<AudioSouce>();
             souce.AddSoundEffect("SoundFX\\Ambience\\scary1");
             souce.AddSoundEffect("SoundFX\\Ambience\\scary2");
             souce.AddSoundEffect("SoundFX\\Ambience\\scary3");

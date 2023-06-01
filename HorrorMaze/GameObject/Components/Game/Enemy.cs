@@ -7,14 +7,14 @@ namespace HorrorMaze
         float speed = 3f;
         bool at_pos = true;
         bool hunting = false;
-        BackupAudioSouce scream;
+        AudioSouce scream;
         GameObject player;
 
         public void Awake()
         {
             gameObject.AddComponent<BoxCollider>().size = new Vector3(0.35f, 0.35f, 1);
             gameObject.AddComponent<MeshRenderer>().SetModel("3DModels\\ghost_rig");
-            BackupAudioSouce GrudgeAudioSouce = gameObject.AddComponent<BackupAudioSouce>();
+            AudioSouce GrudgeAudioSouce = gameObject.AddComponent<AudioSouce>();
             GrudgeAudioSouce.AddSoundEffect("SoundFX\\zombie1");
             GrudgeAudioSouce.AddSoundEffect("SoundFX\\zombie2");
             GrudgeAudioSouce.AddSoundEffect("SoundFX\\zombie3");
@@ -25,13 +25,13 @@ namespace HorrorMaze
             GrudgeAudioSouce.Spacial = true;
             GrudgeAudioSouce.maxDistance = 3f;
             GrudgeAudioSouce.Play();
-            BackupAudioSouce HeartBeatAudioSouce = gameObject.AddComponent<BackupAudioSouce>();
+            AudioSouce HeartBeatAudioSouce = gameObject.AddComponent<AudioSouce>();
             HeartBeatAudioSouce.SetSoundEffect("SoundFX\\heartBeat");
             HeartBeatAudioSouce.loop = true;
             HeartBeatAudioSouce.Spacial = true;
             HeartBeatAudioSouce.maxDistance = 5f;
             HeartBeatAudioSouce.Play();
-            scream = gameObject.AddComponent<BackupAudioSouce>();
+            scream = gameObject.AddComponent<AudioSouce>();
             scream.SetSoundEffect("SoundFX\\chasing_scream_1");
             scream.Spacial = true;
             scream.maxDistance = 5;

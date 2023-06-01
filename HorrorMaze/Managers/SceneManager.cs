@@ -21,7 +21,6 @@ namespace HorrorMaze
 
         public static TimeManager _gameTimer = new();
 
-        public static AudioManagerold audioManager = new();
         /// <summary>
         /// the cunrently active scene
         /// </summary>
@@ -60,8 +59,6 @@ namespace HorrorMaze
             }
             active_scene.gameObjects.Clear();
             CollisionManager.colliders.Clear();
-            audioManager.StopAllSounds();
-            audioManager = new AudioManagerold();
             active_scene = scenes[scene_number];
             GameWorld.Instance.IsMouseVisible = true;
             ThreadManager.StopThreads();

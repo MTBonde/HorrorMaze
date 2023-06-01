@@ -14,7 +14,7 @@ namespace HorrorMaze
             //hides the cursor
             GameWorld.Instance.IsMouseVisible = false;
             //stops music track and starts ambient track
-            BackupAudioManager.StatBackgroundSound();
+            AudioManager.StatBackgroundSound();
             //creates worlds center point
             worldMatrix = Matrix.CreateWorld(Vector3.Zero, Vector3.Forward, Vector3.Up);
 

@@ -7,7 +7,7 @@ namespace HorrorMaze
         float time = 0, timer = 1f, timer2 = 2f, timer3 = 3f;
         float turnAmount;
         bool spawned = false;
-        BackupAudioSouce breakingSound;
+        AudioSouce breakingSound;
 
         public void Update()
         {
@@ -17,7 +17,7 @@ namespace HorrorMaze
                 if(breakingSound == null) 
                 {
                     turnAmount = -(transform.Rotation.Z%360);
-                    breakingSound = gameObject.AddComponent<BackupAudioSouce>();
+                    breakingSound = gameObject.AddComponent<AudioSouce>();
                     breakingSound.SetSoundEffect("SoundFX\\break");
                     breakingSound.Play();
                 }

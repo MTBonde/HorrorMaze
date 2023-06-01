@@ -21,7 +21,7 @@ namespace HorrorMaze
         bool oldSchool = false;
         bool canSprint = true;
         bool isSprinting;
-        BackupAudioSouce walking, running, lowStamina;
+        AudioSouce walking, running, lowStamina;
 
         public void RefillSprint()
         {
@@ -37,14 +37,14 @@ namespace HorrorMaze
             gameObject.transform.Position3D = new Vector3(-6.5f, -9.5f, 1.6f);
             gameObject.transform.Rotation = new Vector3(0, 120, 90);
             gameObject.AddComponent<Camera>();
-            gameObject.AddComponent<BackupAudioListner>();
-            walking = gameObject.AddComponent<BackupAudioSouce>();
+            gameObject.AddComponent<AudioListner>();
+            walking = gameObject.AddComponent<AudioSouce>();
             walking.SetSoundEffect("SoundFX\\walking");
             walking.loop = true;
-            running = gameObject.AddComponent<BackupAudioSouce>();
+            running = gameObject.AddComponent<AudioSouce>();
             running.SetSoundEffect("SoundFX\\running");
             running.loop = true;
-            lowStamina = gameObject.AddComponent<BackupAudioSouce>();
+            lowStamina = gameObject.AddComponent<AudioSouce>();
             lowStamina.SetSoundEffect("SoundFX\\breathing");
             lowStamina.loop = true;
         }

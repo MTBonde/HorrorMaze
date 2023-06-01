@@ -6,7 +6,7 @@ namespace HorrorMaze
     /// used to create sound in the world
     /// Niels/Thor
     /// </summary>
-    public class BackupAudioSouce : Component
+    public class AudioSouce : Component
     {
 
         AudioEmitter _emitter = new AudioEmitter();
@@ -70,7 +70,7 @@ namespace HorrorMaze
                 _soundEffectInstance.Volume = volume;
                 //applys spacial sound if spacial is true
                 if(Spacial)
-                    BackupAudioManager.ApplySpacialSound(_soundEffectInstance,_emitter,maxDistance);
+                    AudioManager.ApplySpacialSound(_soundEffectInstance,_emitter,maxDistance);
                 //sets running to false if loop is off and soundÍnstance has stopped playing
                 if (!loop && _soundEffectInstance.State == SoundState.Stopped)
                     running = false;
