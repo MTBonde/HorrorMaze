@@ -4,7 +4,7 @@ namespace HorrorMaze
 {
     /// <summary>
     /// used to create sound in the world
-    /// Niels/Thor
+    /// Thor
     /// </summary>
     public class AudioSouce : Component
     {
@@ -31,11 +31,11 @@ namespace HorrorMaze
         /// </summary>
         public bool randomLoopEffects;
         /// <summary>
-        /// the base volume of the audio souce
+        /// the base volume of the audio source
         /// </summary>
         public float volume = 1;
         /// <summary>
-        /// if true the audio souce will be removed and cleaned at the end of the frame
+        /// if true the audio source will be removed and cleaned at the end of the frame
         /// </summary>
         bool remove = false;
 
@@ -74,7 +74,7 @@ namespace HorrorMaze
                 //sets running to false if loop is off and soundÍnstance has stopped playing
                 if (!loop && _soundEffectInstance.State == SoundState.Stopped)
                     running = false;
-                //loops using a random sound from soundEffects list if ranLoopEffects is turned on and the audio has stopped plaing
+                //loops using a random sound from soundEffects list if randomLoopEffects is turned on and the audio has stopped playing
                 if (loop && randomLoopEffects && _soundEffectInstance.State == SoundState.Stopped)
                 {
                     _soundEffectInstance = _soundEffects[Globals.Rnd.Next(0, _soundEffects.Count)].CreateInstance();
@@ -84,7 +84,7 @@ namespace HorrorMaze
         }
 
         /// <summary>
-        /// tells if the audio souce is playing or stopped
+        /// tells if the audio source is playing or stopped
         /// </summary>
         /// <returns>playing is true stopped is false</returns>
         public bool IsPlaying()

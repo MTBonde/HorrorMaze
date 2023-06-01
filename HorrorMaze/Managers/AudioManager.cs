@@ -59,7 +59,7 @@ namespace HorrorMaze
         }
 
         /// <summary>
-        /// applys spacial sound to given sfx instance
+        /// apply 3D sound to given sfx instance
         /// </summary>
         /// <param name="soundEffectInstance">sound effect instance to apply spacial on</param>
         /// <param name="emitter">the emitter thats emmiting the sound</param>
