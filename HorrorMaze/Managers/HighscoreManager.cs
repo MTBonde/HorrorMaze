@@ -7,6 +7,10 @@ using System.Threading.Tasks;
 
 namespace HorrorMaze
 {
+    /// <summary>
+    /// A manager that handles the highscore
+    /// Thorbjørn
+    /// </summary>
     public class HighscoreManager
     {
         // readonly IDbConnection nnection;
