@@ -14,13 +14,14 @@ namespace HorrorMaze
             HighscoreText = new GameObject();
             TextRenderer text = HighscoreText.AddComponent<TextRenderer>();
             text.scale = 4;
-            List<string[]> scores = HighscoreManager.CommandRead();
-            string add = "";
-            for (int i = 0; i < scores.Count; i++)
-            {
-                add += "nr. " + scores[i][0] + ": " + scores[i][1] + " time: " + (int)(int.Parse(scores[i][2]) / 60) + "minutes, " + (int.Parse(scores[i][2]) % 60) + " seconds\n";
-            }
-            text.SetText(add);
+            //List<string[]> scores = HighscoreManager.CommandRead();
+            //string add = "";
+            //for (int i = 0; i < scores.Count; i++)
+            //{
+            //    add += "nr. " + scores[i][0] + ": " + scores[i][1] + " time: " + (int)(int.Parse(scores[i][2]) / 60) + "minutes, " + (int.Parse(scores[i][2]) % 60) + " seconds\n";
+            //}
+            //text.SetText(add);
+            NetworkManager.GetScores(text);
             text.color = Color.Red;
             text.transform.Position = new Vector2(GameWorld.Instance.GraphicsDevice.Viewport.Width / 2, 400);
 
@@ -69,10 +70,13 @@ namespace HorrorMaze
         {
             if (nameInputField.GetComponent<InputField>().input != "") 
             {
+                //TimeSpan endTime = SceneManager._gameTimer.GetElapsedTime();
+                //int x = endTime.Seconds + endTime.Minutes * 60 + endTime.Hours * 360;
+                //HighscoreManager.New_Score(nameInputField.GetComponent<InputField>().input, x);
+                //ReloadHigh();
                 TimeSpan endTime = SceneManager._gameTimer.GetElapsedTime();
-                int x = endTime.Seconds + endTime.Minutes * 60 + endTime.Hours * 360;
-                HighscoreManager.New_Score(nameInputField.GetComponent<InputField>().input, x);
-                ReloadHigh();
+                int finalScore = endTime.Seconds + endTime.Minutes * 60 + endTime.Hours * 360;
+                NetworkManager.AddScore(nameInputField.GetComponent<InputField>().input, finalScore.ToString(), HighscoreText.GetComponent<TextRenderer>());
                 highscoreAdd.GetComponent<UIButton>().enabled = false;
             }
         }
