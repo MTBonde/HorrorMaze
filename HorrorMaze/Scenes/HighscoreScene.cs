@@ -80,15 +80,15 @@ namespace HorrorMaze
                 highscoreAdd.GetComponent<UIButton>().enabled = false;
             }
         }
-        void ReloadHigh()
-        {
-            List<string[]> scores = HighscoreManager.CommandRead();
-            string add = "";
-            for (int i = 0; i < scores.Count; i++)
-            {
-                add += "NR. " + scores[i][0] + ": " + scores[i][1] + " Time: " + (int)(int.Parse(scores[i][2])/60) + "Minutes, " + (int.Parse(scores[i][2]) % 60) + " Seconds\n";
-            }
-            HighscoreText.GetComponent<TextRenderer>().SetText(add);
-        }
+        //void ReloadHigh()
+        //{
+        //    List<string[]> scores = HighscoreManager.CommandRead();
+        //    string add = "";
+        //    for (int i = 0; i < scores.Count; i++)
+        //    {
+        //        add += "NR. " + scores[i][0] + ": " + scores[i][1] + " Time: " + (int)(int.Parse(scores[i][2])/60) + "Minutes, " + (int.Parse(scores[i][2]) % 60) + " Seconds\n";
+        //    }
+        //    HighscoreText.GetComponent<TextRenderer>().SetText(add);
+        //}
     }
 }
