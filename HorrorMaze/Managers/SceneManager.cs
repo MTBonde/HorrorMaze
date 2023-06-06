@@ -1,5 +1,7 @@
 ﻿
 
+using HorrorMaze.Managers;
+
 namespace HorrorMaze
 {
     /// <summary>
@@ -39,6 +41,7 @@ namespace HorrorMaze
         /// <param name="scene_number">the number of the scene to load</param>
         public static void LoadScene(int scene_number)//maybe make one that uses a string instead and looks it up in a dictionary
         {
+            InputManager.Reset();
             HighscoreManager.Starter();
             if(scene_number == 2)
                 inGame = true;
@@ -77,7 +80,7 @@ namespace HorrorMaze
         {
             //Global Update
             Globals.Update(gameTime);
-
+            InputManager.Update();
             //Manager Update
             //audioManager.Update();
             //if(_gameTimer != null)

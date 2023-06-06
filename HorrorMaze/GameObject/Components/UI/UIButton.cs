@@ -1,5 +1,7 @@
 ﻿
 
+using HorrorMaze.Managers;
+
 namespace HorrorMaze
 {
    
@@ -32,7 +34,12 @@ namespace HorrorMaze
             buttonSize = origin * scale;
         }
 
-        public void Update()
+        public void Awake()
+        {
+            InputManager.buttons.Add(this);
+        }
+
+        public void CheckMouse(bool press)
         {
             if(transform.Position.X + buttonSize.X > Mouse.GetState().X &&
                 transform.Position.X - buttonSize.X < Mouse.GetState().X &&
@@ -46,7 +53,7 @@ namespace HorrorMaze
                 }
                 if(OnHover != null)
                     OnHover.Invoke();
-                if(Mouse.GetState().LeftButton.HasFlag(ButtonState.Pressed))
+                if(press)
                 {
                     if (OnClick != null)
                         OnClick.Invoke();

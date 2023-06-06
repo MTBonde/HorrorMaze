@@ -21,7 +21,27 @@ namespace HorrorMaze
         public Color color = Color.Black;
         public float scale = 1;
         Vector2 origin;
-        
+        public enum TextPivots
+        {
+            TopCenter,
+            MidCenter,
+            ButtomCenter
+        }
+        TextPivots textPivot = TextPivots.MidCenter;
+        public TextPivots TextPivot 
+        { 
+            get 
+            { 
+                return textPivot; 
+            } 
+            set 
+            { 
+                textPivot = value;
+                FindOrigin();
+            } 
+        }
+
+
         TextRenderer()
         {
             SetFont("UIFont");
@@ -30,7 +50,7 @@ namespace HorrorMaze
         public void SetText(string text)
         {
             this.text = text;
-            origin = font.MeasureString(text) / 2;
+            FindOrigin();
         }        
 
         public void SetFont(string fontName)
@@ -41,6 +61,23 @@ namespace HorrorMaze
         public void DrawUI(SpriteBatch spriteBatch)
         {
             spriteBatch.DrawString(font,text,transform.Position,color,0,origin,scale/10, SpriteEffects.None,1);
+        }
+
+        private void FindOrigin()
+        {
+            switch (textPivot)
+            {
+                case TextPivots.TopCenter:
+                    origin.X = font.MeasureString(text).X / 2;
+                    break;
+                case TextPivots.MidCenter:
+                    origin = font.MeasureString(text) / 2;
+                    break;
+                case TextPivots.ButtomCenter:
+                    origin.X = font.MeasureString(text).X / 2;
+                    origin.Y = font.MeasureString(text).Y;
+                    break;
+            }
         }
     }
 }

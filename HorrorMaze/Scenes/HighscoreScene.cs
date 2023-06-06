@@ -13,7 +13,8 @@ namespace HorrorMaze
 
             HighscoreText = new GameObject();
             TextRenderer text = HighscoreText.AddComponent<TextRenderer>();
-            text.scale = 4;
+            text.scale = 2;
+            text.TextPivot = TextRenderer.TextPivots.TopCenter;
             //List<string[]> scores = HighscoreManager.CommandRead();
             //string add = "";
             //for (int i = 0; i < scores.Count; i++)
@@ -23,26 +24,10 @@ namespace HorrorMaze
             //text.SetText(add);
             NetworkManager.GetScores(text);
             text.color = Color.Red;
-            text.transform.Position = new Vector2(GameWorld.Instance.GraphicsDevice.Viewport.Width / 2, 400);
-
-            GameObject tryAgain = new GameObject();
-            tryAgain.transform.Position = new Vector2(GameWorld.Instance.GraphicsDevice.Viewport.Width / 2, GameWorld.Instance.GraphicsDevice.Viewport.Height / 2);
-            UIButton btn = tryAgain.AddComponent<UIButton>();
-            btn.OnClick += TryAgain;
-            TextRenderer btnText = tryAgain.AddComponent<TextRenderer>();
-            btnText.scale = 4;
-            btnText.SetText("Retry");
-
-            GameObject mainMenu = new GameObject();
-            mainMenu.transform.Position = new Vector2(GameWorld.Instance.GraphicsDevice.Viewport.Width / 2, GameWorld.Instance.GraphicsDevice.Viewport.Height / 2 + 200);
-            UIButton btn1 = mainMenu.AddComponent<UIButton>();
-            btn1.OnClick += MainMenu;
-            TextRenderer btnText1 = mainMenu.AddComponent<TextRenderer>();
-            btnText1.scale = 3.5f;
-            btnText1.SetText("Main Menu");
+            text.transform.Position = new Vector2(GameWorld.Instance.GraphicsDevice.Viewport.Width / 2, 0);
 
             highscoreAdd = new GameObject();
-            highscoreAdd.transform.Position = new Vector2(GameWorld.Instance.GraphicsDevice.Viewport.Width / 2 - 300, GameWorld.Instance.GraphicsDevice.Viewport.Height / 2);
+            highscoreAdd.transform.Position = new Vector2(GameWorld.Instance.GraphicsDevice.Viewport.Width / 2, GameWorld.Instance.GraphicsDevice.Viewport.Height / 2 + 200);
             UIButton btn2 = highscoreAdd.AddComponent<UIButton>();
             btn2.OnClick += HighscoreAdd;
             TextRenderer btnText2 = highscoreAdd.AddComponent<TextRenderer>();
@@ -50,7 +35,7 @@ namespace HorrorMaze
             btnText2.SetText("Add Score");
 
             nameInputField = new GameObject();
-            nameInputField.transform.Position = new Vector2(GameWorld.Instance.GraphicsDevice.Viewport.Width / 2 - 600, GameWorld.Instance.GraphicsDevice.Viewport.Height / 2);
+            nameInputField.transform.Position = new Vector2(GameWorld.Instance.GraphicsDevice.Viewport.Width / 2 , GameWorld.Instance.GraphicsDevice.Viewport.Height / 2);
             nameInputField.AddComponent<TextRenderer>();
             nameInputField.GetComponent<TextRenderer>().scale = 5;
             nameInputField.GetComponent<TextRenderer>().SetText("Enter name...");
@@ -78,6 +63,23 @@ namespace HorrorMaze
                 int finalScore = endTime.Seconds + endTime.Minutes * 60 + endTime.Hours * 360;
                 NetworkManager.AddScore(nameInputField.GetComponent<InputField>().input, finalScore.ToString(), HighscoreText.GetComponent<TextRenderer>());
                 highscoreAdd.GetComponent<UIButton>().enabled = false;
+
+
+                GameObject tryAgain = new GameObject();
+                tryAgain.transform.Position = new Vector2(GameWorld.Instance.GraphicsDevice.Viewport.Width / 2, GameWorld.Instance.GraphicsDevice.Viewport.Height / 2);
+                UIButton btn = tryAgain.AddComponent<UIButton>();
+                btn.OnClick += TryAgain;
+                TextRenderer btnText = tryAgain.AddComponent<TextRenderer>();
+                btnText.scale = 4;
+                btnText.SetText("Retry");
+
+                GameObject mainMenu = new GameObject();
+                mainMenu.transform.Position = new Vector2(GameWorld.Instance.GraphicsDevice.Viewport.Width / 2, GameWorld.Instance.GraphicsDevice.Viewport.Height / 2 + 200);
+                UIButton btn1 = mainMenu.AddComponent<UIButton>();
+                btn1.OnClick += MainMenu;
+                TextRenderer btnText1 = mainMenu.AddComponent<TextRenderer>();
+                btnText1.scale = 3.5f;
+                btnText1.SetText("Main Menu");
             }
         }
         //void ReloadHigh()
