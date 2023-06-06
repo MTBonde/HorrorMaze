@@ -1,6 +1,4 @@
-﻿
-
-using HorrorMaze.Managers;
+﻿using HorrorMaze.Managers;
 
 namespace HorrorMaze
 {

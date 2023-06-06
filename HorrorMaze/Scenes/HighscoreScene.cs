@@ -22,7 +22,7 @@ namespace HorrorMaze
             //    add += "nr. " + scores[i][0] + ": " + scores[i][1] + " time: " + (int)(int.Parse(scores[i][2]) / 60) + "minutes, " + (int.Parse(scores[i][2]) % 60) + " seconds\n";
             //}
             //text.SetText(add);
-            NetworkManager.GetScores(text);
+            NetworkManager.GetTimeScores(text);
             text.color = Color.Red;
             text.transform.Position = new Vector2(GameWorld.Instance.GraphicsDevice.Viewport.Width / 2, 0);
 
@@ -61,7 +61,7 @@ namespace HorrorMaze
                 //ReloadHigh();
                 TimeSpan endTime = SceneManager._gameTimer.GetElapsedTime();
                 int finalScore = endTime.Seconds + endTime.Minutes * 60 + endTime.Hours * 360;
-                NetworkManager.AddScore(nameInputField.GetComponent<InputField>().input, finalScore.ToString(), HighscoreText.GetComponent<TextRenderer>());
+                NetworkManager.AddTimeScore(nameInputField.GetComponent<InputField>().input, finalScore.ToString(), HighscoreText.GetComponent<TextRenderer>());
                 highscoreAdd.GetComponent<UIButton>().enabled = false;
 
 

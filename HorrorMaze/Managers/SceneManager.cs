@@ -1,8 +1,4 @@
-﻿
-
-using HorrorMaze.Managers;
-
-namespace HorrorMaze
+﻿namespace HorrorMaze
 {
     /// <summary>
     /// used to keep track of scenes and to update active scene
@@ -25,7 +21,7 @@ namespace HorrorMaze
         { 
             new SplashScene(),
             new TittleScene(),
-            new GameScene(),
+            new TimeTrialScene(),
             new HighscoreScene(),
             new CreditsScene(),
             new WinScene(),
@@ -90,7 +86,7 @@ namespace HorrorMaze
 
             //Scene Update
             if (inGame)
-                ((GameScene)active_scene).debugManager.Update(gameTime);
+                ((TimeTrialScene)active_scene).debugManager.Update(gameTime);
             for (int i = 0; i < active_scene.gameObjects.Count; i++)
             {
                 active_scene.gameObjects[i].Update(gameTime);

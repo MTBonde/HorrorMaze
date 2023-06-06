@@ -1,6 +1,4 @@
-﻿
-
-namespace HorrorMaze
+﻿namespace HorrorMaze
 {
     /// <summary>
     /// DebugManager, can be accessed by pressing F3

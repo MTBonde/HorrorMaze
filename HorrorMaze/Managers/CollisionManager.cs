@@ -1,6 +1,4 @@
-﻿
-
-namespace HorrorMaze
+﻿namespace HorrorMaze
 {
     /// <summary>
     /// used to check if you are colliding with anything

@@ -1,5 +1,4 @@
-﻿
-namespace HorrorMaze
+﻿namespace HorrorMaze
 {
     /// <summary>
     /// an audio manager used by audio componets for spacial sound and manegment

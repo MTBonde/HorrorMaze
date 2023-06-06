@@ -2,7 +2,7 @@
 
 namespace HorrorMaze
 {
-    public class GameScene : Scene
+    public class TimeTrialScene : Scene
     {
 
         MazeCell[,] mazeCells;
