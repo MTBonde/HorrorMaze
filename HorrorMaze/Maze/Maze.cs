@@ -70,6 +70,7 @@
             MazeCells[0, 0].Visited = true;
             EvaluateCell(new Point(0, 0));
         }
+
         /// <summary>
         /// Generates a maze by inputing a mazecell array and returning a generated maze using DFS.
         /// </summary>
@@ -126,6 +127,90 @@
 
                 // If the chosen location is already filled, skip this iteration
                 if(filledChuncks.Contains(new Point(xRoomSpawnLocation, yRoomSpawnLocation)))
+                    continue;
+
+                // Add the chosen location to the filled chunks list
+                filledChuncks.Add(new Point(xRoomSpawnLocation, yRoomSpawnLocation));
+
+                // Add a room at the chosen location with the determined offset
+                AddRoomBeforeMaze(new Point(xRoomSpawnLocation * 5 + xOffset, yRoomSpawnLocation * 5 + yOffset), 3, 3, 3, maze);
+
+                // Create a new game object for the roomStatue to place in the room
+                GameObject roomStatue = new GameObject();
+
+                // Add a 3D model for the roomStatue from a file and set its position in the room
+                roomStatue.AddComponent<MeshRenderer>().SetModel("3DModels\\statue_" + spawnRoomAmount);
+                roomStatue.transform.Position = new Vector2(xRoomSpawnLocation * 5 + xOffset + 1.5f, yRoomSpawnLocation * 5 + yOffset + 1.5f);
+
+                // Add a box collider to the roomStatue, and set its size and offset
+                roomStatue.AddComponent<BoxCollider>().size = new Vector3(1, 1, 2);
+                roomStatue.GetComponent<BoxCollider>().offset = new Vector3(0, 0, 1);
+
+                // Decrease the number of rooms left to spawn
+                spawnRoomAmount--;
+            }
+            #endregion AddingRooms
+
+            //create maze
+            return EvaluateCell(MazeStartPoint);
+        }
+
+        /// <summary>
+        /// Generates a maze by inputing a mazecell array and returning a generated maze using DFS.
+        /// </summary>
+        /// <param name="maze">The maze to generate from.</param>
+        /// <param name="MazeStartPoint">The starting point of the maze.</param>
+        /// Niels / Thor
+        /// <returns>The generated maze.</returns>
+        public MazeCell[,] GenerateMazeFromMazeForFloor(MazeCell[,] maze, Point MazeStartPoint)
+        {
+            // Generates a random number between 1 and 10.
+            Globals.Rnd.Next(1, 10);
+
+            // Sets the mazecells to the maze given in the signature.
+            MazeCells = maze;
+
+            // Sets the maze width and height from the given maze.
+            _mazeWidth = maze.GetLength(0);
+            _mazeHeight = maze.GetLength(1);
+
+            //remove random walls
+            //KnockDownRandomWalls(2);
+
+            //add rooms
+            #region AddingRooms
+
+            // Define maximum x and y values for room placement.
+            // These are based on the dimensions of the maze,
+            // with the intention of allowing room placement within every 5x5 area,
+            // We use the moduos operator to achive that.
+            int xRoomMax = (maze.GetLength(0) - (maze.GetLength(0) % 5)) / 5,
+                yRoomMax = (maze.GetLength(1) - (maze.GetLength(1) % 5)) / 5;
+
+            // Set the initial number of rooms to spawn
+            int spawnRoomAmount = 4;
+
+            // Create a list to store the locations of filled chunks.
+            // Pre-fill the list with points in the top-left and bottom-right corners of the maze.
+            List<Point> filledChuncks = new List<Point>() { new Point(0, 0), new Point(xRoomMax - 1, yRoomMax - 1) };
+
+            // If the number of available room slots (total slots minus corners)
+            // is less than the desired spawn amount, adjust the spawn amount down.
+            if (xRoomMax * yRoomMax - 4 < spawnRoomAmount)
+                spawnRoomAmount = xRoomMax * yRoomMax - 4;
+
+            // Loop until we've created the desired number of rooms
+            while (spawnRoomAmount > 0)
+            {
+                // Choose a random location in the maze to place a room
+                int xRoomSpawnLocation = Globals.Rnd.Next(0, xRoomMax);
+                int yRoomSpawnLocation = Globals.Rnd.Next(0, yRoomMax);
+
+                // Determine a random offset within the chosen 5x5 area to place the room
+                int xOffset = Globals.Rnd.Next(3), yOffset = Globals.Rnd.Next(3);
+
+                // If the chosen location is already filled, skip this iteration
+                if (filledChuncks.Contains(new Point(xRoomSpawnLocation, yRoomSpawnLocation)))
                     continue;
 
                 // Add the chosen location to the filled chunks list

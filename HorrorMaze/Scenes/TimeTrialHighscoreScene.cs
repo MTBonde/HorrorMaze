@@ -1,8 +1,6 @@
-﻿
-
-namespace HorrorMaze
+﻿namespace HorrorMaze
 {
-    public class HighscoreScene : Scene
+    public class TimeTrialHighscoreScene : Scene
     {
 
         GameObject HighscoreText = new GameObject(), highscoreAdd, nameInputField;

@@ -17,15 +17,16 @@
         /// <summary>
         /// list of all scenes
         /// </summary>
-        private static Scene[] scenes = new Scene[7] 
+        private static Scene[] scenes = new Scene[8] 
         { 
             new SplashScene(),
             new TittleScene(),
             new TimeTrialScene(),
-            new HighscoreScene(),
+            new TimeTrialHighscoreScene(),
             new CreditsScene(),
-            new WinScene(),
-            new LoseScene()
+            new TimeTrialWinScene(),
+            new TimeTrialLoseScene(),
+            new FloorScene()
         };
         static bool inGame = false;
         #endregion
@@ -86,7 +87,7 @@
 
             //Scene Update
             if (inGame)
-                ((TimeTrialScene)active_scene).debugManager.Update(gameTime);
+                ((FloorScene)active_scene).debugManager.Update(gameTime);
             for (int i = 0; i < active_scene.gameObjects.Count; i++)
             {
                 active_scene.gameObjects[i].Update(gameTime);

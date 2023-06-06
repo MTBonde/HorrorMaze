@@ -14,6 +14,7 @@ namespace HorrorMaze
         public bool Visited = false;
         // Wall texture
         public int[] wallmodel = new int[2] { 0, 0 };
-
+        //Has stairs
+        public bool hasStairs = false;
     }
 }
