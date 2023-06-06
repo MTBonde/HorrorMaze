@@ -21,7 +21,7 @@ namespace HorrorMaze
             Console.WriteLine("web");
             try
             {
-                using HttpResponseMessage response = await client.PostAsync("https://dreamlikestudios.net/GameBackend/HorrorMaze/AddScore.php", content);
+                using HttpResponseMessage response = await client.PostAsync("https://dreamlikestudios.net/GameBackend/HorrorMaze/AddTimeScore.php", content);
                 response.EnsureSuccessStatusCode();
                 string responseBody = await response.Content.ReadAsStringAsync();
                 // Above three lines can be replaced with new helper method below
@@ -48,7 +48,7 @@ namespace HorrorMaze
             Console.WriteLine("web");
             try
             {
-                using HttpResponseMessage response = await client.PostAsync("https://dreamlikestudios.net/GameBackend/HorrorMaze/GetScores.php", content);
+                using HttpResponseMessage response = await client.PostAsync("https://dreamlikestudios.net/GameBackend/HorrorMaze/GetTimeScores.php", content);
                 response.EnsureSuccessStatusCode();
                 string responseBody = await response.Content.ReadAsStringAsync();
                 // Above three lines can be replaced with new helper method below
