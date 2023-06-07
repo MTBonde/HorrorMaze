@@ -19,7 +19,7 @@ namespace HorrorMaze
         /// <param name="map_height"> The height of the labyrinth </param>
         /// <returns></returns>
 
-        public List<int[]> GetPath(Vector2 player, Vector2 monster)
+        public List<Point> GetPath(Vector2 player, Vector2 monster)
         {
             List<int[]> open = new List<int[]>();
             List<int[]> closed = new List<int[]>();
@@ -27,10 +27,10 @@ namespace HorrorMaze
             int map_width = mazeCells.GetLength(0);
             int map_height = mazeCells.GetLength(1);
 
-            List<int[]> path = new List<int[]>();
+            List<Point> path = new List<Point>();
             if ((int)player.X == (int)monster.X && (int)player.Y == (int)monster.Y)
             {
-                int[] u = new int[2] { (int)player.X , (int)player.Y };
+                Point u = new Point((int)player.X, (int)player.Y);
                 path.Add(u);
                 return path;
             }
@@ -136,11 +136,11 @@ namespace HorrorMaze
                         break;
                     }
                 }
-                int[] cell = new int[2] { closed[index_found][0], closed[index_found][1] };
+                Point cell = new Point(closed[index_found][0], closed[index_found][1]);
                 if (last_add == true)
                 {
                     last_add = false;
-                    int[] cell_ = new int[2] { (int)player.X, (int)player.Y };
+                    Point cell_ = new Point((int)player.X, (int)player.Y);
                     path.Add(cell_);
                 }
 

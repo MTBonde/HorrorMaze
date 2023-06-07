@@ -3,7 +3,7 @@ namespace HorrorMaze
 {
     public class Enemy : Component
     {
-        List<int[]> path = new List<int[]>();
+        List<Point> path = new List<Point>();
         float speed = 3f;
         bool at_pos = true;
         bool hunting = false;
@@ -115,10 +115,10 @@ namespace HorrorMaze
                 if (path.Count > 0)
                 {
                     // checks if at next position in path, if so remove it from list.
-                    if (transform.Position.X - 0.5 >= path[path.Count - 1][0] - 0.05
-                     && transform.Position.X - 0.5 <= path[path.Count - 1][0] + 0.05)
-                        if (transform.Position.Y - 0.5 >= path[path.Count - 1][1] - 0.05
-                         && transform.Position.Y - 0.5 <= path[path.Count - 1][1] + 0.05)
+                    if (transform.Position.X - 0.5 >= path[path.Count - 1].X - 0.05
+                     && transform.Position.X - 0.5 <= path[path.Count - 1].X + 0.05)
+                        if (transform.Position.Y - 0.5 >= path[path.Count - 1].Y - 0.05
+                         && transform.Position.Y - 0.5 <= path[path.Count - 1].Y + 0.05)
                         {
                             path.RemoveAt(path.Count - 1);
                             // if at the end of path
@@ -151,31 +151,31 @@ namespace HorrorMaze
             Vector2 direction = new Vector2(0, 0);
             switch (path[path.Count - 1])
             {
-                case int[] n when n[0] < monster.X - 0.5:
-                    if ((monster.X - 0.5) - n[0] < speed * Globals.DeltaTime)
-                        direction.X -= (float)((monster.X - 0.5) - n[0]);
+                case Point n when n.X < monster.X - 0.5:
+                    if ((monster.X - 0.5) - n.X < speed * Globals.DeltaTime)
+                        direction.X -= (float)((monster.X - 0.5) - n.X);
                     else
                         direction.X -= speed * Globals.DeltaTime;
                     break;
-                case int[] n when n[0] > monster.X - 0.5:
-                    if (n[0] - (monster.X - 0.5) < speed * Globals.DeltaTime)
-                        direction.X += (float)(n[0] - (monster.X - 0.5));
+                case Point n when n.X > monster.X - 0.5:
+                    if (n.X - (monster.X - 0.5) < speed * Globals.DeltaTime)
+                        direction.X += (float)(n.X - (monster.X - 0.5));
                     else
                         direction.X += speed * Globals.DeltaTime;
                     break;
             }
             switch (path[path.Count - 1])
             {
-                case int[] n when n[1] < monster.Y - 0.5:
-                    if ((monster.Y - 0.5) - n[1] < speed * Globals.DeltaTime)
-                        direction.Y -= (float)((monster.Y - 0.5) - n[1]);
+                case Point n when n.Y < monster.Y - 0.5:
+                    if ((monster.Y - 0.5) - n.Y < speed * Globals.DeltaTime)
+                        direction.Y -= (float)((monster.Y - 0.5) - n.Y);
                     else
 
                         direction.Y -= speed * Globals.DeltaTime;
                     break;
-                case int[] n when n[1] > monster.Y - 0.5:
-                    if (n[1] - (monster.Y - 0.5) < speed * Globals.DeltaTime)
-                        direction.Y += (float)(n[1] - (monster.Y - 0.5));
+                case Point n when n.Y > monster.Y - 0.5:
+                    if (n.Y - (monster.Y - 0.5) < speed * Globals.DeltaTime)
+                        direction.Y += (float)(n.Y - (monster.Y - 0.5));
                     else
                         direction.Y += speed * Globals.DeltaTime;
                     break;
