@@ -1,62 +1,31 @@
-﻿namespace HorrorMaze
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace HorrorMaze
 {
-    public class TimeTrialScene : Scene
+    public class MazeController : Component
     {
 
-        MazeCell[,] mazeCells;
-        public DebugManager debugManager = new DebugManager();
+        List<MazeFloor> mazeFloors;
+        MazeFloor tutorialFloor;
+        Maze mazeGenerator = new Maze();
+        GameObject mazePart1, mazePart2, mazePart3;
 
-        #region Methods
-        public override void SetupScene()
+        public void Awake()
         {
-            //hides the cursor
-            GameWorld.Instance.IsMouseVisible = false;
-            //stops music track and starts ambient track
-            AudioManager.StatBackgroundSound();
-            //creates worlds center point
-            worldMatrix = Matrix.CreateWorld(Vector3.Zero, Vector3.Forward, Vector3.Up);
 
-            #region instatiating of GameObjects
-            //player
-            GameObject player = new GameObject();
-            player.AddComponent<PlayerController>();
-            player.name = "Player";
-
-            //sets up and spawns the maze
-            SetupMaze();
-
-            //enemy
-            GameObject enemy = new GameObject();
-            enemy.transform.Position3D = new Vector3(mazeCells.GetLength(0) - 1.5f, mazeCells.GetLength(1) - 1.5f, 0);
-            enemy.name = "Enemy";
-            enemy.AddComponent<Pathing>().mazeCells = mazeCells;
-            enemy.AddComponent<Enemy>();
-
-            ThreadManager.Startup(enemy);
-            //enemy.AddComponent<BackupPathing>().SetMaze(mazeCells);
-            //enemy.AddComponent<BackupEnemy>();
-
-            //Ambience
-            GameObject amb = new GameObject();
-            amb.AddComponent<AmbienceController>();
-
-            //Goal
-            GameObject goal = new GameObject();
-            goal.transform.Position3D = new Vector3(mazeCells.GetLength(0) - 1.5f,mazeCells.GetLength(1) + 0.39f,0);
-            goal.AddComponent<Goal>();
-
-            //spawns everything for the tutorial
-            SpawnTutorial();
-
-            SpawnDebugCamera();
-            #endregion
-
-            // set timers
-            SceneManager._gameTimer.ResetTimer();
-            SceneManager._gameTimer.StartTimer();
         }
 
-        private void SetupMaze()
+        public void Start()
+        {
+
+        }
+
+        //start working on this
+        private void SetupNextFloor()
         {
             Maze maze = new Maze();
             //make maze start room
@@ -95,7 +64,7 @@
             }
             mazeCells[mazeCells.GetLength(0) - 2, mazeCells.GetLength(1) - 4].Walls[0] = false;
             mazeCells[mazeCells.GetLength(0) - 2, mazeCells.GetLength(1) - 1].Walls[0] = false;
-            
+
             //escape door
             GameObject escapeDoor = new GameObject();
             escapeDoor.name = "EscapeDoor";
@@ -118,52 +87,67 @@
             mazeObject.AddComponent<MazeCollider>().SetMaze(mazeCells);
         }
 
+        private void AddEnemy(int mazeNumber)
+        {
+            //enemy
+            GameObject enemy = new GameObject();
+            enemy.transform.Position3D = new Vector3(mazeFloors[mazeNumber].maze.GetLength(0) - 1.5f, mazeFloors[mazeNumber].maze.GetLength(1) - 1.5f, 0);
+            enemy.name = "Enemy";
+            enemy.AddComponent<Pathing>().mazeCells = mazeFloors[mazeNumber].maze;
+            enemy.AddComponent<Enemy>();
+            //enemy.AddComponent<BackupPathing>().SetMaze(mazeCells);
+            //enemy.AddComponent<BackupEnemy>();
+
+            mazeFloors[mazeNumber].mazeObjects.Add(enemy);
+
+            ThreadManager.Startup(enemy);
+        }
+
         private void SpawnTutorial()
         {
-            //tutorial ghost
-            //new GameObject().AddComponent<TutorialEnemy>();
-            GameObject boulder = new GameObject();
-
             //tutorial entrance wall defining
-            MazeCell[,] tutorialCells = new MazeCell[10, 10];
-            for (int x = 0; x < tutorialCells.GetLength(0); x++)
-                for (int y = 0; y < tutorialCells.GetLength(1); y++)
-                    tutorialCells[x, y] = new MazeCell();
-            for (int x = 9; x < tutorialCells.GetLength(0); x++)
-                for (int y = 6; y < tutorialCells.GetLength(0); y++)
-                    tutorialCells[x, y].Walls[0] = false;
-            for (int x = 2; x < tutorialCells.GetLength(0) - 1; x++)
+            tutorialFloor.maze = new MazeCell[10, 10];
+            for (int x = 0; x < tutorialFloor.maze.GetLength(0); x++)
+                for (int y = 0; y < tutorialFloor.maze.GetLength(1); y++)
+                    tutorialFloor.maze[x, y] = new MazeCell();
+            for (int x = 9; x < tutorialFloor.maze.GetLength(0); x++)
+                for (int y = 6; y < tutorialFloor.maze.GetLength(0); y++)
+                    tutorialFloor.maze[x, y].Walls[0] = false;
+            for (int x = 2; x < tutorialFloor.maze.GetLength(0) - 1; x++)
                 for (int y = 6; y < 7; y++)
-                    tutorialCells[x, y].Walls[1] = false;
+                    tutorialFloor.maze[x, y].Walls[1] = false;
             for (int x = 2; x < 3; x++)
                 for (int y = 0; y < 6; y++)
-                    tutorialCells[x, y].Walls[0] = false;
+                    tutorialFloor.maze[x, y].Walls[0] = false;
             for (int x = 0; x < 5; x++)
                 for (int y = 0; y < 5; y++)
                 {
-                    tutorialCells[x, y].Visited = true;
+                    tutorialFloor.maze[x, y].Visited = true;
                     if (y != 4)
-                        tutorialCells[x, y].Walls[0] = false;
+                        tutorialFloor.maze[x, y].Walls[0] = false;
                     if (x != 4)
-                        tutorialCells[x, y].Walls[1] = false;
+                        tutorialFloor.maze[x, y].Walls[1] = false;
                 }
 
             //spawn the tutorial area/maze in the world
             GameObject tutorialMaze = new GameObject();
             tutorialMaze.transform.Position = new Vector2(-9, -10);
-            tutorialMaze.AddComponent<MazeRenderer>().SetMaze(tutorialCells);
-            tutorialMaze.AddComponent<MazeCollider>().SetMaze(tutorialCells);
+            tutorialMaze.AddComponent<MazeRenderer>().SetMaze(tutorialFloor.maze);
+            tutorialMaze.AddComponent<MazeCollider>().SetMaze(tutorialFloor.maze);
+            tutorialFloor.mazeObjects.Add(tutorialMaze);
 
             //tutorial monster door
             GameObject tutorialMonsterDoor = new GameObject();
             tutorialMonsterDoor.name = "MonsterDoor";
             tutorialMonsterDoor.transform.Position3D = new Vector3(-8.5f, -10f, 0);
             Door tutorialMonsterDoor1 = tutorialMonsterDoor.AddComponent<Door>();
+            tutorialFloor.mazeObjects.Add(tutorialMonsterDoor);
 
             //tutorial front door
             GameObject tutorialfrontDoor = new GameObject();
             tutorialfrontDoor.transform.Position3D = new Vector3(-6.5f, -5, 0);
             Door tutorialfrontDoor1 = tutorialfrontDoor.AddComponent<Door>();
+            tutorialFloor.mazeObjects.Add(tutorialfrontDoor);
 
             //tutorial start key
             GameObject tutorialKey = new GameObject();
@@ -171,32 +155,38 @@
             tutorialKey.AddComponent<Key>().door = tutorialfrontDoor1; //tutorialMonsterDoor1;
             //tutorialKey.GetComponent<Key>().keyEvent += tutorialfrontDoor1.OpenDoor;
             tutorialKey.AddComponent<MeshRenderer>().SetModel("3DModels\\key");
+            tutorialFloor.mazeObjects.Add(tutorialKey);
 
             //tutorial exit door
             GameObject entranceDoor = new GameObject();
             entranceDoor.transform.Position3D = new Vector3(0.5f, 0, 0);
             Door door1 = entranceDoor.AddComponent<Door>();
+            tutorialFloor.mazeObjects.Add(entranceDoor);
 
             //tutorial exit door key
             GameObject key = new GameObject();
             key.transform.Position3D = new Vector3(0.5f, -0.5f, 1.25f);
             key.AddComponent<Key>().door = door1;
             key.AddComponent<MeshRenderer>().SetModel("3DModels\\key");
+            tutorialFloor.mazeObjects.Add(key);
 
             //tutorial exit close key/area
             GameObject closeKey = new GameObject();
             closeKey.transform.Position3D = new Vector3(0.5f, 0.5f, 1.25f);
             closeKey.AddComponent<Key>().keyEvent += door1.CloseDoor;
+            tutorialFloor.mazeObjects.Add(closeKey);
 
             //boulder spawn event
             GameObject boulderSpawn = new GameObject();
             boulderSpawn.transform.Position3D = new Vector3(-4.5f, -3.5f, 0);
             boulderSpawn.AddComponent<Key>().keyEvent += SpawnBoulder;
+            tutorialFloor.mazeObjects.Add(boulderSpawn);
 
             //Run Text
             GameObject runText = new GameObject();
             runText.AddComponent<MeshRenderer>().SetModel("3DModels\\run_text");
             runText.transform.Position3D = new Vector3(-6.5f, -3.101f, 1.5f);
+            tutorialFloor.mazeObjects.Add(runText);
         }
 
         private void SpawnBoulder()
@@ -204,16 +194,24 @@
             SceneManager.GetGameObjectByName("Player").AddComponent<PlayerBoulderAnimation>();
             SceneManager.GetGameObjectByName("Player").GetComponent<PlayerController>().enabled = false;
         }
+    }
 
-        private void SpawnDebugCamera()
+    public class MazeFloor
+    {
+
+        public MazeCell[,] maze;
+        public List<GameObject> mazeObjects;
+
+        public void EnableFloor()
         {
-            GameObject debugCam = new GameObject();
-            debugCam.transform.Position3D = new Vector3(0, 0, 10);
-            debugCam.transform.Rotation = new Vector3(0, 10, 270);
-            debugCam.AddComponent<Camera>().enabled = false;
-            debugCam.AddComponent<DebugCameraController>().enabled = false;
-            debugCam.name = "DebugCam";
+            for (int i = 0; i < mazeObjects.Count; i++)
+                mazeObjects[i].enabled = false;
         }
-        #endregion
+
+        public void DisableFloor()
+        {
+            for (int i = 0; i < mazeObjects.Count; i++)
+                mazeObjects[i].enabled = true;
+        }
     }
 }

@@ -88,7 +88,7 @@
         public void SetupMaze()
         {
             // Create a new maze to use as background on the titlescreen
-            Maze maze = new Maze(3, 3);
+            Maze maze = new Maze();
             MazeCell[,] mazeCells = new MazeCell[3, 3];
             // Initialize the cells in the maze
             for(int x = 0; x < mazeCells.GetLength(0); x++)

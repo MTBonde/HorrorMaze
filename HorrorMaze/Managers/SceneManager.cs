@@ -87,10 +87,11 @@
 
             //Scene Update
             if (inGame)
-                ((FloorScene)active_scene).debugManager.Update(gameTime);
+                ((TimeTrialScene)active_scene).debugManager.Update(gameTime);
             for (int i = 0; i < active_scene.gameObjects.Count; i++)
             {
-                active_scene.gameObjects[i].Update(gameTime);
+                if(active_scene.gameObjects[i].enabled)
+                    active_scene.gameObjects[i].Update(gameTime);
             }
         }
 
@@ -98,25 +99,28 @@
         /// gets called at the end of each frame and tells the gameobjects to draw
         /// </summary>
         /// <param name="spriteBatch">the games spritebatch</param>
-        public static void Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch)
+        public static void Draw(SpriteBatch spriteBatch)
         {
             GameWorld.Instance.Graphics.GraphicsDevice.DepthStencilState = DepthStencilState.Default;
             GameWorld.Instance.Graphics.GraphicsDevice.RasterizerState = RasterizerState.CullNone;
             for (int i = 0; i < active_scene.gameObjects.Count; i++)
             {
-                active_scene.gameObjects[i].Draw3D();
+                if (active_scene.gameObjects[i].enabled)
+                    active_scene.gameObjects[i].Draw3D();
             }
             spriteBatch.Begin(SpriteSortMode.FrontToBack, null);
             for (int i = 0; i < active_scene.gameObjects.Count; i++)
             {
-                active_scene.gameObjects[i].Draw2D(spriteBatch);
+                if (active_scene.gameObjects[i].enabled)
+                    active_scene.gameObjects[i].Draw2D(spriteBatch);
             }
             CameraManager.ApplyCameraEffects(spriteBatch);
             spriteBatch.End();
             spriteBatch.Begin(SpriteSortMode.FrontToBack, null);
             for (int i = 0; i < active_scene.gameObjects.Count; i++)
             {
-                active_scene.gameObjects[i].DrawUI(spriteBatch);
+                if (active_scene.gameObjects[i].enabled)
+                    active_scene.gameObjects[i].DrawUI(spriteBatch);
             }
             spriteBatch.End();
         }

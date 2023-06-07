@@ -8,44 +8,8 @@
     {
         // FIELDS
         #region Fields        
-        public MazeCell[,] MazeCells;
-        private int _mazeWidth;
-        private int _mazeHeight;
+        private MazeCell[,] _mazeCells;
         #endregion
-
-        // CONSTRUCTOR
-        #region MazeConstructor
-        /// <summary>
-        /// Initializes a new instance of the Maze class with a specific width and height.
-        /// </summary>
-        /// <param name="width">The width of the maze.</param>
-        /// <param name="height">The height of the maze.</param>
-        public Maze(int width, int height)
-        {
-            // Generates a random number between 1 and 100.
-            Globals.Rnd.Next(1, 100);
-
-            // Set the width of the maze.
-            _mazeWidth = width;
-
-            // Set the height of the maze.
-            _mazeHeight = height;
-
-            // Initialize the maze cells with the given width and height.
-            MazeCells = new MazeCell[_mazeWidth, _mazeHeight];
-
-            // Loop through each startingCell on the x-axis.
-            for(int i = 0; i < _mazeWidth; i++)
-            {
-                // Loop through each startingCell on the y-axis.
-                for(int j = 0; j < _mazeHeight; j++)
-                {
-                    // Create a new instance of the MazeCell in each startingCell of the 2D array.
-                    MazeCells[i, j] = new MazeCell();
-                }
-            }
-        }
-        #endregion MazeConstructor
 
         // METHODS
         #region Methods
@@ -58,16 +22,16 @@
         /// </summary>
         public void GenerateMaze()
         {
-            for(int x = 0; x < _mazeWidth; x++)
-                for(int z = 0; z < _mazeHeight; z++)
+            for(int x = 0; x < _mazeCells.GetLength(0); x++)
+                for(int z = 0; z < _mazeCells.GetLength(1); z++)
                 {
-                    MazeCells[x, z].Walls[0] = true;
-                    MazeCells[x, z].Walls[1] = true;
-                    MazeCells[x, z].Walls[2] = true;
-                    MazeCells[x, z].Walls[3] = true;
-                    MazeCells[x, z].Visited = false;
+                    _mazeCells[x, z].Walls[0] = true;
+                    _mazeCells[x, z].Walls[1] = true;
+                    _mazeCells[x, z].Walls[2] = true;
+                    _mazeCells[x, z].Walls[3] = true;
+                    _mazeCells[x, z].Visited = false;
                 }
-            MazeCells[0, 0].Visited = true;
+            _mazeCells[0, 0].Visited = true;
             EvaluateCell(new Point(0, 0));
         }
 
@@ -84,11 +48,7 @@
             Globals.Rnd.Next(1, 10);
 
             // Sets the mazecells to the maze given in the signature.
-            MazeCells = maze;
-
-            // Sets the maze width and height from the given maze.
-            _mazeWidth = maze.GetLength(0);
-            _mazeHeight = maze.GetLength(1);
+            _mazeCells = maze;
 
             //remove random walls
             //KnockDownRandomWalls(2);
@@ -162,78 +122,13 @@
         /// <param name="MazeStartPoint">The starting point of the maze.</param>
         /// Niels / Thor
         /// <returns>The generated maze.</returns>
-        public MazeCell[,] GenerateMazeFromMazeForFloor(MazeCell[,] maze, Point MazeStartPoint)
+        public MazeCell[,] GenerateMazeFromMazeForFloor(MazeCell[,] maze, Point MazeStartPoint, Point stairEntrancePoint)
         {
             // Generates a random number between 1 and 10.
             Globals.Rnd.Next(1, 10);
 
             // Sets the mazecells to the maze given in the signature.
-            MazeCells = maze;
-
-            // Sets the maze width and height from the given maze.
-            _mazeWidth = maze.GetLength(0);
-            _mazeHeight = maze.GetLength(1);
-
-            //remove random walls
-            //KnockDownRandomWalls(2);
-
-            //add rooms
-            #region AddingRooms
-
-            // Define maximum x and y values for room placement.
-            // These are based on the dimensions of the maze,
-            // with the intention of allowing room placement within every 5x5 area,
-            // We use the moduos operator to achive that.
-            int xRoomMax = (maze.GetLength(0) - (maze.GetLength(0) % 5)) / 5,
-                yRoomMax = (maze.GetLength(1) - (maze.GetLength(1) % 5)) / 5;
-
-            // Set the initial number of rooms to spawn
-            int spawnRoomAmount = 4;
-
-            // Create a list to store the locations of filled chunks.
-            // Pre-fill the list with points in the top-left and bottom-right corners of the maze.
-            List<Point> filledChuncks = new List<Point>() { new Point(0, 0), new Point(xRoomMax - 1, yRoomMax - 1) };
-
-            // If the number of available room slots (total slots minus corners)
-            // is less than the desired spawn amount, adjust the spawn amount down.
-            if (xRoomMax * yRoomMax - 4 < spawnRoomAmount)
-                spawnRoomAmount = xRoomMax * yRoomMax - 4;
-
-            // Loop until we've created the desired number of rooms
-            while (spawnRoomAmount > 0)
-            {
-                // Choose a random location in the maze to place a room
-                int xRoomSpawnLocation = Globals.Rnd.Next(0, xRoomMax);
-                int yRoomSpawnLocation = Globals.Rnd.Next(0, yRoomMax);
-
-                // Determine a random offset within the chosen 5x5 area to place the room
-                int xOffset = Globals.Rnd.Next(3), yOffset = Globals.Rnd.Next(3);
-
-                // If the chosen location is already filled, skip this iteration
-                if (filledChuncks.Contains(new Point(xRoomSpawnLocation, yRoomSpawnLocation)))
-                    continue;
-
-                // Add the chosen location to the filled chunks list
-                filledChuncks.Add(new Point(xRoomSpawnLocation, yRoomSpawnLocation));
-
-                // Add a room at the chosen location with the determined offset
-                AddRoomBeforeMaze(new Point(xRoomSpawnLocation * 5 + xOffset, yRoomSpawnLocation * 5 + yOffset), 3, 3, 3, maze);
-
-                // Create a new game object for the roomStatue to place in the room
-                GameObject roomStatue = new GameObject();
-
-                // Add a 3D model for the roomStatue from a file and set its position in the room
-                roomStatue.AddComponent<MeshRenderer>().SetModel("3DModels\\statue_" + spawnRoomAmount);
-                roomStatue.transform.Position = new Vector2(xRoomSpawnLocation * 5 + xOffset + 1.5f, yRoomSpawnLocation * 5 + yOffset + 1.5f);
-
-                // Add a box collider to the roomStatue, and set its size and offset
-                roomStatue.AddComponent<BoxCollider>().size = new Vector3(1, 1, 2);
-                roomStatue.GetComponent<BoxCollider>().offset = new Vector3(0, 0, 1);
-
-                // Decrease the number of rooms left to spawn
-                spawnRoomAmount--;
-            }
-            #endregion AddingRooms
+            _mazeCells = maze;
 
             //create maze
             return EvaluateCell(MazeStartPoint);
@@ -281,39 +176,39 @@
                 // make sure the Selected neighbour cell is within the maze
                 if(
                     (SelectedNeighborCell.X >= 0) &&
-                    (SelectedNeighborCell.X < _mazeWidth) &&
+                    (SelectedNeighborCell.X < _mazeCells.GetLength(0)) &&
                     (SelectedNeighborCell.Y >= 0) &&
-                    (SelectedNeighborCell.Y < _mazeHeight)
+                    (SelectedNeighborCell.Y < _mazeCells.GetLength(1))
                 )
                 {
                     // if the SelectedNeighborCell has not been visited
-                    if(!MazeCells[SelectedNeighborCell.X, SelectedNeighborCell.Y].Visited)
+                    if(!_mazeCells[SelectedNeighborCell.X, SelectedNeighborCell.Y].Visited)
                     {
                         // mark the SelectedNeighborCell as visited
-                        MazeCells[SelectedNeighborCell.X, SelectedNeighborCell.Y].Visited = true;
+                        _mazeCells[SelectedNeighborCell.X, SelectedNeighborCell.Y].Visited = true;
 
                         // Update the current startingCell's wall
                         if(selectedDirection == 1) // Right SelectedNeighborCell
                         {
                             // Remove the right wall of the current startingCell
-                            MazeCells[startingCell.X, startingCell.Y].Walls[1] = false;
+                            _mazeCells[startingCell.X, startingCell.Y].Walls[1] = false;
                         }
                         else if(selectedDirection == 2) // up SelectedNeighborCell
                         {
                             // Remove the bottom wall of the current startingCell
-                            MazeCells[startingCell.X, startingCell.Y].Walls[0] = false;
+                            _mazeCells[startingCell.X, startingCell.Y].Walls[0] = false;
                         }
 
                         // Update the corresponding wall of the neighboring startingCell
                         if(selectedDirection == 0) // buttom SelectedNeighborCell
                         {
                             // Remove the right wall of the neighboring startingCell
-                            MazeCells[SelectedNeighborCell.X, SelectedNeighborCell.Y].Walls[0] = false;
+                            _mazeCells[SelectedNeighborCell.X, SelectedNeighborCell.Y].Walls[0] = false;
                         }
                         else if(selectedDirection == 3) // left SelectedNeighborCell
                         {
                             // Remove the bottom wall of the neighboring startingCell
-                            MazeCells[SelectedNeighborCell.X, SelectedNeighborCell.Y].Walls[1] = false;
+                            _mazeCells[SelectedNeighborCell.X, SelectedNeighborCell.Y].Walls[1] = false;
                         }
 
                         // Do again all cells has been marked as visited
@@ -322,7 +217,7 @@
                 }
             }
             //if no more return the created maze
-            return MazeCells;
+            return _mazeCells;
         }
         #endregion MAZEGENERATION
 
@@ -361,7 +256,7 @@
                 }
             }
 
-            // While there are entrances left to create
+            // Creates entrances while there are entrances left to create
             while(entances > 0)
             {
                 int side = Globals.Rnd.Next(0, 2);
@@ -429,7 +324,7 @@
         private void AddRooms(int numberUsedForRoomCalculation)
         {
             // set the number of rooms based on overall maze size
-            int totalCells = _mazeWidth * _mazeHeight;
+            int totalCells = _mazeCells.GetLength(0) * _mazeCells.GetLength(1);
             // one 1 room per 10 maze cells
             int numberOfRooms = totalCells / numberUsedForRoomCalculation;
 
@@ -451,8 +346,8 @@
                 const int maxAttempts = 10;  // might be to high/low
                 while(attempt < maxAttempts)
                 {
-                    int startX = Globals.Rnd.Next(0, _mazeWidth - width);
-                    int startY = Globals.Rnd.Next(0, _mazeHeight - height);
+                    int startX = Globals.Rnd.Next(0, _mazeCells.GetLength(0) - width);
+                    int startY = Globals.Rnd.Next(0, _mazeCells.GetLength(1) - height);
 
                     // Check if the open space area is unvisited aka has a room
                     bool canPlace = true;
@@ -460,7 +355,7 @@
                     {
                         for(int y = startY; y < startY + height; y++)
                         {
-                            if(MazeCells[x, y].Visited)
+                            if(_mazeCells[x, y].Visited)
                             {
                                 canPlace = false;
                                 break;
@@ -477,10 +372,10 @@
                         {
                             for(int y = startY; y < startY + height; y++)
                             {
-                                MazeCells[x, y].Visited = true;
+                                _mazeCells[x, y].Visited = true;
                                 // Remove walls 
-                                if(x > startX) MazeCells[x, y].Walls[1] = false;
-                                if(y > startY) MazeCells[x, y].Walls[0] = false;
+                                if(x > startX) _mazeCells[x, y].Walls[1] = false;
+                                if(y > startY) _mazeCells[x, y].Walls[0] = false;
                             }
                         }
                         break;
@@ -501,9 +396,9 @@
         /// <param name="chance">percent change for a wall to be removed</param>
         public void KnockDownRandomWalls(int chance)
         {
-            for(int x = 0; x < _mazeWidth; x++)
+            for(int x = 0; x < _mazeCells.GetLength(0); x++)
             {
-                for(int y = 0; y < _mazeHeight; y++)
+                for(int y = 0; y < _mazeCells.GetLength(1); y++)
                 {
                     // Randomly decide if we should create an extra path at this startingCell
                     if(Globals.Rnd.Next(100) < chance)
@@ -529,22 +424,22 @@
                         }
 
                         // If the SelectedNeighborCell is within the maze, remove the wall
-                        if(neighbor.X >= 0 && neighbor.X < _mazeWidth - 2 && neighbor.Y >= 0 && neighbor.Y < _mazeHeight - 2)
+                        if(neighbor.X >= 0 && neighbor.X < _mazeCells.GetLength(0) - 2 && neighbor.Y >= 0 && neighbor.Y < _mazeCells.GetLength(1) - 2)
                         {
                             // For the current startingCell
                             if(direction == 0 || direction == 1) // Up or Right
                             {
-                                MazeCells[x, y].Walls[direction] = false;
+                                _mazeCells[x, y].Walls[direction] = false;
                             }
 
                             // For the SelectedNeighborCell startingCell
                             if(direction == 2) // Down: adjust SelectedNeighborCell's Up wall
                             {
-                                MazeCells[neighbor.X, neighbor.Y].Walls[0] = false;
+                                _mazeCells[neighbor.X, neighbor.Y].Walls[0] = false;
                             }
                             else if(direction == 3) // Left: adjust SelectedNeighborCell's Right wall
                             {
-                                MazeCells[neighbor.X, neighbor.Y].Walls[1] = false;
+                                _mazeCells[neighbor.X, neighbor.Y].Walls[1] = false;
                             }
                         }
                     }

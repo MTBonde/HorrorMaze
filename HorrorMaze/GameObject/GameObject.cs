@@ -23,6 +23,10 @@ namespace HorrorMaze
         /// the name of the gameobject
         /// </summary>
         public string name = "gameobject";
+        /// <summary>
+        /// is the object active or not
+        /// </summary>
+        public bool enabled = true;
         #endregion
 
         #region Constructer

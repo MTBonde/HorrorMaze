@@ -98,12 +98,10 @@ namespace HorrorMaze
             {
                 for (int y = min.Y; y < max.Y; y++)
                 {
-                    if (!_mazeCells[x, y].hasStairs)
-                    {
+                    if (!_mazeCells[x, y].hasStairsDown)
                         DrawFloor(new Vector3(x + 0.5f,y + 0.5f,0) + transform.Position3D, new Vector3(0,0,0));
-                        if (!Globals.DebugModeToggled)
-                            DrawCelling(new Vector3(x + 0.5f,y + 0.5f,2) + transform.Position3D, new Vector3(0,0,0));
-                    }
+                    if (!Globals.DebugModeToggled && !_mazeCells[x, y].hasStairsUp)
+                        DrawCelling(new Vector3(x + 0.5f,y + 0.5f,2) + transform.Position3D, new Vector3(0,0,0));
                 }
             }
             //outer walls spawning

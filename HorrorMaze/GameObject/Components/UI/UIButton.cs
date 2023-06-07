@@ -1,6 +1,4 @@
-﻿using HorrorMaze.Managers;
-
-namespace HorrorMaze
+﻿namespace HorrorMaze
 {
    
     public delegate void ClickEvent();
