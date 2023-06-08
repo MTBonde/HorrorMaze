@@ -12,28 +12,13 @@ namespace HorrorMaze
         public static void Startup(GameObject enemy)
         {
             threads_lifeline = false;
+            enemies.Add(enemy);
             if (have_been_called == false)
             {
-                enemies.Add(enemy);
                 Thread update = new Thread(UpdateEnemy);
                 update.IsBackground = true;
                 update.Start();
                 have_been_called = true;
-            }
-        }
-        static void UpdatePathing()
-        {
-            while (true)
-            {
-                while (!threads_lifeline)
-                {
-                    SceneManager.GetGameObjectByName("Enemy").GetComponent<Enemy>().GetPath();
-                    if (SceneManager.GetGameObjectByName("Enemy").GetComponent<Enemy>().Hunting())
-                        Thread.Sleep(1 * 100);
-                    else
-                        Thread.Sleep(1 * 500);
-                }
-                Thread.Sleep(50);
             }
         }
         static void UpdateEnemy()
@@ -44,7 +29,10 @@ namespace HorrorMaze
                 {
                     Thread.Sleep(16);
                     if (!threads_lifeline)
-                        SceneManager.GetGameObjectByName("Enemy").GetComponent<Enemy>().Update_();
+                        for (int i = 0; i < enemies.Count; i++)
+                            if (!threads_lifeline)
+                                if (enemies[i].GetComponent<Enemy>().enabled)
+                                    enemies[i].GetComponent<Enemy>().Update_();
                 }
                 Thread.Sleep(50);
             }
