@@ -1,15 +1,23 @@
 ﻿
+using System.Threading;
+
 namespace HorrorMaze
 {
     public class Enemy : Component
     {
         List<Point> path = new List<Point>();
+        List<Point> path_sec = new List<Point>();
         float speed = 3f;
         bool at_pos = true;
         bool hunting = false;
         AudioSouce scream;
         GameObject player;
-
+        public void Start()
+        {
+            GetPath();
+            path = path_sec;
+            GetPath();
+        }
         public void Awake()
         {
             gameObject.AddComponent<BoxCollider>().size = new Vector3(0.35f, 0.35f, 1);
@@ -39,43 +47,38 @@ namespace HorrorMaze
         }
         public void GetPath()
         {
+            Random rnd = new Random();
+            bool chosen = false;
+            bool if_add = true;
+            float x = 0;
+            float y = 0;
             if (hunting)
             {
-                path.Clear();
-            }
-            if (path.Count == 0)
-            {
-                Random rnd = new Random();
-                bool chosen = false;
-                bool if_add = true;
-                float x = 0;
-                float y = 0;
-                if (hunting)
+                Vector3 playerPos = player.transform.Position3D;
+                if ((int)playerPos.X != (int)(transform.Position.Y) || (int)playerPos.Y != (int)(transform.Position.Y))
                 {
-                    Vector3 playerPos = player.transform.Position3D;
-                    if ((int)playerPos.X != (int)(transform.Position.Y) || (int)playerPos.Y != (int)(transform.Position.Y))
-                    {
-                        x = (int)playerPos.X;
-                        y = (int)playerPos.Y;
-                    }
-                    else
-                        if_add = false;
+                    x = (int)playerPos.X;
+                    y = (int)playerPos.Y;
                 }
                 else
+                    if_add = false;
+            }
+            else
+            {
+                while (!chosen)
                 {
-                    while (!chosen)
-                    {
-                        x = rnd.Next(gameObject.GetComponent<Pathing>().mazeCells.GetLength(0));
-                        y = rnd.Next(gameObject.GetComponent<Pathing>().mazeCells.GetLength(1));
-                        if (x != (int)(transform.Position.X) && y != (int)(transform.Position.Y))
-                            chosen = true;
-                    }
+                    x = rnd.Next(gameObject.GetComponent<Pathing>().mazeCells.GetLength(0));
+                    y = rnd.Next(gameObject.GetComponent<Pathing>().mazeCells.GetLength(1));
+                    if (x != (int)(transform.Position.X) && y != (int)(transform.Position.Y))
+                        chosen = true;
                 }
+            }
+            if (path.Count > 0)
+                path_sec = gameObject.GetComponent<Pathing>().GetPath(new Vector2(x, y), new Vector2(path[0].X, path[0].Y));
+            else
                 //get path
                 if (if_add)
-                    path = gameObject.GetComponent<Pathing>().GetPath(new Vector2(x, y), transform.Position);
-                at_pos = false;
-            }
+                    path_sec = gameObject.GetComponent<Pathing>().GetPath(new Vector2(x, y), transform.Position);
         }
         public bool Hunting()
         {
@@ -110,35 +113,32 @@ namespace HorrorMaze
                     scream.Stop();
                     encounter = false;
                 }
-            if (!at_pos)
+            if (path.Count > 0)
             {
-                if (path.Count > 0)
-                {
-                    // checks if at next position in path, if so remove it from list.
-                    if (transform.Position.X - 0.5 >= path[path.Count - 1].X - 0.05
-                     && transform.Position.X - 0.5 <= path[path.Count - 1].X + 0.05)
-                        if (transform.Position.Y - 0.5 >= path[path.Count - 1].Y - 0.05
-                         && transform.Position.Y - 0.5 <= path[path.Count - 1].Y + 0.05)
+                // checks if at next position in path, if so remove it from list.
+                if (transform.Position.X - 0.5 >= path[path.Count - 1].X - 0.05
+                 && transform.Position.X - 0.5 <= path[path.Count - 1].X + 0.05)
+                    if (transform.Position.Y - 0.5 >= path[path.Count - 1].Y - 0.05
+                     && transform.Position.Y - 0.5 <= path[path.Count - 1].Y + 0.05)
+                    {
+                        path.RemoveAt(path.Count - 1);
+                        // if at the end of path
+                        if (path.Count == 0)
                         {
-                            path.RemoveAt(path.Count - 1);
-                            // if at the end of path
-                            if (path.Count == 0)
-                            {
-                                at_pos = true;
-                                return;
-                            }
+                            path = path_sec;
+                            GetPath();
+                            return;
                         }
-                    //move
-                    Vector2 dir = getDirection(transform.Position);
-                    transform.Position += dir;
-                    transform.Rotation = new Vector3(0, 0, MathHelper.ToDegrees(MathF.Atan2(-dir.X, dir.Y)));
-                }
-                else
-                {
-                    Vector2 dir = getDirectionEnd(transform.Position);
-                    transform.Position += dir;
-                    transform.Rotation = new Vector3(0, 0, MathHelper.ToDegrees(MathF.Atan2(-dir.X, dir.Y)));
-                }
+                    }
+                //move
+                Vector2 dir = getDirection(transform.Position);
+                transform.Position += dir;
+                transform.Rotation = new Vector3(0, 0, MathHelper.ToDegrees(MathF.Atan2(-dir.X, dir.Y)));
+            }
+            else
+            {
+                path = path_sec;
+                GetPath();
             }
         }
         /// <summary>

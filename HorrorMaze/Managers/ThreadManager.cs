@@ -15,9 +15,6 @@ namespace HorrorMaze
             if (have_been_called == false)
             {
                 enemies.Add(enemy);
-                Thread pathing = new Thread(UpdatePathing);
-                pathing.IsBackground = true;
-                pathing.Start();
                 Thread update = new Thread(UpdateEnemy);
                 update.IsBackground = true;
                 update.Start();
