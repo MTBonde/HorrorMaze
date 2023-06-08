@@ -3,7 +3,7 @@ using System.Threading;
 
 namespace HorrorMaze
 {
-    public class Enemy : Component
+    public abstract class Enemy : Component
     {
         List<Point> path = new List<Point>();
         List<Point> path_sec = new List<Point>();
@@ -12,6 +12,8 @@ namespace HorrorMaze
         bool hunting = false;
         AudioSouce scream;
         GameObject player;
+
+
         public void Start()
         {
             GetPath();
@@ -146,11 +148,46 @@ namespace HorrorMaze
         /// </summary>
         /// <param name="monster"> Monster position </param>
         /// <returns></returns>
+        //Vector2 getDirection(Vector2 monster)
+        //{
+        //    Vector2 direction = new Vector2(0, 0);
+        //    switch (path[path.Count - 1])
+        //    { //Globals.DeltaTime
+        //        case Point n when n.X < monster.X - 0.5:
+        //            if ((monster.X - 0.5) - n.X < speed * (ThreadManager.sw.ElapsedMilliseconds / 100000))
+        //                direction.X -= (float)((monster.X - 0.5) - n.X);
+        //            else
+        //                direction.X -= speed * (ThreadManager.sw.ElapsedMilliseconds / 100000);
+        //            break;
+        //        case Point n when n.X > monster.X - 0.5:
+        //            if (n.X - (monster.X - 0.5) < speed * (ThreadManager.sw.ElapsedMilliseconds / 100000))
+        //                direction.X += (float)(n.X - (monster.X - 0.5));
+        //            else
+        //                direction.X += speed * (ThreadManager.sw.ElapsedMilliseconds / 100000);
+        //            break;
+        //    }
+        //    switch (path[path.Count - 1])
+        //    {
+        //        case Point n when n.Y < monster.Y - 0.5:
+        //            if ((monster.Y - 0.5) - n.Y < speed * (ThreadManager.sw.ElapsedMilliseconds / 100000))
+        //                direction.Y -= (float)((monster.Y - 0.5) - n.Y);
+        //            else
+        //                direction.Y -= speed * (ThreadManager.sw.ElapsedMilliseconds / 100000);
+        //            break;
+        //        case Point n when n.Y > monster.Y - 0.5:
+        //            if (n.Y - (monster.Y - 0.5) < speed * (ThreadManager.sw.ElapsedMilliseconds / 100000))
+        //                direction.Y += (float)(n.Y - (monster.Y - 0.5));
+        //            else
+        //                direction.Y += speed * (ThreadManager.sw.ElapsedMilliseconds / 100000);
+        //            break;
+        //    }
+        //    return direction;
+        //}
         Vector2 getDirection(Vector2 monster)
         {
             Vector2 direction = new Vector2(0, 0);
             switch (path[path.Count - 1])
-            {
+            { //Globals.DeltaTime
                 case Point n when n.X < monster.X - 0.5:
                     if ((monster.X - 0.5) - n.X < speed * Globals.DeltaTime)
                         direction.X -= (float)((monster.X - 0.5) - n.X);
@@ -170,7 +207,6 @@ namespace HorrorMaze
                     if ((monster.Y - 0.5) - n.Y < speed * Globals.DeltaTime)
                         direction.Y -= (float)((monster.Y - 0.5) - n.Y);
                     else
-
                         direction.Y -= speed * Globals.DeltaTime;
                     break;
                 case Point n when n.Y > monster.Y - 0.5:
@@ -225,6 +261,20 @@ namespace HorrorMaze
             if (go.name == "Player")
             {
                 SceneManager.LoadScene(6);
+            }
+        }
+        void LockPath()
+        {
+            bool added = false;
+            while (!added)
+            {
+                if (!ThreadManager.path_lock)
+                {
+                    ThreadManager.path_lock = true;
+                    GetPath();
+                    ThreadManager.path_lock = false;
+                }
+                Thread.Sleep(20);
             }
         }
     }

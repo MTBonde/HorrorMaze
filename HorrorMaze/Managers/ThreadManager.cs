@@ -9,6 +9,8 @@ namespace HorrorMaze
         static List<GameObject> enemies = new List<GameObject>();
         static bool threads_lifeline = false;
         static bool have_been_called = false;
+        public static Stopwatch sw = new Stopwatch();
+        public static bool path_lock = false;
         public static void Startup(GameObject enemy)
         {
             threads_lifeline = false;
@@ -27,12 +29,15 @@ namespace HorrorMaze
             {
                 while (!threads_lifeline)
                 {
+                    sw.Start();
                     Thread.Sleep(16);
                     if (!threads_lifeline)
                         for (int i = 0; i < enemies.Count; i++)
                             if (!threads_lifeline)
                                 if (enemies[i].GetComponent<Enemy>().enabled)
                                     enemies[i].GetComponent<Enemy>().Update_();
+
+                    sw.Stop();
                 }
                 Thread.Sleep(50);
             }
