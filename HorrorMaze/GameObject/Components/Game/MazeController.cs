@@ -16,7 +16,10 @@ namespace HorrorMaze
 
         public void Awake()
         {
-
+            SpawnTutorial();
+            SetupNextFloor();
+            SetupNextFloor();
+            SetupNextFloor();
         }
 
         public void Start()
@@ -27,60 +30,83 @@ namespace HorrorMaze
         //start working on this
         private void SetupNextFloor()
         {
-            Maze maze = new Maze();
-            //make maze start room
-            mazeCells = new MazeCell[15, 15];
+            MazeCell[,] mazeCells = new MazeCell[15, 15];
             for (int x = 0; x < mazeCells.GetLength(0); x++)
                 for (int y = 0; y < mazeCells.GetLength(1); y++)
                     mazeCells[x, y] = new MazeCell();
-            //makes start room
-            for (int x = 0; x < 3; x++)
+            //check if first floor
+            if (mazeFloors.Count == 0)
             {
-                for (int y = 0; y < 3; y++)
+                //makes start room
+                for (int x = 0; x < 3; x++)
                 {
-                    mazeCells[x, y].Visited = true;
-                    if (y < mazeCells.GetLength(1) - 1)
-                        mazeCells[x, y].Walls[0] = false;
-                    if (x < mazeCells.GetLength(0) - 1)
-                        mazeCells[x, y].Walls[1] = false;
+                    for (int y = 0; y < 3; y++)
+                    {
+                        mazeCells[x, y].Visited = true;
+                        if (y < mazeCells.GetLength(1) - 1)
+                            mazeCells[x, y].Walls[0] = false;
+                        if (x < mazeCells.GetLength(0) - 1)
+                            mazeCells[x, y].Walls[1] = false;
+                    }
+                }
+                mazeCells[0, 2].Walls[0] = true;
+                mazeCells[2, 0].Walls[1] = true;
+                mazeCells[2, 1].Walls[1] = true;
+                mazeCells[2, 2].Walls[0] = true;
+                mazeCells[2, 2].Walls[1] = true;
+            }
+            else
+            {
+                //make stair entrances
+                for (int x = 0;x < mazeFloors[mazeFloors.Count-1].maze.GetLength(0); x++)
+                {
+                    for(int y = 0;y < mazeFloors[mazeFloors.Count-1].maze.GetLength(1); y++)
+                    {
+                        if(mazeFloors[mazeFloors.Count - 1].maze[x, y].hasStairsDown)
+                        {
+                            mazeCells[x,y].hasStairsUp = true;
+                            mazeCells[x,y].Used = true;
+                            mazeCells[x,y].Visited = true;
+                            mazeCells[x,y].Walls[0] = false;
+                        }
+                    }
                 }
             }
-            mazeCells[0, 2].Walls[0] = true;
-            mazeCells[2, 0].Walls[1] = true;
-            mazeCells[2, 1].Walls[1] = true;
-            mazeCells[2, 2].Walls[0] = true;
-            mazeCells[2, 2].Walls[1] = true;
-            //makes end room
-            for (int x = mazeCells.GetLength(0) - 3; x < mazeCells.GetLength(0); x++)
-            {
-                for (int y = mazeCells.GetLength(1) - 3; y < mazeCells.GetLength(1); y++)
-                {
-                    mazeCells[x, y].Visited = true;
-                    if (y < mazeCells.GetLength(1) - 1)
-                        mazeCells[x, y].Walls[0] = false;
-                    if (x < mazeCells.GetLength(0) - 1)
-                        mazeCells[x, y].Walls[1] = false;
-                }
-            }
-            mazeCells[mazeCells.GetLength(0) - 2, mazeCells.GetLength(1) - 4].Walls[0] = false;
-            mazeCells[mazeCells.GetLength(0) - 2, mazeCells.GetLength(1) - 1].Walls[0] = false;
 
-            //escape door
+            //makes Down staircase
+            Point staircasePoint = new Point(Globals.Rnd.Next(0,mazeCells.GetLength(0)), Globals.Rnd.Next(0, mazeCells.GetLength(1)));
+            while (mazeCells[staircasePoint.X, staircasePoint.Y].Used)
+            {
+                staircasePoint = new Point(Globals.Rnd.Next(0, mazeCells.GetLength(0)), Globals.Rnd.Next(0, mazeCells.GetLength(1)));
+            }
+            mazeCells[staircasePoint.X, staircasePoint.Y].hasStairsUp = true;
+            mazeCells[staircasePoint.X, staircasePoint.Y].Used = true;
+            mazeCells[staircasePoint.X, staircasePoint.Y].Visited = true;
+            mazeCells[staircasePoint.X, staircasePoint.Y - 1].Walls[0] = false;
+
+            //stair door
             GameObject escapeDoor = new GameObject();
             escapeDoor.name = "EscapeDoor";
             escapeDoor.AddComponent<Door>();
-            escapeDoor.transform.Position = new Vector2(mazeCells.GetLength(0) - 1.5f, mazeCells.GetLength(1) - 3);
+            escapeDoor.transform.Position = new Vector2(staircasePoint.X - 0.5f, staircasePoint.Y);
 
-            //escape door key
+            //stair door key
+            Point staircaseKeyPoint = new Point(Globals.Rnd.Next(0, mazeCells.GetLength(0)), Globals.Rnd.Next(0, mazeCells.GetLength(1)));
+            while (mazeCells[staircaseKeyPoint.X, staircaseKeyPoint.Y].Used)
+            {
+                staircaseKeyPoint = new Point(Globals.Rnd.Next(0, mazeCells.GetLength(0)), Globals.Rnd.Next(0, mazeCells.GetLength(1)));
+            }
             GameObject escapeDoorKey = new GameObject();
             escapeDoorKey.AddComponent<Key>().door = escapeDoor.GetComponent<Door>();
             escapeDoorKey.transform.Position3D = new Vector3(Globals.Rnd.Next(3, mazeCells.GetLength(0) - 3) - 0.5f, Globals.Rnd.Next(3, mazeCells.GetLength(0) - 3) - 0.5f, 1);
             escapeDoorKey.AddComponent<MeshRenderer>().SetModel("3DModels\\key");
 
             //generates maze around the rooms
-            mazeCells = maze.GenerateMazeFromMaze(mazeCells, new Point(1, 2));
+            mazeCells = mazeGenerator.GenerateMazeFromMaze(mazeCells, staircasePoint - new Point(0,1));
 
-            //places maze in the world
+
+
+            //places maze in the world needs new implemetation
             GameObject mazeObject = new GameObject();
             mazeObject.name = "Maze";
             mazeObject.AddComponent<MazeRenderer>().SetMaze(mazeCells);
