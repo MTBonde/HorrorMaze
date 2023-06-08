@@ -122,7 +122,7 @@
         /// <param name="MazeStartPoint">The starting point of the maze.</param>
         /// Niels / Thor
         /// <returns>The generated maze.</returns>
-        public MazeCell[,] GenerateMazeFromMazeForFloor(MazeCell[,] maze, Point MazeStartPoint, Point stairEntrancePoint)
+        public MazeCell[,] GenerateMazeFromMazeForFloor(MazeCell[,] maze, Point MazeStartPoint)
         {
             // Generates a random number between 1 and 10.
             Globals.Rnd.Next(1, 10);

@@ -26,6 +26,10 @@
             amb.AddComponent<AmbienceController>();
 
             SpawnDebugCamera();
+
+            //MazeController
+            GameObject mazeController = new GameObject();
+            mazeController.AddComponent<MazeController>();
             #endregion
 
             // set timers

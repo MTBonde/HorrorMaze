@@ -13,7 +13,7 @@
         /// <summary>
         /// the cunrently active scene
         /// </summary>
-        public static Scene active_scene = new SplashScene();
+        public static Scene active_scene = new FloorScene();
         /// <summary>
         /// list of all scenes
         /// </summary>

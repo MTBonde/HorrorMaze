@@ -9,8 +9,8 @@ namespace HorrorMaze
     public class MazeController : Component
     {
 
-        List<MazeFloor> mazeFloors;
-        MazeFloor tutorialFloor;
+        List<MazeFloor> mazeFloors = new List<MazeFloor>();
+        MazeFloor tutorialFloor = new MazeFloor();
         Maze mazeGenerator = new Maze();
         GameObject mazePart1, mazePart2, mazePart3;
 
@@ -27,13 +27,22 @@ namespace HorrorMaze
         {
             //apply first 3 mazes floors for rendering and playing
             mazePart1 = new GameObject();
+            mazePart1.AddComponent<MazeRenderer>().SetMaze(mazeFloors[0].maze);
+            mazePart1.AddComponent<MazeCollider>().SetMaze(mazeFloors[0].maze);
             mazePart2 = new GameObject();
+            mazePart2.transform.Position3D = new Vector3(0,0,-2);
+            mazePart2.AddComponent<MazeRenderer>().SetMaze(mazeFloors[1].maze);
+            mazePart2.AddComponent<MazeCollider>().SetMaze(mazeFloors[1].maze);
             mazePart3 = new GameObject();
+            mazePart3.AddComponent<MazeRenderer>().SetMaze(mazeFloors[2].maze);
+            mazePart3.AddComponent<MazeCollider>().SetMaze(mazeFloors[2].maze);
+            mazePart3.transform.Position3D = new Vector3(0,0,-4);
         }
 
         //start working on this
         private void SetupNextFloor()
         {
+            MazeFloor floor = new MazeFloor();
             MazeCell[,] mazeCells = new MazeCell[15, 15];
             for (int x = 0; x < mazeCells.GetLength(0); x++)
                 for (int y = 0; y < mazeCells.GetLength(1); y++)
@@ -47,6 +56,7 @@ namespace HorrorMaze
                     for (int y = 0; y < 3; y++)
                     {
                         mazeCells[x, y].Visited = true;
+                        mazeCells[x, y].Used = true;
                         if (y < mazeCells.GetLength(1) - 1)
                             mazeCells[x, y].Walls[0] = false;
                         if (x < mazeCells.GetLength(0) - 1)
@@ -78,21 +88,30 @@ namespace HorrorMaze
             }
 
             //makes Down staircase
-            Point staircasePoint = new Point(Globals.Rnd.Next(0,mazeCells.GetLength(0)), Globals.Rnd.Next(0, mazeCells.GetLength(1)));
+            Point staircasePoint = new Point(Globals.Rnd.Next(1, mazeCells.GetLength(0) - 1), Globals.Rnd.Next(1, mazeCells.GetLength(1) - 1));
             while (mazeCells[staircasePoint.X, staircasePoint.Y].Used)
             {
-                staircasePoint = new Point(Globals.Rnd.Next(0, mazeCells.GetLength(0)), Globals.Rnd.Next(0, mazeCells.GetLength(1)));
+                staircasePoint = new Point(Globals.Rnd.Next(1, mazeCells.GetLength(0) - 1), Globals.Rnd.Next(1, mazeCells.GetLength(1) - 1));
             }
-            mazeCells[staircasePoint.X, staircasePoint.Y].hasStairsUp = true;
+            mazeCells[staircasePoint.X, staircasePoint.Y].hasStairsDown = true;
             mazeCells[staircasePoint.X, staircasePoint.Y].Used = true;
             mazeCells[staircasePoint.X, staircasePoint.Y].Visited = true;
             mazeCells[staircasePoint.X, staircasePoint.Y - 1].Walls[0] = false;
 
+            //down collider
+            GameObject staircase = new GameObject();
+            staircase.transform.Position3D = new Vector3(staircasePoint.X + 0.5f, staircasePoint.Y + 0.5f, -mazeFloors.Count * 2);
+            staircase.AddComponent<BoxCollider>().size = new Vector3(1,0.2f,1.5f);
+            staircase.GetComponent<BoxCollider>().offset = new Vector3(0,0.2f,1);
+
+            floor.mazeObjects.Add(staircase);
+
             //stair door
             GameObject escapeDoor = new GameObject();
-            escapeDoor.name = "EscapeDoor";
+            escapeDoor.name = "StaircaseDoor";
             escapeDoor.AddComponent<Door>();
-            escapeDoor.transform.Position = new Vector2(staircasePoint.X - 0.5f, staircasePoint.Y);
+            escapeDoor.transform.Position3D = new Vector3(staircasePoint.X + 0.5f, staircasePoint.Y, - mazeFloors.Count * 2);
+            floor.mazeObjects.Add(escapeDoor);
 
             //stair door key
             Point staircaseKeyPoint = new Point(Globals.Rnd.Next(0, mazeCells.GetLength(0)), Globals.Rnd.Next(0, mazeCells.GetLength(1)));
@@ -102,17 +121,21 @@ namespace HorrorMaze
             }
             GameObject escapeDoorKey = new GameObject();
             escapeDoorKey.AddComponent<Key>().door = escapeDoor.GetComponent<Door>();
-            escapeDoorKey.transform.Position3D = new Vector3(Globals.Rnd.Next(3, mazeCells.GetLength(0) - 3) - 0.5f, Globals.Rnd.Next(3, mazeCells.GetLength(0) - 3) - 0.5f, 1);
+            escapeDoorKey.transform.Position3D = new Vector3(Globals.Rnd.Next(3, mazeCells.GetLength(0) - 3) - 0.5f, Globals.Rnd.Next(3, mazeCells.GetLength(0) - 3) - 0.5f, (- mazeFloors.Count * 2) + 1);
             escapeDoorKey.AddComponent<MeshRenderer>().SetModel("3DModels\\key");
+            floor.mazeObjects.Add(escapeDoorKey);
 
             //generates maze around the rooms
-            mazeCells = mazeGenerator.GenerateMazeFromMaze(mazeCells, staircasePoint - new Point(0,1));
+            mazeCells = mazeGenerator.GenerateMazeFromMazeForFloor(mazeCells, staircasePoint - new Point(0,1));
 
             //places maze in the world needs new implemetation
-            GameObject mazeObject = new GameObject();
-            mazeObject.name = "Maze";
-            mazeObject.AddComponent<MazeRenderer>().SetMaze(mazeCells);
-            mazeObject.AddComponent<MazeCollider>().SetMaze(mazeCells);
+            //GameObject mazeObject = new GameObject();
+            //mazeObject.name = "Maze";
+            //mazeObject.AddComponent<MazeRenderer>().SetMaze(mazeCells);
+            //mazeObject.AddComponent<MazeCollider>().SetMaze(mazeCells);
+
+            floor.maze = mazeCells;
+            mazeFloors.Add(floor);
         }
 
         private void AddEnemy(int mazeNumber)
@@ -228,7 +251,7 @@ namespace HorrorMaze
     {
 
         public MazeCell[,] maze;
-        public List<GameObject> mazeObjects;
+        public List<GameObject> mazeObjects = new List<GameObject>();
 
         public void EnableFloor()
         {

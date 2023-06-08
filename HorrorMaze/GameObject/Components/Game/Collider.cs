@@ -109,7 +109,7 @@ namespace HorrorMaze
             int currentX = (int)(startPoint.X - transform.Position.X);
             int currentY = (int)(startPoint.Y - transform.Position.Y);
             Vector3 newEndPoint = endPoint;
-            if(transform.Position3D.Z + 2 > startPoint.Z && transform.Position3D.Z - height <= startPoint.Z)
+            if(transform.Position3D.Z + 2 > startPoint.Z && transform.Position3D.Z < startPoint.Z)
                 if (0 <= currentX && _cells.GetLength(0) > currentX)
                     if (0 <= currentY && _cells.GetLength(1) > currentY)
                     {
