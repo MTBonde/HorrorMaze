@@ -16,6 +16,7 @@ namespace HorrorMaze
 
         public void Awake()
         {
+            gameObject.name = "MazeController";
             SpawnTutorial();
             SetupNextFloor();
             SetupNextFloor();
@@ -24,7 +25,10 @@ namespace HorrorMaze
 
         public void Start()
         {
-
+            //apply first 3 mazes floors for rendering and playing
+            mazePart1 = new GameObject();
+            mazePart2 = new GameObject();
+            mazePart3 = new GameObject();
         }
 
         //start working on this
@@ -104,8 +108,6 @@ namespace HorrorMaze
             //generates maze around the rooms
             mazeCells = mazeGenerator.GenerateMazeFromMaze(mazeCells, staircasePoint - new Point(0,1));
 
-
-
             //places maze in the world needs new implemetation
             GameObject mazeObject = new GameObject();
             mazeObject.name = "Maze";
@@ -117,7 +119,7 @@ namespace HorrorMaze
         {
             //enemy
             GameObject enemy = new GameObject();
-            enemy.transform.Position3D = new Vector3(mazeFloors[mazeNumber].maze.GetLength(0) - 1.5f, mazeFloors[mazeNumber].maze.GetLength(1) - 1.5f, 0);
+            enemy.transform.Position3D = new Vector3(mazeFloors[mazeNumber].maze.GetLength(0) - 1.5f, mazeFloors[mazeNumber].maze.GetLength(1) - 1.5f, mazeNumber);
             enemy.name = "Enemy";
             enemy.AddComponent<Pathing>().mazeCells = mazeFloors[mazeNumber].maze;
             enemy.AddComponent<Enemy>();
