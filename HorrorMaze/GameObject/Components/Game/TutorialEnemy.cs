@@ -24,7 +24,7 @@ namespace HorrorMaze
             gameObject.AddComponent<BoxCollider>().size = new Vector3(1, 1, 1);
             gameObject.AddComponent<MeshRenderer>().SetModel("3DModels\\boulder");
             gameObject.transform.Position3D = new Vector3(-7.5f, -3.5f, 3.25f);
-            AudioSouce spawnSound = gameObject.AddComponent<AudioSouce>();
+            AudioSource spawnSound = gameObject.AddComponent<AudioSource>();
             spawnSound.SetSoundEffect("SoundFX\\boulder_spawn");
             spawnSound.Spacial = true;
             spawnSound.Play();

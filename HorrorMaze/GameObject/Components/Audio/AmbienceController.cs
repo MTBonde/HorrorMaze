@@ -6,7 +6,7 @@
     /// </summary>
     public class AmbienceController : Component
     {
-        AudioSouce _source;
+        AudioSource _source;
         float _currentTimerTime, _timerTime = 10;
 
         /// <summary>
@@ -14,7 +14,7 @@
         /// </summary>
         public void Awake()
         {
-            _source = gameObject.AddComponent<AudioSouce>();
+            _source = gameObject.AddComponent<AudioSource>();
             _source.AddSoundEffect("SoundFX\\Ambience\\scary1");
             _source.AddSoundEffect("SoundFX\\Ambience\\scary2");
             _source.AddSoundEffect("SoundFX\\Ambience\\scary3");

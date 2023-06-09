@@ -13,7 +13,7 @@ namespace HorrorMaze
         private int _huntingMaxRange = 7;
 
         // Audio scream
-        AudioSouce _scream;
+        AudioSource _scream;
 
 
         public override void Awake()
@@ -25,7 +25,7 @@ namespace HorrorMaze
             gameObject.AddComponent<MeshRenderer>().SetModel("3DModels\\ghost_rig"); // TODO: GHoul model
 
             // Enemy Audio
-            AudioSouce GrudgeAudioSouce = gameObject.AddComponent<AudioSouce>();
+            AudioSource GrudgeAudioSouce = gameObject.AddComponent<AudioSource>();
             GrudgeAudioSouce.AddSoundEffect("SoundFX\\zombie1");
             GrudgeAudioSouce.AddSoundEffect("SoundFX\\zombie2");
             GrudgeAudioSouce.AddSoundEffect("SoundFX\\zombie3");
@@ -38,7 +38,7 @@ namespace HorrorMaze
             GrudgeAudioSouce.Play();
 
             // Enemy Scream Audio
-            _scream = gameObject.AddComponent<AudioSouce>();
+            _scream = gameObject.AddComponent<AudioSource>();
             // _ghoulscream.SetSoundEffect("SoundFX\\chasing_scream_1"); TODO: NY skrig LYD til ghoul
             _scream.Spacial = true;
             _scream.maxDistance = 5;
@@ -85,13 +85,12 @@ namespace HorrorMaze
             // If hunting, update path to follow the player
             if(isHunting)
             {
-                GetPath(Player.transform.Position3D);
+               // GetPath(Player.transform.Position3D);
             }
             // If not hunting, update path to wander around the maze
             else
             {
-                GetPath(new Vector2(Globals.Rnd.Next(gameObject.GetComponent<Pathing>().mazeCells.GetLength(0)),
-                Globals.Rnd.Next(gameObject.GetComponent<Pathing>().mazeCells.GetLength(1))));
+               // GetPath(new Vector2(Globals.Rnd.Next(gameObject.GetComponent<Pathing>().mazeCells.GetLength(0)),                Globals.Rnd.Next(gameObject.GetComponent<Pathing>().mazeCells.GetLength(1))));
             }
         }
     }

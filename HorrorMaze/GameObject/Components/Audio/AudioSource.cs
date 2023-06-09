@@ -6,7 +6,7 @@ namespace HorrorMaze
     /// used to create sound in the world
     /// Thor
     /// </summary>
-    public class AudioSouce : Component
+    public class AudioSource : Component
     {
 
         AudioEmitter _emitter = new AudioEmitter();
