@@ -19,7 +19,7 @@ namespace HorrorMaze
         /// <summary>
         /// list of all scenes
         /// </summary>
-        private static Scene[] scenes = new Scene[7] 
+        public static Scene[] scenes = new Scene[7] 
         { 
             new SplashScene(),
             new TittleScene(),
@@ -29,7 +29,7 @@ namespace HorrorMaze
             new WinScene(),
             new LoseScene()
         };
-        static bool inGame = false;
+        public static bool inGame = false;
         #endregion
 
         #region Methods

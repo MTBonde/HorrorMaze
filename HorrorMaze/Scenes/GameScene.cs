@@ -5,7 +5,7 @@ namespace HorrorMaze
     public class GameScene : Scene
     {
 
-        MazeCell[,] mazeCells;
+        public MazeCell[,] mazeCells;
         public DebugManager debugManager = new DebugManager();
 
         #region Methods
