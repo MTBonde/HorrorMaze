@@ -142,7 +142,7 @@ namespace HorrorMaze
                 }
             }
             CollisionInfo colInfor = CollisionManager.CheckCircleCollision(transform.Position3D, movement, gameObject, _playerRadius,1.7f);
-            transform.Position3D = colInfor.collisionPoint;
+            transform.Position3D = new Vector3(colInfor.collisionPoint.X, colInfor.collisionPoint.Y, transform.Position3D.Z);
             CameraManager.lightDirection = facing;
         }
     }
