@@ -29,7 +29,7 @@ namespace HorrorMaze
             //apply first 3 mazes floors for rendering and playing
             mazePart1 = new GameObject();
             mazePart1.AddComponent<MazeRenderer>().SetMaze(mazeFloors[0].maze);
-            mazePart1.AddComponent<MazeCollider>().SetMaze(mazeFloors[0].maze);
+            //mazePart1.AddComponent<MazeCollider>().SetMaze(mazeFloors[0].maze);
             mazePart1.transform.Position3D = new Vector3(0,0,2);
             mazePart2 = new GameObject();
             mazePart2.transform.Position3D = new Vector3(0,0,0);
@@ -38,7 +38,7 @@ namespace HorrorMaze
             mazeFloors[0].EnableFloor();
             mazePart3 = new GameObject();
             mazePart3.AddComponent<MazeRenderer>().SetMaze(mazeFloors[1].maze);
-            mazePart3.AddComponent<MazeCollider>().SetMaze(mazeFloors[1].maze);
+            //mazePart3.AddComponent<MazeCollider>().SetMaze(mazeFloors[1].maze);
             mazePart3.transform.Position3D = new Vector3(0,0,-2);
         }
 
@@ -49,11 +49,11 @@ namespace HorrorMaze
             currentFloor++;
             mazeFloors[currentFloor].DisableFloor();
             mazePart1.GetComponent<MazeRenderer>().SetMaze(mazeFloors[currentFloor + 1].maze);
-            mazePart1.GetComponent<MazeCollider>().SetMaze(mazeFloors[currentFloor + 1].maze);
+            //mazePart1.GetComponent<MazeCollider>().SetMaze(mazeFloors[currentFloor + 1].maze);
             mazePart2.GetComponent<MazeRenderer>().SetMaze(mazeFloors[currentFloor].maze);
             mazePart2.GetComponent<MazeCollider>().SetMaze(mazeFloors[currentFloor].maze);
             mazePart3.GetComponent<MazeRenderer>().SetMaze(mazeFloors[currentFloor - 1].maze);
-            mazePart3.GetComponent<MazeCollider>().SetMaze(mazeFloors[currentFloor - 1].maze);
+            //mazePart3.GetComponent<MazeCollider>().SetMaze(mazeFloors[currentFloor - 1].maze);
         }
 
         private void SetupNextFloor()

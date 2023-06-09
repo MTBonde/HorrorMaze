@@ -15,9 +15,12 @@
             col.collisionPoint = end;
             for (int i = 0; i < colliders.Count; i++)
             {
-                CollisionInfo newCol = colliders[i].CheckCylinderCollision(start, col.collisionPoint, go, radius, height);
-                if (end != newCol.collisionPoint)
-                    col = newCol;
+                if (colliders[i].enabled && colliders[i].gameObject.enabled)
+                {
+                    CollisionInfo newCol = colliders[i].CheckCylinderCollision(start, col.collisionPoint, go, radius, height);
+                    if (end != newCol.collisionPoint)
+                        col = newCol;
+                }
             }
             return col;
         }
