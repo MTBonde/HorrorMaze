@@ -23,7 +23,7 @@ namespace HorrorMaze
             _openPos = _closePos + new Vector3(0, 0, 1.8f);
             //sets up the collider
             BoxCollider doorCol = gameObject.AddComponent<BoxCollider>();
-            doorCol.size = new Vector3(1, 0.2f, 2.1f);
+            doorCol.size = new Vector3(1, 0.2f, 1.9f);
             doorCol.offset = new Vector3(0, 0, 1);
         }
 

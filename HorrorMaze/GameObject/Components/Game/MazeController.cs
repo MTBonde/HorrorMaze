@@ -13,6 +13,7 @@ namespace HorrorMaze
         MazeFloor tutorialFloor = new MazeFloor();
         Maze mazeGenerator = new Maze();
         GameObject mazePart1, mazePart2, mazePart3;
+        int currentFloor = 0;
 
         public void Awake()
         {
@@ -29,17 +30,32 @@ namespace HorrorMaze
             mazePart1 = new GameObject();
             mazePart1.AddComponent<MazeRenderer>().SetMaze(mazeFloors[0].maze);
             mazePart1.AddComponent<MazeCollider>().SetMaze(mazeFloors[0].maze);
+            mazePart1.transform.Position3D = new Vector3(0,0,2);
             mazePart2 = new GameObject();
-            mazePart2.transform.Position3D = new Vector3(0,0,-2);
-            mazePart2.AddComponent<MazeRenderer>().SetMaze(mazeFloors[1].maze);
-            mazePart2.AddComponent<MazeCollider>().SetMaze(mazeFloors[1].maze);
+            mazePart2.transform.Position3D = new Vector3(0,0,0);
+            mazePart2.AddComponent<MazeRenderer>().SetMaze(mazeFloors[0].maze);
+            mazePart2.AddComponent<MazeCollider>().SetMaze(mazeFloors[0].maze);
+            mazeFloors[0].EnableFloor();
             mazePart3 = new GameObject();
-            mazePart3.AddComponent<MazeRenderer>().SetMaze(mazeFloors[2].maze);
-            mazePart3.AddComponent<MazeCollider>().SetMaze(mazeFloors[2].maze);
-            mazePart3.transform.Position3D = new Vector3(0,0,-4);
+            mazePart3.AddComponent<MazeRenderer>().SetMaze(mazeFloors[1].maze);
+            mazePart3.AddComponent<MazeCollider>().SetMaze(mazeFloors[1].maze);
+            mazePart3.transform.Position3D = new Vector3(0,0,-2);
         }
 
-        //start working on this
+        public void FloorDown()
+        {
+            SetupNextFloor();
+            mazeFloors[currentFloor].EnableFloor();
+            currentFloor++;
+            mazeFloors[currentFloor].DisableFloor();
+            mazePart1.GetComponent<MazeRenderer>().SetMaze(mazeFloors[currentFloor + 1].maze);
+            mazePart1.GetComponent<MazeCollider>().SetMaze(mazeFloors[currentFloor + 1].maze);
+            mazePart2.GetComponent<MazeRenderer>().SetMaze(mazeFloors[currentFloor].maze);
+            mazePart2.GetComponent<MazeCollider>().SetMaze(mazeFloors[currentFloor].maze);
+            mazePart3.GetComponent<MazeRenderer>().SetMaze(mazeFloors[currentFloor - 1].maze);
+            mazePart3.GetComponent<MazeCollider>().SetMaze(mazeFloors[currentFloor - 1].maze);
+        }
+
         private void SetupNextFloor()
         {
             MazeFloor floor = new MazeFloor();
@@ -100,9 +116,10 @@ namespace HorrorMaze
 
             //down collider
             GameObject staircase = new GameObject();
-            staircase.transform.Position3D = new Vector3(staircasePoint.X + 0.5f, staircasePoint.Y + 0.5f, -mazeFloors.Count * 2);
-            staircase.AddComponent<BoxCollider>().size = new Vector3(1,0.2f,1.5f);
+            staircase.transform.Position3D = new Vector3(staircasePoint.X + 0.5f, staircasePoint.Y + 0.5f, 0);
+            staircase.AddComponent<BoxCollider>().size = new Vector3(1,0.6f,1.5f);
             staircase.GetComponent<BoxCollider>().offset = new Vector3(0,0.2f,1);
+            staircase.AddComponent<Staircase>();
 
             floor.mazeObjects.Add(staircase);
 
@@ -110,7 +127,7 @@ namespace HorrorMaze
             GameObject escapeDoor = new GameObject();
             escapeDoor.name = "StaircaseDoor";
             escapeDoor.AddComponent<Door>();
-            escapeDoor.transform.Position3D = new Vector3(staircasePoint.X + 0.5f, staircasePoint.Y, - mazeFloors.Count * 2);
+            escapeDoor.transform.Position3D = new Vector3(staircasePoint.X + 0.5f, staircasePoint.Y, 0);
             floor.mazeObjects.Add(escapeDoor);
 
             //stair door key
@@ -121,7 +138,7 @@ namespace HorrorMaze
             }
             GameObject escapeDoorKey = new GameObject();
             escapeDoorKey.AddComponent<Key>().door = escapeDoor.GetComponent<Door>();
-            escapeDoorKey.transform.Position3D = new Vector3(Globals.Rnd.Next(3, mazeCells.GetLength(0) - 3) - 0.5f, Globals.Rnd.Next(3, mazeCells.GetLength(0) - 3) - 0.5f, (- mazeFloors.Count * 2) + 1);
+            escapeDoorKey.transform.Position3D = new Vector3(Globals.Rnd.Next(3, mazeCells.GetLength(0) - 3) - 0.5f, Globals.Rnd.Next(3, mazeCells.GetLength(0) - 3) - 0.5f, 1);
             escapeDoorKey.AddComponent<MeshRenderer>().SetModel("3DModels\\key");
             floor.mazeObjects.Add(escapeDoorKey);
 
@@ -135,6 +152,7 @@ namespace HorrorMaze
             //mazeObject.AddComponent<MazeCollider>().SetMaze(mazeCells);
 
             floor.maze = mazeCells;
+            floor.DisableFloor();
             mazeFloors.Add(floor);
         }
 
@@ -142,7 +160,7 @@ namespace HorrorMaze
         {
             //enemy
             GameObject enemy = new GameObject();
-            enemy.transform.Position3D = new Vector3(mazeFloors[mazeNumber].maze.GetLength(0) - 1.5f, mazeFloors[mazeNumber].maze.GetLength(1) - 1.5f, mazeNumber);
+            enemy.transform.Position3D = new Vector3(mazeFloors[mazeNumber].maze.GetLength(0) - 1.5f, mazeFloors[mazeNumber].maze.GetLength(1) - 1.5f, 0);
             enemy.name = "Enemy";
             enemy.AddComponent<Pathing>().mazeCells = mazeFloors[mazeNumber].maze;
             enemy.AddComponent<Enemy>();

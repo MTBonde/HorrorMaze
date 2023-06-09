@@ -13,8 +13,9 @@ namespace HorrorMaze
 
         public void OnCollision(GameObject go)
         {
+            Debug.WriteLine(go.name);
             if (go.name == "Player")
-                go.transform.Position3D -= new Vector3(0, 0, 2);
+                SceneManager.GetGameObjectByName("MazeController").GetComponent<MazeController>().FloorDown();
         }
     }
 }
