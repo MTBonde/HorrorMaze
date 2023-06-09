@@ -12,7 +12,7 @@ namespace HorrorMaze
         private int _huntingMaxRange = 6;
 
         // Audio scream
-        AudioSouce _scream;
+        AudioSource _scream;
 
         public Phantom()
         {
@@ -28,7 +28,7 @@ namespace HorrorMaze
             gameObject.AddComponent<MeshRenderer>().SetModel("3DModels\\ghost_rig"); // TODO: PHANTOM model
 
             // Enemy Audio TODO: PHANTOM ETHERIAL SOUNDS
-            AudioSouce PhantomAudioSouce = gameObject.AddComponent<AudioSouce>();
+            AudioSource PhantomAudioSouce = gameObject.AddComponent<AudioSource>();
             PhantomAudioSouce.AddSoundEffect("SoundFX\\zombie1");
             PhantomAudioSouce.AddSoundEffect("SoundFX\\zombie2");
             PhantomAudioSouce.AddSoundEffect("SoundFX\\zombie3");
@@ -41,7 +41,7 @@ namespace HorrorMaze
             PhantomAudioSouce.Play();
 
             // Enemy Scream Audio
-            _scream = gameObject.AddComponent<AudioSouce>();
+            _scream = gameObject.AddComponent<AudioSource>();
             // _ghoulscream.SetSoundEffect("SoundFX\\chasing_scream_1"); TODO: NY skrig LYD til Phantom
             _scream.Spacial = true;
             _scream.maxDistance = 5;

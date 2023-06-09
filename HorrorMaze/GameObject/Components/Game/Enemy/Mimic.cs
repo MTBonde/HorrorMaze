@@ -17,10 +17,10 @@ namespace HorrorMaze
         private int _mimicMaxTransformRange = 7;
 
         // Audio scream
-        AudioSouce _scream;
+        AudioSource _scream;
 
         // MIMIC transfrom sound
-        AudioSouce _mimicTransfromAudiosource;
+        AudioSource _mimicTransfromAudiosource;
 
 
         public override void Awake()
@@ -32,10 +32,10 @@ namespace HorrorMaze
             gameObject.AddComponent<MeshRenderer>().SetModel("3DModels\\ghost_rig"); // TODO: MIMIC model
 
             // MIMIC transfrom sound
-            _mimicTransfromAudiosource = gameObject.AddComponent<AudioSouce>();
+            _mimicTransfromAudiosource = gameObject.AddComponent<AudioSource>();
 
             // Enemy Audio TODO: PHANTOM ETHERIAL SOUNDS
-            AudioSouce GrudgeAudioSouce = gameObject.AddComponent<AudioSouce>();
+            AudioSource GrudgeAudioSouce = gameObject.AddComponent<AudioSource>();
             
             GrudgeAudioSouce.randomLoopEffects = true;
             GrudgeAudioSouce.loop = true;
@@ -46,7 +46,7 @@ namespace HorrorMaze
             
 
             // Enemy Scream Audio
-            _scream = gameObject.AddComponent<AudioSouce>();
+            _scream = gameObject.AddComponent<AudioSource>();
             // _ghoulscream.SetSoundEffect("SoundFX\\chasing_scream_1"); TODO: NY skrig LYD til Phantom
             _scream.Spacial = true;
             _scream.maxDistance = 5;

@@ -13,9 +13,9 @@ namespace HorrorMaze
         private bool _isPlayerLooking;
 
         // Audio scream
-        AudioSouce _scream;
+        AudioSource _scream;
         // MIMIC transfrom sound
-        AudioSouce _statueHuntingAudiosource;
+        AudioSource _statueHuntingAudiosource;
 
         public override void Awake()
         {
@@ -26,7 +26,7 @@ namespace HorrorMaze
             gameObject.AddComponent<MeshRenderer>().SetModel("3DModels\\ghost_rig"); // TODO: PHANTOM model
 
             // Enemy Audio TODO: statue scraping soundL SOUNDS
-            AudioSouce StatueAudioSouce = gameObject.AddComponent<AudioSouce>();
+            AudioSource StatueAudioSouce = gameObject.AddComponent<AudioSource>();
             StatueAudioSouce.AddSoundEffect("SoundFX\\zombie1"); // TODO : statue sound           
             StatueAudioSouce.randomLoopEffects = true;
             StatueAudioSouce.loop = true;
@@ -35,10 +35,10 @@ namespace HorrorMaze
             StatueAudioSouce.Play();
 
             // statue hunting sound
-            _statueHuntingAudiosource = gameObject.AddComponent<AudioSouce>();
+            _statueHuntingAudiosource = gameObject.AddComponent<AudioSource>();
 
             // Enemy Scream Audio
-            _scream = gameObject.AddComponent<AudioSouce>();
+            _scream = gameObject.AddComponent<AudioSource>();
             // _ghoulscream.SetSoundEffect("SoundFX\\chasing_scream_1"); TODO: NY skrig LYD til Phantom
             _scream.Spacial = true;
             _scream.maxDistance = 5;

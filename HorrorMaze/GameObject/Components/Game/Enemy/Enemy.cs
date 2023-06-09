@@ -15,7 +15,7 @@
         private List<Point> _currentPath = new List<Point>();
         private List<Point> _nextPath = new List<Point>();
 
-        AudioSouce _scream;
+        AudioSource _scream;
         public GameObject Player;
 
         public float Speed { get; protected set; }
