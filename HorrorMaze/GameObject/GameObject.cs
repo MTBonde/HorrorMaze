@@ -15,6 +15,7 @@ namespace HorrorMaze
         /// A list of the componets on the object
         /// </summary>
         private List<Component> _components = new List<Component>();
+        public List<Component> Components { get { return _components; } }
         /// <summary>
         /// the objects transform
         /// </summary>

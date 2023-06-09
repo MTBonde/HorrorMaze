@@ -253,6 +253,7 @@
 
                     // Mark the startingCell as visited
                     mazeToEdit[x, y].Visited = true;
+                    mazeToEdit[x, y].Used = true;
                 }
             }
 
