@@ -9,10 +9,10 @@ namespace HorrorMaze
     public class WanderGhoul : Enemy
     {
         private float _speed = 1; // TODO : adjust speed
-        private int _huntingRange;
-        private int _huntingMaxRange;
+        private int _huntingRange = 3;
+        private int _huntingMaxRange = 7;
 
-        // Audio Wanderer scream
+        // Audio scream
         AudioSouce _scream;
 
 
@@ -52,14 +52,46 @@ namespace HorrorMaze
             float distanceToPlayer = Vector3.Distance(transform.Position3D, playerPos);
 
             // If the player is within 5 tiles, start hunting
-            if(distanceToPlayer <= 5 && !isHunting)
+            if(distanceToPlayer <= _huntingRange && !isHunting)
             {
                 isHunting = true;
             }
             // If the player is out of sight, return to wandering
-            else if(isHunting && distanceToPlayer > 5)
+            else if(isHunting && distanceToPlayer > _huntingMaxRange)
             {
                 isHunting = false;
+            }
+        }
+
+        protected override void HuntingBehavior()
+        {
+            Vector3 playerPos = SceneManager.GetGameObjectByName("Player").transform.Position3D;
+            float distanceToPlayer = Vector3.Distance(transform.Position3D, playerPos);
+
+            // If the player is within 5 tiles, start hunting
+            if(distanceToPlayer <= _huntingRange && !isHunting)
+            {
+                isHunting = true;
+            }
+            // If the player is out of sight, return to wandering
+            else if(isHunting && distanceToPlayer > _huntingMaxRange)
+            {
+                isHunting = false;
+            }
+        }
+
+        protected override void PathingBehavior()
+        {
+            // If hunting, update path to follow the player
+            if(isHunting)
+            {
+                GetPath(Player.transform.Position3D);
+            }
+            // If not hunting, update path to wander around the maze
+            else
+            {
+                GetPath(new Vector2(Globals.Rnd.Next(gameObject.GetComponent<Pathing>().mazeCells.GetLength(0)),
+                Globals.Rnd.Next(gameObject.GetComponent<Pathing>().mazeCells.GetLength(1))));
             }
         }
     }

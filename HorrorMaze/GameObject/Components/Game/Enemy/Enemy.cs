@@ -12,32 +12,69 @@
         public bool canMoveWhenNotSeen = false;
 
         // Pathing
-        private List<Point> _currentPath = new List<Point>();
-        private List<Point> _nextPath = new List<Point>();
+        protected List<Point> _currentPath = new List<Point>();
+        protected List<Point> _nextPath = new List<Point>();
 
-        AudioSouce _scream;
+        protected AudioSouce _scream;
         public GameObject Player;
 
         public float Speed { get; protected set; }
 
         public virtual void Awake()
         {
-            // Set Collider and player referance
+            // Set Collider and player reference
             gameObject.AddComponent<BoxCollider>().size = new Vector3(0.35f, 0.35f, 1);
             Player = SceneManager.GetGameObjectByName("Player");
         }
 
         public virtual void Start()
         {
-            // get path for current path
-            GetPath();
+            // get pathing for the current and next path
+            PathingBehavior();
             _currentPath = _nextPath;
-
-            // get path for next path
-            GetPath();
+            PathingBehavior();
         }
-        
-        private void GetPath()
+
+        // Methods for behavior, must be implemented in inheriting enemies, cause of abstract
+        protected abstract void HuntingBehavior();
+        protected abstract void PathingBehavior();
+
+        public virtual void Update_()
+        {
+            HuntingBehavior();
+
+            if(_currentPath.Count > 0)
+            {
+                // Move and rotate
+                Vector2 dir = GetDirection(transform.Position);
+                transform.Position += dir;
+                transform.Rotation = new Vector3(0, 0, MathHelper.ToDegrees(MathF.Atan2(-dir.X, dir.Y)));
+
+                // Check if at next position in path, if so remove it from list.
+                if(transform.Position.X - 0.5 >= _currentPath[_currentPath.Count - 1].X - 0.05
+                   && transform.Position.X - 0.5 <= _currentPath[_currentPath.Count - 1].X + 0.05
+                   && transform.Position.Y - 0.5 >= _currentPath[_currentPath.Count - 1].Y - 0.05
+                   && transform.Position.Y - 0.5 <= _currentPath[_currentPath.Count - 1].Y + 0.05)
+                {
+                    _currentPath.RemoveAt(_currentPath.Count - 1);
+                    //if at the end of path
+                    if(_currentPath.Count == 0)
+                    {
+                        _currentPath = _nextPath;
+                        PathingBehavior();
+                        return;
+                    }
+                }
+            }
+            else
+            {
+                _currentPath = _nextPath;
+                PathingBehavior();
+            }
+        }
+
+
+        public void GetPath()
         {
             bool chosen = false;
             bool if_add = true;
@@ -70,69 +107,64 @@
                 //get path
                 if(if_add)
                 _nextPath = gameObject.GetComponent<Pathing>().GetPath(new Vector2(x, y), transform.Position);
-        }
-        private bool Hunting()
-        {
-            return isHunting;
-        }
+        }        
 
+        //public virtual void Update_()
+        //{
+        //    Vector3 playerPos = SceneManager.GetGameObjectByName("Player").transform.Position3D;
+        //    if(playerPos.X > transform.Position.X - 4 &&
+        //        playerPos.Y > transform.Position.Y - 4 &&
+        //        playerPos.X < transform.Position.X + 4 &&
+        //        playerPos.Y < transform.Position.Y + 4 &&
+        //        !CollisionManager.RayCast(transform.Position3D + new Vector3(0, 0, 1.6f), playerPos))
+        //    {
+        //        if(!_scream.IsPlaying() && !hasEncounter)
+        //        {
+        //            hasEncounter = true;
+        //            _scream.Play();
+        //        }
+        //        isHunting = true;
+        //    }
+        //    else if(isHunting)
+        //    {
+        //        isHunting = false;
+        //    }
+        //    else if(hasEncounter == true)
+        //        if(Vector3.Distance(transform.Position3D, Player.transform.Position3D) > _scream.maxDistance || !_scream.IsPlaying())
+        //        {
+        //            _scream.Stop();
+        //            hasEncounter = false;
+        //        }
+        //    if(_currentPath.Count > 0)
+        //    {
+        //        //checks if at next position in path, if so remove it from list.
+        //        if(transform.Position.X - 0.5 >= _currentPath[_currentPath.Count - 1].X - 0.05
+        //         && transform.Position.X - 0.5 <= _currentPath[_currentPath.Count - 1].X + 0.05)
+        //            if(transform.Position.Y - 0.5 >= _currentPath[_currentPath.Count - 1].Y - 0.05
+        //             && transform.Position.Y - 0.5 <= _currentPath[_currentPath.Count - 1].Y + 0.05)
+        //            {
+        //                _currentPath.RemoveAt(_currentPath.Count - 1);
+        //                //if at the end of path
+        //                if(_currentPath.Count == 0)
+        //                {
+        //                    _currentPath = _nextPath;
+        //                    GetPath();
+        //                    return;
+        //                }
+        //            }
 
+        //        //move
+        //        Vector2 dir = GetDirection(transform.Position);
+        //        transform.Position += dir;
+        //        transform.Rotation = new Vector3(0, 0, MathHelper.ToDegrees(MathF.Atan2(-dir.X, dir.Y)));
+        //    }
+        //    else
+        //    {
+        //        _currentPath = _nextPath;
+        //        GetPath();
+        //    }
+        //}
 
-        public virtual void Update_()
-        {
-            Vector3 playerPos = SceneManager.GetGameObjectByName("Player").transform.Position3D;
-            if(playerPos.X > transform.Position.X - 4 &&
-                playerPos.Y > transform.Position.Y - 4 &&
-                playerPos.X < transform.Position.X + 4 &&
-                playerPos.Y < transform.Position.Y + 4 &&
-                !CollisionManager.RayCast(transform.Position3D + new Vector3(0, 0, 1.6f), playerPos))
-            {
-                if(!_scream.IsPlaying() && !hasEncounter)
-                {
-                    hasEncounter = true;
-                    _scream.Play();
-                }
-                isHunting = true;
-            }
-            else if(isHunting)
-            {
-                isHunting = false;
-            }
-            else if(hasEncounter == true)
-                if(Vector3.Distance(transform.Position3D, Player.transform.Position3D) > _scream.maxDistance || !_scream.IsPlaying())
-                {
-                    _scream.Stop();
-                    hasEncounter = false;
-                }
-            if(_currentPath.Count > 0)
-            {
-                //checks if at next position in path, if so remove it from list.
-                    if(transform.Position.X - 0.5 >= _currentPath[_currentPath.Count - 1].X - 0.05
-                     && transform.Position.X - 0.5 <= _currentPath[_currentPath.Count - 1].X + 0.05)
-                    if(transform.Position.Y - 0.5 >= _currentPath[_currentPath.Count - 1].Y - 0.05
-                     && transform.Position.Y - 0.5 <= _currentPath[_currentPath.Count - 1].Y + 0.05)
-                    {
-                        _currentPath.RemoveAt(_currentPath.Count - 1);
-                        //if at the end of path
-                            if(_currentPath.Count == 0)
-                        {
-                            _currentPath = _nextPath;
-                            GetPath();
-                            return;
-                        }
-                    }
-
-                //move
-                Vector2 dir = GetDirection(transform.Position);
-                transform.Position += dir;
-                transform.Rotation = new Vector3(0, 0, MathHelper.ToDegrees(MathF.Atan2(-dir.X, dir.Y)));
-            }
-            else
-            {
-                _currentPath = _nextPath;
-                GetPath();
-            }
-        }
         /// <summary>
         /// gets a vector to add to monster vector, based on the direction to the point in path. The vectors lenght is based on speed.
         /// </summary>
