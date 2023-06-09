@@ -3,7 +3,7 @@
 namespace HorrorMaze
 {
     /// <summary>
-    /// Wandering ghoul
+    /// Wandering ghoul will wander the maze randomly until it meets player then hunt until player is out of sight
     /// Thor
     /// </summary>
     public class WanderGhoul : Enemy

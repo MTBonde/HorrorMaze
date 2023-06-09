@@ -63,7 +63,7 @@ namespace HorrorMaze
                 isHunting = true;
                 // Transform into a Ghoul or Phantom randomly
                 _transformedEnemy = Globals.Rnd.Next(0, 2) == 0 ? new WanderGhoul() : new Phantom();
-                _mimicTransfromAudiosource.play();
+                _mimicTransfromAudiosource.Play();
                 _transformedEnemy.Start();
             }
             // If the player is beyond _mimicMaxTransformRange tiles, stop hunting and transform back into a wall
@@ -84,5 +84,4 @@ namespace HorrorMaze
             }
         }
     }
-
 }
