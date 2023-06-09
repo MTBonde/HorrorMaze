@@ -10,7 +10,7 @@ namespace HorrorMaze
         float speed = 3f;
         bool at_pos = true;
         bool hunting = false;
-        AudioSouce scream;
+        //AudioSouce scream;
         GameObject player;
 
 
@@ -22,30 +22,30 @@ namespace HorrorMaze
         }
         public void Awake()
         {
-            gameObject.AddComponent<BoxCollider>().size = new Vector3(0.35f, 0.35f, 1);
-            gameObject.AddComponent<MeshRenderer>().SetModel("3DModels\\ghost_rig");
-            AudioSouce GrudgeAudioSouce = gameObject.AddComponent<AudioSouce>();
-            GrudgeAudioSouce.AddSoundEffect("SoundFX\\zombie1");
-            GrudgeAudioSouce.AddSoundEffect("SoundFX\\zombie2");
-            GrudgeAudioSouce.AddSoundEffect("SoundFX\\zombie3");
-            GrudgeAudioSouce.AddSoundEffect("SoundFX\\zombie4");
-            GrudgeAudioSouce.AddSoundEffect("SoundFX\\zombie5");
-            GrudgeAudioSouce.randomLoopEffects = true;
-            GrudgeAudioSouce.loop = true;
-            GrudgeAudioSouce.Spacial = true;
-            GrudgeAudioSouce.maxDistance = 3f;
-            GrudgeAudioSouce.Play();
-            AudioSouce HeartBeatAudioSouce = gameObject.AddComponent<AudioSouce>();
-            HeartBeatAudioSouce.SetSoundEffect("SoundFX\\heartBeat");
-            HeartBeatAudioSouce.loop = true;
-            HeartBeatAudioSouce.Spacial = true;
-            HeartBeatAudioSouce.maxDistance = 5f;
-            HeartBeatAudioSouce.Play();
-            scream = gameObject.AddComponent<AudioSouce>();
-            scream.SetSoundEffect("SoundFX\\chasing_scream_1");
-            scream.Spacial = true;
-            scream.maxDistance = 5;
-            player = SceneManager.GetGameObjectByName("Player");
+            //gameObject.AddComponent<BoxCollider>().size = new Vector3(0.35f, 0.35f, 1);
+            //gameObject.AddComponent<MeshRenderer>().SetModel("3DModels\\ghost_rig");
+            //AudioSouce GrudgeAudioSouce = gameObject.AddComponent<AudioSouce>();
+            //GrudgeAudioSouce.AddSoundEffect("SoundFX\\zombie1");
+            //GrudgeAudioSouce.AddSoundEffect("SoundFX\\zombie2");
+            //GrudgeAudioSouce.AddSoundEffect("SoundFX\\zombie3");
+            //GrudgeAudioSouce.AddSoundEffect("SoundFX\\zombie4");
+            //GrudgeAudioSouce.AddSoundEffect("SoundFX\\zombie5");
+            //GrudgeAudioSouce.randomLoopEffects = true;
+            //GrudgeAudioSouce.loop = true;
+            //GrudgeAudioSouce.Spacial = true;
+            //GrudgeAudioSouce.maxDistance = 3f;
+            //GrudgeAudioSouce.Play();
+            //AudioSouce HeartBeatAudioSouce = gameObject.AddComponent<AudioSouce>();
+            //HeartBeatAudioSouce.SetSoundEffect("SoundFX\\heartBeat");
+            //HeartBeatAudioSouce.loop = true;
+            //HeartBeatAudioSouce.Spacial = true;
+            //HeartBeatAudioSouce.maxDistance = 5f;
+            //HeartBeatAudioSouce.Play();
+            //scream = gameObject.AddComponent<AudioSouce>();
+            //scream.SetSoundEffect("SoundFX\\chasing_scream_1");
+            //scream.Spacial = true;
+            //scream.maxDistance = 5;
+            //player = SceneManager.GetGameObjectByName("Player");
         }
         public void GetPath()
         {
@@ -89,7 +89,7 @@ namespace HorrorMaze
 
 
         bool encounter = false;
-        public void Update_()
+        public virtual void Update_()
         {
             Vector3 playerPos = SceneManager.GetGameObjectByName("Player").transform.Position3D;
             if (playerPos.X > transform.Position.X - 4 &&
@@ -98,11 +98,11 @@ namespace HorrorMaze
                 playerPos.Y < transform.Position.Y + 4 &&
                 !CollisionManager.RayCast(transform.Position3D + new Vector3(0, 0, 1.6f), playerPos))
             {
-                if (!scream.IsPlaying() && !encounter)
-                {
-                    encounter = true;
-                    scream.Play();
-                }
+                //if (!scream.IsPlaying() && !encounter)
+                //{
+                //    encounter = true;
+                //    scream.Play();
+                //}
                 hunting = true;
             }
             else if (hunting)
@@ -110,11 +110,11 @@ namespace HorrorMaze
                 hunting = false;
             }
             else if (encounter == true)
-                if (Vector3.Distance(transform.Position3D, player.transform.Position3D) > scream.maxDistance || !scream.IsPlaying())
-                {
-                    scream.Stop();
-                    encounter = false;
-                }
+                //if (Vector3.Distance(transform.Position3D, player.transform.Position3D) > scream.maxDistance || !scream.IsPlaying())
+                //{
+                //    scream.Stop();
+                //    encounter = false;
+                //}
             if (path.Count > 0)
             {
                 // checks if at next position in path, if so remove it from list.
