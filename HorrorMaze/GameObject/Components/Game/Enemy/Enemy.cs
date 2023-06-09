@@ -37,7 +37,7 @@
             GetPath();
         }
         
-        private void GetPath()
+        public void GetPath()
         {
             bool chosen = false;
             bool if_add = true;
