@@ -52,6 +52,15 @@
             btnText.scale = 4;
             btnText.SetText("Play");
 
+            //time trial button
+            GameObject timeTrial = new GameObject();
+            timeTrial.transform.Position = new Vector2(GameWorld.Instance.GraphicsDevice.Viewport.Width / 2, GameWorld.Instance.GraphicsDevice.Viewport.Height / 2 + 200);
+            UIButton timeTrialbtn = timeTrial.AddComponent<UIButton>();
+            timeTrialbtn.OnClick += TimeTrial;
+            TextRenderer timeTrialbtnText = timeTrial.AddComponent<TextRenderer>();
+            timeTrialbtnText.scale = 4;
+            timeTrialbtnText.SetText("Time Trial");
+
             // 'Quit' button
             GameObject quit = new GameObject();
             quit.transform.Position = new Vector2(GameWorld.Instance.GraphicsDevice.Viewport.Width / 2, GameWorld.Instance.GraphicsDevice.Viewport.Height / 2 + 400);
@@ -69,6 +78,11 @@
         /// Load the next scene.
         /// </summary>
         public void Play()
+        {
+            SceneManager.LoadScene(7);
+        }
+
+        public void TimeTrial()
         {
             SceneManager.LoadScene(2);
         }

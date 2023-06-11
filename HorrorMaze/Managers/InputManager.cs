@@ -10,20 +10,26 @@
         {
             for (int i = 0; i < buttons.Count; i++)
             {
+                Debug.WriteLine(mouseDown);
                 if (Mouse.GetState().LeftButton.HasFlag(ButtonState.Pressed) && !mouseDown)
                 {
-                    mouseDown = true;
-                    buttons[i].CheckMouse(true);
-                }
-                else if (Mouse.GetState().LeftButton.HasFlag(ButtonState.Released) && mouseDown)
-                {
-                    mouseDown = false;
-                    buttons[i].CheckMouse(false);
+                    if (buttons[i].CheckMouse(true))
+                    {
+                        mouseDown = true;
+                    }
                 }
                 else
                 {
                     buttons[i].CheckMouse(false);
                 }
+            }
+            if (Mouse.GetState().LeftButton.HasFlag(ButtonState.Pressed) && !mouseDown)
+            {
+                mouseDown = true;
+            }
+            else if (!Mouse.GetState().LeftButton.HasFlag(ButtonState.Pressed) && mouseDown)
+            {
+                mouseDown = false;
             }
         }
 

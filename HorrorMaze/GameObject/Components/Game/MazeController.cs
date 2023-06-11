@@ -14,7 +14,10 @@ namespace HorrorMaze
         Maze mazeGenerator = new Maze();
         GameObject mazePart1, mazePart2, mazePart3;
         int currentFloor = 0;
+        int lastFloorClearTime;
         TextRenderer textRenderer;
+
+        List<GameObject> enemys = new List<GameObject>();
 
         public void Awake()
         {
@@ -33,10 +36,9 @@ namespace HorrorMaze
 
         public void Start()
         {
-            //apply first 3 mazes floors for rendering and playing
+            //apply first 3 mazes floors for rendering and get middle ready for playing
             mazePart1 = new GameObject();
             mazePart1.AddComponent<MazeRenderer>().SetMaze(mazeFloors[0].maze);
-            //mazePart1.AddComponent<MazeCollider>().SetMaze(mazeFloors[0].maze);
             mazePart1.transform.Position3D = new Vector3(0,0,2);
             mazePart2 = new GameObject();
             mazePart2.transform.Position3D = new Vector3(0,0,0);
@@ -45,23 +47,36 @@ namespace HorrorMaze
             mazeFloors[0].EnableFloor();
             mazePart3 = new GameObject();
             mazePart3.AddComponent<MazeRenderer>().SetMaze(mazeFloors[1].maze);
-            //mazePart3.AddComponent<MazeCollider>().SetMaze(mazeFloors[1].maze);
             mazePart3.transform.Position3D = new Vector3(0,0,-2);
+
+            //add basic enemy
+            enemys.Add(new GameObject());
+            enemys[0].transform.Position3D = new Vector3(mazeFloors[0].maze.GetLength(0) - 1.5f, mazeFloors[0].maze.GetLength(1) - 1.5f, 0);
+            enemys[0].name = "Enemy";
+            enemys[0].AddComponent<Enemy>();
+            enemys[0].AddComponent<Pathing>().mazeCells = mazeFloors[0].maze;
+
+            ThreadManager.Startup(enemys[0]);
         }
 
         public void FloorDown()
         {
+            TimeSpan endTime = SceneManager._gameTimer.GetElapsedTime();
+            lastFloorClearTime = endTime.Seconds + endTime.Minutes * 60 + endTime.Hours * 360;
             SetupNextFloor();
             mazeFloors[currentFloor].DisableFloor();
             currentFloor++;
             mazeFloors[currentFloor].EnableFloor();
             mazePart1.GetComponent<MazeRenderer>().SetMaze(mazeFloors[currentFloor - 1].maze);
-            //mazePart1.GetComponent<MazeCollider>().SetMaze(mazeFloors[currentFloor + 1].maze);
             mazePart2.GetComponent<MazeRenderer>().SetMaze(mazeFloors[currentFloor].maze);
             mazePart2.GetComponent<MazeCollider>().SetMaze(mazeFloors[currentFloor].maze);
             mazePart3.GetComponent<MazeRenderer>().SetMaze(mazeFloors[currentFloor + 1].maze);
-            //mazePart3.GetComponent<MazeCollider>().SetMaze(mazeFloors[currentFloor - 1].maze);
-            textRenderer.SetText("Floor: " + currentFloor);
+            textRenderer.SetText("Floor: " + currentFloor + "\n" + "Last clear time: " + (int)(lastFloorClearTime / 60) + "minutes & " + (int)(lastFloorClearTime % 60) + " Seconds");
+            SceneManager.floorClearCount = currentFloor;
+            SceneManager.floorClearTime = lastFloorClearTime;
+
+            //set enemys pathing to current floor
+            enemys[0].GetComponent<Pathing>().mazeCells = mazeFloors[currentFloor].maze;
         }
 
         private void SetupNextFloor()

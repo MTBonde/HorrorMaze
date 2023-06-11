@@ -2,7 +2,7 @@
 
 namespace HorrorMaze
 {
-    public class TimeTrialLoseScene : Scene
+    public class LoseScene : Scene
     {
 
 
@@ -34,16 +34,39 @@ namespace HorrorMaze
             TextRenderer btnText1 = mainMenu.AddComponent<TextRenderer>();
             btnText1.scale = 3.5f;
             btnText1.SetText("Main Menu");
+
+            if (SceneManager.floorClearCount != -1)
+            {
+                GameObject highscoreMenu = new GameObject();
+                highscoreMenu.transform.Position = new Vector2(GameWorld.Instance.GraphicsDevice.Viewport.Width / 2 + 300, GameWorld.Instance.GraphicsDevice.Viewport.Height / 2);
+                UIButton btn2 = highscoreMenu.AddComponent<UIButton>();
+                btn2.OnClick += HighscoreMenu;
+                TextRenderer btnText2 = highscoreMenu.AddComponent<TextRenderer>();
+                btnText2.scale = 4;
+                btnText2.SetText("Highscore");
+            }
         }
 
         public void TryAgain()
         {
-            SceneManager.LoadScene(2);
+            if (SceneManager.floorClearCount == -1)
+            {
+                SceneManager.LoadScene(2);
+            }
+            else
+            {
+                SceneManager.LoadScene(7);
+            }
         }
 
         public void MainMenu()
         {
             SceneManager.LoadScene(4);
+        }
+
+        public void HighscoreMenu()
+        {
+            SceneManager.LoadScene(3);
         }
     }
 }

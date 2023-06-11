@@ -21,6 +21,7 @@
         UIButton()
         {
             SetTexture("button");
+            InputManager.buttons.Add(this);
         }
 
         public void SetTexture(string textureName)
@@ -30,36 +31,36 @@
             buttonSize = origin * scale;
         }
 
-        public void Awake()
+        public bool CheckMouse(bool press)
         {
-            InputManager.buttons.Add(this);
-        }
-
-        public void CheckMouse(bool press)
-        {
-            if(transform.Position.X + buttonSize.X > Mouse.GetState().X &&
-                transform.Position.X - buttonSize.X < Mouse.GetState().X &&
-                transform.Position.Y + buttonSize.Y > Mouse.GetState().Y &&
-                transform.Position.Y - buttonSize.Y < Mouse.GetState().Y)
+            if (enabled)
             {
-                if (!hover)
+                if(transform.Position.X + buttonSize.X > Mouse.GetState().X &&
+                    transform.Position.X - buttonSize.X < Mouse.GetState().X &&
+                    transform.Position.Y + buttonSize.Y > Mouse.GetState().Y &&
+                    transform.Position.Y - buttonSize.Y < Mouse.GetState().Y)
                 {
-                    hover = true;
-                    color = Color.Gray;
+                    if (!hover)
+                    {
+                        hover = true;
+                        color = Color.Gray;
+                    }
+                    if(OnHover != null)
+                        OnHover.Invoke();
+                    if(press)
+                    {
+                        if (OnClick != null)
+                            OnClick.Invoke();
+                        return true;
+                    }
                 }
-                if(OnHover != null)
-                    OnHover.Invoke();
-                if(press)
+                else if(hover)
                 {
-                    if (OnClick != null)
-                        OnClick.Invoke();
+                    hover = false;
+                    color = Color.White;
                 }
             }
-            else if(hover)
-            {
-                hover = false;
-                color = Color.White;
-            }
+            return false;
         }
 
         public void DrawUI(SpriteBatch spriteBatch)

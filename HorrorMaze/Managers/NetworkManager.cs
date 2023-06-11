@@ -70,7 +70,7 @@ namespace HorrorMaze
               {
                   { "scoreName", name },
                   { "scoreScore", score },
-                  { "time", time }
+                  { "scoreTime", time }
               };
 
             var content = new FormUrlEncodedContent(values);
@@ -78,7 +78,7 @@ namespace HorrorMaze
             Console.WriteLine("web");
             try
             {
-                using HttpResponseMessage response = await client.PostAsync("https://dreamlikestudios.net/GameBackend/HorrorMaze/AddScore.php", content);
+                using HttpResponseMessage response = await client.PostAsync("https://dreamlikestudios.net/GameBackend/HorrorMaze/AddFloorScore.php", content);
                 response.EnsureSuccessStatusCode();
                 string responseBody = await response.Content.ReadAsStringAsync();
                 // Above three lines can be replaced with new helper method below
@@ -105,7 +105,7 @@ namespace HorrorMaze
             Console.WriteLine("web");
             try
             {
-                using HttpResponseMessage response = await client.PostAsync("https://dreamlikestudios.net/GameBackend/HorrorMaze/GetScores.php", content);
+                using HttpResponseMessage response = await client.PostAsync("https://dreamlikestudios.net/GameBackend/HorrorMaze/GetFloorScores.php", content);
                 response.EnsureSuccessStatusCode();
                 string responseBody = await response.Content.ReadAsStringAsync();
                 // Above three lines can be replaced with new helper method below

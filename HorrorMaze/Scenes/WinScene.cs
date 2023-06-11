@@ -1,6 +1,6 @@
 ﻿namespace HorrorMaze
 {
-    public class TimeTrialWinScene : Scene
+    public class WinScene : Scene
     {
 
 

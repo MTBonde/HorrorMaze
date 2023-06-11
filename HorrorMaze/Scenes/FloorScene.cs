@@ -33,6 +33,8 @@
             #endregion
 
             // set timers
+            SceneManager.floorClearCount = 0;
+            SceneManager.floorClearTime = 0;
             SceneManager._gameTimer.ResetTimer();
             SceneManager._gameTimer.StartTimer();
         }

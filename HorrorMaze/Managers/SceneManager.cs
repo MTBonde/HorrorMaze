@@ -9,11 +9,12 @@
         #region Fields & Variables
 
         public static TimeManager _gameTimer = new();
+        public static int floorClearCount = 0, floorClearTime = 0;
 
         /// <summary>
         /// the cunrently active scene
         /// </summary>
-        public static Scene active_scene = new FloorScene();
+        public static Scene active_scene = new SplashScene();
         /// <summary>
         /// list of all scenes
         /// </summary>
@@ -22,10 +23,10 @@
             new SplashScene(),
             new TittleScene(),
             new TimeTrialScene(),
-            new TimeTrialHighscoreScene(),
+            new HighscoreScene(),
             new CreditsScene(),
-            new TimeTrialWinScene(),
-            new TimeTrialLoseScene(),
+            new WinScene(),
+            new LoseScene(),
             new FloorScene()
         };
         static bool inGame = false;
