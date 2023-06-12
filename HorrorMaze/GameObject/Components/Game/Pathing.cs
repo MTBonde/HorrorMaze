@@ -39,7 +39,6 @@ namespace HorrorMaze
             int index_found = 0;
             bool wall_check = false;
             int key_found = 0;
-            int key_set = 0;
 
             int[] current_one = new int[5] { (int)(monster.X), (int)(monster.Y), 1000, 0, 0 };
             int key_id = 1;
@@ -240,59 +239,6 @@ namespace HorrorMaze
                 }
             }
             return wall_check;
-        }
-        int KeyDirection(int[] current, int map_width, int map_height, List<int[]> closed, int key, int f_value)
-        {
-            int key_find = 0;
-            if (closed.Count > 0)
-                for (int i = 0; i < 4; i++)
-                {
-                    int[] direction = Direction(i);
-                    if (WallCheck(current[0], current[1], i, map_width, map_height, direction))
-                    {
-
-                        #region switch
-                        switch (i)
-                        {
-                            case 0:
-                                for (int k = 0; k < closed.Count; k++)
-                                {
-                                    if (closed[k][0] == current[0] && closed[k][1] == current[1] + 1)
-                                        key_find = k;
-                                }
-                                break;
-                            case 1:
-                                for (int k = 0; k < closed.Count; k++)
-                                {
-                                    if (closed[k][0] == current[0] + 1 && closed[k][1] == current[1])
-                                        key_find = k;
-                                }
-                                break;
-                            case 2:
-                                for (int k = 0; k < closed.Count; k++)
-                                {
-                                    if (closed[k][0] == current[0] && closed[k][1] == current[1] - 1)
-                                        key_find = k;
-                                }
-                                break;
-                            case 3:
-                                for (int k = 0; k < closed.Count; k++)
-                                {
-                                    if (closed[k][0] == current[0] + 1 && closed[k][1] == current[1])
-                                        key_find = k;
-                                }
-                                break;
-                        }
-                        #endregion
-                        if (closed[key_find][2] < f_value)
-                        {
-                            key = key_find;
-                            f_value = closed[key_find][2];
-                        }
-
-                    }
-                }
-            return key;
         }
         #endregion
     }
