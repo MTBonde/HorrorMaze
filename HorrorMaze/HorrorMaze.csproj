@@ -10,7 +10,7 @@
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <ApplicationIcon>Icon.ico</ApplicationIcon>
-    <SignAssembly>True</SignAssembly>
+    <SignAssembly>False</SignAssembly>
     <AssemblyOriginatorKeyFile>C:\Users\legen\Desktop\School\HorrorMaze\keyPair.snk</AssemblyOriginatorKeyFile>
     <Title>Horror Maze</Title>
     <DelaySign>False</DelaySign>
