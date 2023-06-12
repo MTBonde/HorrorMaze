@@ -1,5 +1,4 @@
-﻿
-namespace HorrorMaze
+﻿namespace HorrorMaze
 {
     /// <summary>
     /// the core for a collider used for collision detection in the world
