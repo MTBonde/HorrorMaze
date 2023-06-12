@@ -9,7 +9,7 @@
         #region Fields & Variables
 
         public static TimeManager _gameTimer = new();
-        public static int floorClearCount = 0, floorClearTime = 0;
+        public static int floorClearCount = 0, floorClearTime = 0, scene;
 
         /// <summary>
         /// the cunrently active scene
@@ -41,10 +41,11 @@
         {
             InputManager.Reset();
             HighscoreManager.Starter();
-            if(scene_number == 2)
-                inGame = true;
-            else
-                inGame = false;
+            scene = scene_number;
+            //if(scene_number == 2 || scene_number == 7)
+            //    inGame = true;
+            //else
+            //    inGame = false;
             for (int i = 0; i < active_scene.gameObjects.Count; i++)
             {
                 active_scene.gameObjects[i].StopSound();
@@ -87,8 +88,10 @@
 
 
             //Scene Update
-            if (inGame)
+            if (scene == 2)
                 ((TimeTrialScene)active_scene).debugManager.Update(gameTime);
+            if (scene == 7)
+                ((FloorScene)active_scene).debugManager.Update(gameTime);
             for (int i = 0; i < active_scene.gameObjects.Count; i++)
             {
                 if(active_scene.gameObjects[i].enabled)

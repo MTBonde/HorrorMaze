@@ -38,14 +38,17 @@ namespace HorrorMaze
         {
             //apply first 3 mazes floors for rendering and get middle ready for playing
             mazePart1 = new GameObject();
+            mazePart1.name = "MazeUp";
             mazePart1.AddComponent<MazeRenderer>().SetMaze(mazeFloors[0].maze);
             mazePart1.transform.Position3D = new Vector3(0,0,2);
             mazePart2 = new GameObject();
+            mazePart2.name = "Maze";
             mazePart2.transform.Position3D = new Vector3(0,0,0);
             mazePart2.AddComponent<MazeRenderer>().SetMaze(mazeFloors[0].maze);
             mazePart2.AddComponent<MazeCollider>().SetMaze(mazeFloors[0].maze);
             mazeFloors[0].EnableFloor();
             mazePart3 = new GameObject();
+            mazePart3.name = "MazeDown";
             mazePart3.AddComponent<MazeRenderer>().SetMaze(mazeFloors[1].maze);
             mazePart3.transform.Position3D = new Vector3(0,0,-2);
 

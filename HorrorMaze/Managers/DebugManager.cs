@@ -66,7 +66,7 @@
             if(Globals.DebugModeToggled)
             {
                 // If a player exists, is not null.
-                if(SceneManager.GetGameObjectByName("Player") != null)
+                if(SceneManager.scene == 2 || SceneManager.scene == 7)
                 {
                     // Disable player control
                     SceneManager.GetGameObjectByName("Player").GetComponent<PlayerController>().enabled = false;
@@ -82,6 +82,10 @@
 
                     // Enable debug camera controller
                     SceneManager.GetGameObjectByName("DebugCam").GetComponent<DebugCameraController>().enabled = true;
+                    if(SceneManager.scene == 7)
+                    {
+
+                    }
                 }
             }
             // If debug mode has been toggled off
