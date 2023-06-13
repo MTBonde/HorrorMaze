@@ -10,7 +10,6 @@
         {
             for (int i = 0; i < buttons.Count; i++)
             {
-                Debug.WriteLine(mouseDown);
                 if (Mouse.GetState().LeftButton.HasFlag(ButtonState.Pressed) && !mouseDown)
                 {
                     if (buttons[i].CheckMouse(true))
