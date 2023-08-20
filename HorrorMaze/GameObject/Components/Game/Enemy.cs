@@ -3,7 +3,7 @@ namespace HorrorMaze
 {
     public class Enemy : Component
     {
-        List<int[]> path = new List<int[]>();
+        List<int[]> _path = new List<int[]>();
         float speed = 3f;
         bool at_pos = true;
         bool hunting = false;
@@ -41,9 +41,9 @@ namespace HorrorMaze
         {
             if (hunting)
             {
-                path.Clear();
+                _path.Clear();
             }
-            if (path.Count == 0)
+            if (_path.Count == 0)
             {
                 Random rnd = new Random();
                 bool chosen = false;
@@ -73,7 +73,7 @@ namespace HorrorMaze
                 }
                 //get path
                 if (if_add)
-                    path = gameObject.GetComponent<Pathing>().GetPath(new Vector2(x, y), transform.Position);
+                    _path = gameObject.GetComponent<Pathing>().GetPath(new Vector2(x, y), transform.Position);
                 at_pos = false;
             }
         }
@@ -112,17 +112,17 @@ namespace HorrorMaze
                 }
             if (!at_pos)
             {
-                if (path.Count > 0)
+                if (_path.Count > 0)
                 {
                     // checks if at next position in path, if so remove it from list.
-                    if (transform.Position.X - 0.5 >= path[path.Count - 1][0] - 0.05
-                     && transform.Position.X - 0.5 <= path[path.Count - 1][0] + 0.05)
-                        if (transform.Position.Y - 0.5 >= path[path.Count - 1][1] - 0.05
-                         && transform.Position.Y - 0.5 <= path[path.Count - 1][1] + 0.05)
+                    if (transform.Position.X - 0.5 >= _path[_path.Count - 1][0] - 0.05
+                     && transform.Position.X - 0.5 <= _path[_path.Count - 1][0] + 0.05)
+                        if (transform.Position.Y - 0.5 >= _path[_path.Count - 1][1] - 0.05
+                         && transform.Position.Y - 0.5 <= _path[_path.Count - 1][1] + 0.05)
                         {
-                            path.RemoveAt(path.Count - 1);
+                            _path.RemoveAt(_path.Count - 1);
                             // if at the end of path
-                            if (path.Count == 0)
+                            if (_path.Count == 0)
                             {
                                 at_pos = true;
                                 return;
@@ -149,7 +149,7 @@ namespace HorrorMaze
         Vector2 getDirection(Vector2 monster)
         {
             Vector2 direction = new Vector2(0, 0);
-            switch (path[path.Count - 1])
+            switch (_path[_path.Count - 1])
             {
                 case int[] n when n[0] < monster.X - 0.5:
                     if ((monster.X - 0.5) - n[0] < speed * Globals.DeltaTime)
@@ -164,7 +164,7 @@ namespace HorrorMaze
                         direction.X += speed * Globals.DeltaTime;
                     break;
             }
-            switch (path[path.Count - 1])
+            switch (_path[_path.Count - 1])
             {
                 case int[] n when n[1] < monster.Y - 0.5:
                     if ((monster.Y - 0.5) - n[1] < speed * Globals.DeltaTime)
